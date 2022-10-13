@@ -46,7 +46,16 @@
         <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=PlanID}" />
         
         <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="3">
-            <DataGrid Name="TestsGrid" ItemsSource="{Binding PlanChecks}" SelectedItem="{Binding SelectedRows}" VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False" AutoGenerateColumns="False" IsReadOnly="True" CanUserSortColumns="False" CanUserReorderColumns="False" MouseLeftButtonUp="dataGridMouseLeftButton" HorizontalScrollBarVisibility="Disabled">
+            <DataGrid Name="TestsGrid" 
+                      ItemsSource="{Binding PlanChecks}" 
+                      SelectedItem="{Binding SelectedRows}" 
+                      VerticalScrollBarVisibility="Auto" 
+                      ScrollViewer.CanContentScroll="False" 
+                      AutoGenerateColumns="False" 
+                      IsReadOnly="True" 
+                      CanUserSortColumns="False" CanUserReorderColumns="False" 
+                      MouseLeftButtonUp="dataGridMouseLeftButton" 
+                      HorizontalScrollBarVisibility="Disabled">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Test" Width="auto" MinWidth="150">
                         <DataGridTemplateColumn.CellTemplate>

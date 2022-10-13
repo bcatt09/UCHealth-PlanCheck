@@ -25,7 +25,7 @@ namespace VMS.TPS
 			window.SizeToContent = SizeToContent.WidthAndHeight;
 			window.MaxHeight = SystemParameters.WorkArea.Height * 0.95;
 			window.MaxWidth = SystemParameters.WorkArea.Width * 0.95;
-			window.Title = $"KCI Plan Check";
+			window.Title = $"UCHealth - Plan Check";
 
 			ViewModel viewModel = new ViewModel(context);
 			window.DataContext = viewModel;

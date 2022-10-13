@@ -21,19 +21,25 @@ namespace PlanCheck.Checks
 			TestExplanation = "Checks that all fields use the correct tolerance table based on department standards";
 
 			#region Poudre Valley
-			// SRS/SRT for plans with 1mm slices
-			// SBRT for plans with "_4"
-			// Electron for electron plans
-			// TB Photon for all other plans
+			// PVH SRS for plans with 1mm slices
+			// PVH Breast for breast plans
+			// PVH Electron for electron plans
+			// PVH IGRT for all other plans
 			if (Department == Department.PVH)
 			{
 				string tolTable;
 				string badFields = "";
 
-				if (plan.StructureSet.Image.ZRes == 1) // Plan has 1 mm slices (likely a brain SRS or SRT)
+				// Plan has 1 mm slices (likely a brain SRS)
+				if (plan.StructureSet.Image.ZRes == 1)
 					tolTable = "PVH SRS";
+				// Breast plan
+				else if (plan.Id.ToLower().Contains("breast") || plan.Id.ToLower().Contains("brst") || plan.Id.ToLower().Contains("brest"))
+					tolTable = "PVH Breast";
+				// Electron plan
 				else if (plan.Beams.Where(x => !x.IsSetupField).Where(x => x.EnergyModeDisplayName.Contains("E", StringComparison.CurrentCultureIgnoreCase)).Count() > 0)
 					tolTable = "PVH Electrons";
+				// Other (IGRT)
 				else
 					tolTable = "PVH IGRT";
 

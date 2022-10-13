@@ -49,7 +49,7 @@ namespace PlanCheck.Checks
 								{
 									if (x1 != point.JawPositions.X1 || x2 != point.JawPositions.X2 || y1 != point.JawPositions.Y1 || y2 != point.JawPositions.Y2)
 									{
-										Result = "Pass";
+										Result = "Enabled";
 										DisplayColor = ResultColorChoices.Pass;
 										break;
 									}
@@ -82,7 +82,7 @@ namespace PlanCheck.Checks
 								{
 									if (x1 != point.JawPositions.X1 || x2 != point.JawPositions.X2 || y1 != point.JawPositions.Y1 || y2 != point.JawPositions.Y2)
 									{
-										Result = "Pass";
+										Result = "Enabled";
 										DisplayColor = ResultColorChoices.Pass;
 										break;
 									}
@@ -95,7 +95,7 @@ namespace PlanCheck.Checks
 				// Static fields
 				if (!IMRT)
 				{
-					Result = "Pass";
+					Result = "N/A";
 					DisplayColor = ResultColorChoices.Pass;
 				}
 

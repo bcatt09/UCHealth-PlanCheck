@@ -17,7 +17,7 @@ namespace PlanCheck.Checks
         public override void RunTest(PlanSetup plan)
 		{
 			DisplayName = "DRRs";
-			Result = "Pass";
+			Result = "Generated";
 			ResultDetails = "";
 			DisplayColor = ResultColorChoices.Pass;
 			TestExplanation = "Checks that DRRs are created and attached as a reference for all fields";

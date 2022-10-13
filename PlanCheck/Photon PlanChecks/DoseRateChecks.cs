@@ -20,6 +20,7 @@ namespace PlanCheck.Checks
 			ResultDetails = "";
 			TestExplanation = "Checks that all dose rates are set to maximum allowed per department standards";
 
+			// 4X        - 250
 			// Flattened - 600
 			// 6FFF      - 1400
 			// 10FFF     - 2400
@@ -33,7 +34,16 @@ namespace PlanCheck.Checks
 					{
 						string energy = field.EnergyModeDisplayName;
 
-						if (energy == "4X" || energy == "6X" || energy == "10X" || energy == "15X" || energy == "16X" || energy == "18X" || energy == "23X")
+						if (energy == "4X")
+                        {
+                            if (field.DoseRate < 250)
+                            {
+                                Result = "Warning";
+                                ResultDetails += field.Id + " dose rate set at " + field.DoseRate + "\n";
+                                DisplayColor = ResultColorChoices.Warn;
+                            }
+                        }
+						else if (energy == "6X" || energy == "10X" || energy == "15X" || energy == "16X" || energy == "18X" || energy == "23X")
 						{
 							if (field.DoseRate < 600)
 							{
