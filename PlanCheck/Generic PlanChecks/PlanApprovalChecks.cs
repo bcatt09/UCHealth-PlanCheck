@@ -36,7 +36,7 @@ namespace PlanCheck.Checks
             // Has been Approved or Reviewed
             else
             {
-                // Hasn't been "Reviewed"
+                // Hasn't been Planning Approved
                 if (plan.ApprovalHistory.Where(x => x.ApprovalStatus == PlanSetupApprovalStatus.PlanningApproved).Count() < 1)
                 {
                     Result = "Warning";
@@ -60,13 +60,13 @@ namespace PlanCheck.Checks
                         {
                             Result = "Warning";
                             DisplayColor = ResultColorChoices.Warn;
-                            ResultDetails += $"\n\"Reviewed\" by {planningApprovedUserDisplayName} at {planningApprovedDateTime}\n Plan Reviewer not on Physician List for Center";
+                            ResultDetails += $"\nPlanning Approved by {planningApprovedUserDisplayName} at {planningApprovedDateTime}\nPlan Reviewer not on Physician List for Center";
                             //System.Windows.MessageBox.Show($"runmd: {reviewedUserNameMinusDomain}, dept: {Department}");
                         }
                         else
                         {
                             DisplayColor = ResultColorChoices.Pass;
-                            ResultDetails += $"\nReviewed by: {planningApprovedUserDisplayName} at {planningApprovedDateTime}";
+                            ResultDetails += $"\nPlanning Approved by: {planningApprovedUserDisplayName} at {planningApprovedDateTime}";
                         }
                     }
                     // No physician user names have been defined for this site
