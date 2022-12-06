@@ -131,13 +131,13 @@
                 </DataGrid.RowDetailsTemplate>
             </DataGrid>
 
-            <StackPanel Orientation="Vertical" Margin="10, 0, 0, 0" Visibility="{Binding ReferencePointVisibility}">
+            <!--StackPanel Orientation="Vertical" Margin="10, 0, 0, 0" Visibility="{Binding ReferencePointVisibility}">
                 <StackPanel Orientation="Horizontal" Visibility="{Binding ReferencePointVisibility}">
                     <TextBlock HorizontalAlignment="Left" Text="Reference Point: " Margin="0, 0,0,10" VerticalAlignment="Center"/>
                     <ComboBox HorizontalAlignment="Right" ItemsSource="{Binding ReferencePoints}" SelectedItem="{Binding SelectedReferencePoint}" DisplayMemberPath="Item3" Margin="0,0,20,10" MinWidth="100" ToolTip="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={RelativeSource Self}}"/>
                 </StackPanel>
                 <DataGrid ItemsSource="{Binding ReferencePointTable}" Margin="0,10,20,20" Visibility="{Binding ReferencePointVisibility}" Width="auto" HorizontalAlignment="Center"/>
-            </StackPanel>
+            </StackPanel-->
         </StackPanel>
     </Grid>
 </mah:MetroWindow>
