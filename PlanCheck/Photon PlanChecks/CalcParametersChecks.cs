@@ -79,25 +79,10 @@ namespace PlanCheck.Checks
 				}
 				if (Stereo)
                 {
-					if(Math.Max(Math.Max(doseXres,doseYres),doseZres) > 2)
+					if(Math.Max(Math.Max(doseXres,doseYres),doseZres) > 1)
                     {
 						Result = "Warning";
-						ResultDetails = "! Stereotactic dose grid resolution > 2mm\n";
-						DisplayColor = ResultColorChoices.Warn;
-					}
-				}
-				if (plan.Id.Contains("_4") || plan.Id.Contains("_5"))
-                {
-                    if (!Stereo)
-                    {
-						Result = "Warning";
-						ResultDetails = "! Stereo technique not selected for _4 or _5 plan\n";
-						DisplayColor = ResultColorChoices.Warn;
-					}
-					if (Math.Max(Math.Max(doseXres, doseYres), doseZres) > 2)
-					{
-						Result = "Warning";
-						ResultDetails = "! Stereotactic dose grid resolution > 2mm\n";
+						ResultDetails = "! Stereotactic dose grid resolution > 1mm\n";
 						DisplayColor = ResultColorChoices.Warn;
 					}
 				}
