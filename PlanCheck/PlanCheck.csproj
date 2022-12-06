@@ -99,13 +99,13 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="UCHealthThemes">
-      <HintPath>..\..\UCHealth-Themes\UCHealthThemes\bin\Release\UCHealthThemes.dll</HintPath>
+      <HintPath>..\..\..\UCHealth Libraries\UCHealthThemes.dll</HintPath>
     </Reference>
     <Reference Include="VMS.TPS.Common.Model.API">
-      <HintPath>..\..\..\ESAPI 13.6 Libraries\VMS.TPS.Common.Model.API.dll</HintPath>
+      <HintPath>..\..\..\Varian Libraries 15.6\VMS.TPS.Common.Model.API.dll</HintPath>
     </Reference>
     <Reference Include="VMS.TPS.Common.Model.Types">
-      <HintPath>..\..\..\ESAPI 13.6 Libraries\VMS.TPS.Common.Model.Types.dll</HintPath>
+      <HintPath>..\..\..\Varian Libraries 15.6\VMS.TPS.Common.Model.Types.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
