@@ -38,6 +38,8 @@ namespace PlanCheck.Checks
 					  || plan.Id.ToLower().Contains("brst") 
 					  || plan.Id.ToLower().Contains("brest")
 					  || plan.Id.ToLower().Contains("cw")
+                      || plan.Id.ToLower().Contains("chestwal")
+                      || plan.Id.ToLower().Contains("chstwal")
                       || plan.Id.ToLower().Contains("scf")
                       || plan.Id.ToLower().Contains("scv")
                       || plan.Id.ToLower().Contains("pab"))
