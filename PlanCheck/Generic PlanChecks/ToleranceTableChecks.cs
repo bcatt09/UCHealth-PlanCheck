@@ -20,7 +20,7 @@ namespace PlanCheck.Checks
 			ResultDetails = "";
 			TestExplanation = "Checks that all fields use the correct tolerance table based on department standards";
 
-			#region Poudre Valley
+			#region PVH
 			// PVH SRS for plans with 1mm slices
 			// PVH Breast for breast plans
 			// PVH Electron for electron plans
@@ -34,7 +34,13 @@ namespace PlanCheck.Checks
 				if (plan.StructureSet.Image.ZRes == 1)
 					tolTable = "PVH SRS";
 				// Breast plan
-				else if (plan.Id.ToLower().Contains("breast") || plan.Id.ToLower().Contains("brst") || plan.Id.ToLower().Contains("brest"))
+				else if (plan.Id.ToLower().Contains("breast") 
+					  || plan.Id.ToLower().Contains("brst") 
+					  || plan.Id.ToLower().Contains("brest")
+					  || plan.Id.ToLower().Contains("cw")
+                      || plan.Id.ToLower().Contains("scf")
+                      || plan.Id.ToLower().Contains("scv")
+                      || plan.Id.ToLower().Contains("pab"))
 					tolTable = "PVH Breast";
 				// Electron plan
 				else if (plan.Beams.Where(x => !x.IsSetupField).Where(x => x.EnergyModeDisplayName.Contains("E", StringComparison.CurrentCultureIgnoreCase)).Count() > 0)
