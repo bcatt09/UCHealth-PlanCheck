@@ -36,18 +36,19 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="85"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="85"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="25"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="Patient Name: " Margin="0, 0, 0, 5" />
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Course: " Margin="0, 0, 0, 5" />
-        <TextBlock Grid.Row="2" Grid.Column="0" Text="Plan: " Margin="0, 0, 0, 5" />
-        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Path=PatientName}" />
-        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=CourseID}" />
-        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=PlanID}" />
-        
-        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="3">
-            <DataGrid Name="TestsGrid" 
-                      ItemsSource="{Binding PlanChecks}" 
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Course: " Margin="0, 0, 0, 5" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Plan: " Margin="0, 0, 0, 5" />
+        <TextBlock Grid.Row="0" Grid.Column="2" Text="Slices: " Margin="0, 0, 0, 5" HorizontalAlignment="Right"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Path=CourseID}" />
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=PlanID}" />
+        <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding Path=Slices}" HorizontalAlignment="Right"/>
+        <TabControl Grid.Row="3" Grid.ColumnSpan="4">
+            <TabItem Header="CT Import">
+                <DataGrid Name="CTImportGrid" 
+                      ItemsSource="{Binding CTImportChecks}" 
                       SelectedItem="{Binding SelectedRows}" 
                       VerticalScrollBarVisibility="Auto" 
                       ScrollViewer.CanContentScroll="False" 
@@ -130,14 +131,179 @@
                     </DataTemplate>
                 </DataGrid.RowDetailsTemplate>
             </DataGrid>
-
-            <!--StackPanel Orientation="Vertical" Margin="10, 0, 0, 0" Visibility="{Binding ReferencePointVisibility}">
-                <StackPanel Orientation="Horizontal" Visibility="{Binding ReferencePointVisibility}">
-                    <TextBlock HorizontalAlignment="Left" Text="Reference Point: " Margin="0, 0,0,10" VerticalAlignment="Center"/>
-                    <ComboBox HorizontalAlignment="Right" ItemsSource="{Binding ReferencePoints}" SelectedItem="{Binding SelectedReferencePoint}" DisplayMemberPath="Item3" Margin="0,0,20,10" MinWidth="100" ToolTip="{Binding (Validation.Errors)[0].ErrorContent, RelativeSource={RelativeSource Self}}"/>
-                </StackPanel>
-                <DataGrid ItemsSource="{Binding ReferencePointTable}" Margin="0,10,20,20" Visibility="{Binding ReferencePointVisibility}" Width="auto" HorizontalAlignment="Center"/>
-            </StackPanel-->
-        </StackPanel>
+            </TabItem>
+            <TabItem Header="Pre - MD Review">
+                <DataGrid Name="PreMDGrid" 
+                      ItemsSource="{Binding PreMdReviewChecks}" 
+                      SelectedItem="{Binding SelectedRows}" 
+                      VerticalScrollBarVisibility="Auto" 
+                      ScrollViewer.CanContentScroll="False" 
+                      AutoGenerateColumns="False" 
+                      IsReadOnly="True" 
+                      CanUserSortColumns="False" CanUserReorderColumns="False" 
+                      MouseLeftButtonUp="dataGridMouseLeftButton" 
+                      HorizontalScrollBarVisibility="Disabled">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Test" Width="auto" MinWidth="150">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DisplayName}" TextAlignment="Center" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,5,5,5"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Right"/>
+                                </Style>
+                            </DataGridTemplateColumn.HeaderStyle>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Result" Width="auto" MinWidth="350">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Height="auto" Background="Transparent" VerticalAlignment="Center">
+                                        <StackPanel.Style>
+                                            <Style TargetType="StackPanel">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type StackPanel}},Path=IsMouseOver}" Value="True">
+                                                        <Setter Property="TextBlock.Foreground" Value="{StaticResource MahApps.Brushes.ThemeForeground}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Style>
+                                        <TextBlock Text="{Binding Result}" Background="Transparent" TextAlignment="Center" Height="auto" VerticalAlignment="Stretch" Margin="5,0,5,0">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock" BasedOn="{StaticResource MahApps.Styles.TextBlock.DataGrid}">
+                                                    <Style.Triggers>
+                                                        <Trigger Property="Text" Value="">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                        <TextBlock Text="{Binding ResultDetails}" Background="Transparent" TextAlignment="Center" Height="auto" VerticalAlignment="Stretch" Margin="5,0,5,0">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock" BasedOn="{StaticResource MahApps.Styles.TextBlock.DataGrid}">
+                                                    <Style.Triggers>
+                                                        <Trigger Property="Text" Value="">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellStyle>
+                                <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
+                                    <Setter Property="Background" Value="{Binding ResultColor}"/>
+                                </Style>
+                            </DataGridTemplateColumn.CellStyle>
+                            <DataGridTemplateColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTemplateColumn.HeaderStyle>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                    <DataGrid.RowStyle>
+                        <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                            <Setter Property="Height" Value="auto"/>
+                        </Style>
+                    </DataGrid.RowStyle>
+                    <DataGrid.RowDetailsTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding TestExplanation}" TextAlignment="Center" MaxWidth="500" TextWrapping="Wrap"/>
+                        </DataTemplate>
+                    </DataGrid.RowDetailsTemplate>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Treatment Prep">
+                <DataGrid Name="TreatmentPrepGrid" 
+                      ItemsSource="{Binding TreatmentPrepChecks}" 
+                      SelectedItem="{Binding SelectedRows}" 
+                      VerticalScrollBarVisibility="Auto" 
+                      ScrollViewer.CanContentScroll="False" 
+                      AutoGenerateColumns="False" 
+                      IsReadOnly="True" 
+                      CanUserSortColumns="False" CanUserReorderColumns="False" 
+                      MouseLeftButtonUp="dataGridMouseLeftButton" 
+                      HorizontalScrollBarVisibility="Disabled">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Test" Width="auto" MinWidth="150">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DisplayName}" TextAlignment="Center" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,5,5,5"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Right"/>
+                                </Style>
+                            </DataGridTemplateColumn.HeaderStyle>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Result" Width="auto" MinWidth="350">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Height="auto" Background="Transparent" VerticalAlignment="Center">
+                                        <StackPanel.Style>
+                                            <Style TargetType="StackPanel">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type StackPanel}},Path=IsMouseOver}" Value="True">
+                                                        <Setter Property="TextBlock.Foreground" Value="{StaticResource MahApps.Brushes.ThemeForeground}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </StackPanel.Style>
+                                        <TextBlock Text="{Binding Result}" Background="Transparent" TextAlignment="Center" Height="auto" VerticalAlignment="Stretch" Margin="5,0,5,0">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock" BasedOn="{StaticResource MahApps.Styles.TextBlock.DataGrid}">
+                                                    <Style.Triggers>
+                                                        <Trigger Property="Text" Value="">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                        <TextBlock Text="{Binding ResultDetails}" Background="Transparent" TextAlignment="Center" Height="auto" VerticalAlignment="Stretch" Margin="5,0,5,0">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock" BasedOn="{StaticResource MahApps.Styles.TextBlock.DataGrid}">
+                                                    <Style.Triggers>
+                                                        <Trigger Property="Text" Value="">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellStyle>
+                                <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
+                                    <Setter Property="Background" Value="{Binding ResultColor}"/>
+                                </Style>
+                            </DataGridTemplateColumn.CellStyle>
+                            <DataGridTemplateColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTemplateColumn.HeaderStyle>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                    <DataGrid.RowStyle>
+                        <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                            <Setter Property="Height" Value="auto"/>
+                        </Style>
+                    </DataGrid.RowStyle>
+                    <DataGrid.RowDetailsTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding TestExplanation}" TextAlignment="Center" MaxWidth="500" TextWrapping="Wrap"/>
+                        </DataTemplate>
+                    </DataGrid.RowDetailsTemplate>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </mah:MetroWindow>

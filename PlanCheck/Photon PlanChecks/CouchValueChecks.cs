@@ -19,7 +19,7 @@ namespace PlanCheck.Checks
 			ResultDetails = "";
 			TestExplanation = "Checks that couch values are entered for each field based on department standards";
 
-            #region Poudre Valley
+            #region PVH
             // Vert = -20
             // Long = 90
             // Lat = 0

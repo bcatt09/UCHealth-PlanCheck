@@ -27,9 +27,15 @@ namespace PlanCheck
 		{
 			InitializeComponent();
 
-			TestsGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.5;
-			TestsGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.5;
-		}
+            CTImportGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.5;
+            CTImportGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.5;
+
+            PreMDGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.5;
+            PreMDGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.5;
+
+            TreatmentPrepGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.5;
+            TreatmentPrepGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.5;
+        }
 
 		// toggle the row details when clicking on the same row
 		private void dataGridMouseLeftButton(object sender, MouseButtonEventArgs e)
@@ -39,15 +45,19 @@ namespace PlanCheck
 				return;
 
 			if (dg.SelectedIndex == prevSelectedRow)
-			{
-				TestsGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
-				dg.SelectedIndex = -1;
+            {
+                CTImportGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
+                PreMDGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
+                TreatmentPrepGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
+                dg.SelectedIndex = -1;
 				prevSelectedRow = -1;
 			}
 			else
-			{
-				TestsGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
-				prevSelectedRow = dg.SelectedIndex;
+            {
+                CTImportGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
+                PreMDGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
+                TreatmentPrepGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
+                prevSelectedRow = dg.SelectedIndex;
 			}
 		}
     }

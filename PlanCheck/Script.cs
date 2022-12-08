@@ -17,15 +17,15 @@ namespace VMS.TPS
 			var window = new MainWindow();
 			window.KeyDown += (object sender, KeyEventArgs e) => { if (e.Key == Key.Escape) window.Close(); };
 
-			if (context.PlanSetup == null)
+			if (context.PlanSetup == null && context.Image == null)
 			{
-				MessageBox.Show("Please open a single plan (not a plan sum) before running this script", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-				throw new ApplicationException("Please open a single plan (not a plan sum) before running this script", new NullReferenceException());
+				MessageBox.Show("Please open an image or a single plan (not a plan sum) before running this script", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				throw new ApplicationException("Please open an image or a single plan (not a plan sum) before running this script", new NullReferenceException());
 			}
 			window.SizeToContent = SizeToContent.WidthAndHeight;
 			window.MaxHeight = SystemParameters.WorkArea.Height * 0.95;
 			window.MaxWidth = SystemParameters.WorkArea.Width * 0.95;
-			window.Title = $"UCHealth - Plan Check";
+			window.Title = $"PVH - Plan Check";
 
 			ViewModel viewModel = new ViewModel(context);
 			window.DataContext = viewModel;

@@ -33,29 +33,24 @@ namespace PlanCheck.Checks
 			VVector shift = isocenter - tattoos;
 			string shiftFrom = "User Origin";
 
-            #region Shifts from iso placed at sim
-            //// These sites set iso at sim and import in a "MARKER" structure that shifts will be based off (also they don't use gold markers, so there's no need to worry about those "MARKER" structures)
-            //if (Department == Department.MPH ||
-            //	Department == Department.FLT ||
-            //	Department == Department.LAP ||
-            //	Department == Department.OWO ||
-            //	Department == Department.DET ||
-            //	Department == Department.FAR)
-            //{
-            //	// Loop through each patient marker and see if it's closer to the iso than the user origin and if it is use that for the calculated shift
-            //	foreach (Structure point in plan.StructureSet.Structures.Where(x => x.DicomType == "MARKER"))
-            //	{
-            //		if (Math.Round((isocenter - point.CenterPoint).Length, 2) <= Math.Round(shift.Length, 2))
-            //		{
-            //			shift = isocenter - point.CenterPoint;
-            //			shiftFrom = point.Id;
-            //		}
-            //	}
-            //}
-            #endregion
+			#region Shifts from iso placed at sim (if marker present)
+			// These sites set iso at sim and import in a "MARKER" structure that shifts will be based off (also they don't use gold markers, so there's no need to worry about those "MARKER" structures)
+			if (Department == Department.PVH)
+			{
+				// Loop through each patient marker and see if it's closer to the iso than the user origin and if it is use that for the calculated shift
+				foreach (Structure point in plan.StructureSet.Structures.Where(x => x.DicomType == "MARKER"))
+				{
+					if (Math.Round((isocenter - point.CenterPoint).Length, 2) <= Math.Round(shift.Length, 2))
+					{
+						shift = isocenter - point.CenterPoint;
+						shiftFrom = point.Id;
+					}
+				}
+			}
+			#endregion
 
-            // Round it off to prevent very small numbers from appearing and convert to cm for shifts
-            shift.x = Math.Round(shift.x / 10, 1);
+			// Round it off to prevent very small numbers from appearing and convert to cm for shifts
+			shift.x = Math.Round(shift.x / 10, 1);
 			shift.y = Math.Round(shift.y / 10, 1);
 			shift.z = Math.Round(shift.z / 10, 1);
 
@@ -65,25 +60,25 @@ namespace PlanCheck.Checks
 			{
 				// Set shift verbiage based on department
 				string pat, sup, inf, ant, post;
-				if (false)//Department == Department.NOR)
-				{
+				//if (Department == Department.NOR)
+				//{
+				//	pat = "Patient";
+    //                sup = "superior";
+    //                inf = "inferior";
+    //                ant = "anterior";
+    //                post = "posterior";
+				//}
+				//else
+				//{
 					pat = "Table";
 					sup = "out";
 					inf = "in";
 					ant = "down";
 					post = "up";
-				}
-				else
-				{
-					pat = "Patient";
-					sup = "superior";
-					inf = "inferior";
-					ant = "anterior";
-					post = "posterior";
-				}
+				//}
 
-				// x-axis
-				if (shift.x > 0)
+			// x-axis
+			if (shift.x > 0)
 					ResultDetails += $"{pat} left: {shift.x:0.0} cm\n";
 				else if (shift.x < 0)
 					ResultDetails += $"{pat} right: {-shift.x:0.0} cm\n";
