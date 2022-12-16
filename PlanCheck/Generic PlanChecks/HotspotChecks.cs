@@ -34,7 +34,7 @@ namespace PlanCheck.Checks
 				bool inTarget = target.IsPointInsideSegment(plan.Dose.DoseMax3DLocation);
 
 				Result = "";
-				ResultDetails = inTarget ? $"Hotspot is in {target.Id}" : $"Hotspot is not in {target.Id}";
+				ResultDetails = inTarget ? $"Hotspot is in plan target" : $"Hotspot is not in plan target ({target.Id})";
 				DisplayColor = inTarget ? ResultColorChoices.Pass : ResultColorChoices.Warn;
 			}
 			else

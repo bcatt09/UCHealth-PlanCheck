@@ -16,14 +16,20 @@ namespace PlanCheck.Checks
         public override void RunTest(PlanSetup plan)
         {
             DisplayName = "DPV Checks";
-            TestExplanation = "Checks total, daily, and session limits against the Rx and checks that the DPV volume is the same as the target volume";
-            ResultDetails = "";
+            TestExplanation = "Checks that the primary reference point ID contains \"DPV\"\nChecks total, daily, and session limits against the Rx\nChecks that the DPV volume is the same as the target volume";
+            Result = "";
 
             var refPoint = plan.PrimaryReferencePoint;
 
+            if (!refPoint.Id.ToUpper().Contains("DPV"))
+            {
+                Result += $"DPV ID does not contail \"DPV\" ({refPoint.Id})";
+                DisplayColor = ResultColorChoices.Warn;
+            }
+
             if (refPoint.PatientVolumeId != plan.TargetVolumeID)
             {
-                Result = $"DPV Volume ({refPoint.PatientVolumeId}) does not\nmatch Target Volume ({plan.TargetVolumeID})";
+                Result += $"DPV Volume ({refPoint.PatientVolumeId}) does not\nmatch Target Volume ({plan.TargetVolumeID})\n";
                 DisplayColor = ResultColorChoices.Fail;
             }
 
@@ -33,7 +39,7 @@ namespace PlanCheck.Checks
                 DisplayColor = ResultColorChoices.Fail;
             }
 
-            ResultDetails += $"{refPoint.Id}\nTotal: {refPoint.TotalDoseLimit}\nDaily: {refPoint.DailyDoseLimit}\nSession: {refPoint.SessionDoseLimit}";
+            ResultDetails = $"{refPoint.Id}\nTotal: {refPoint.TotalDoseLimit}\nDaily: {refPoint.DailyDoseLimit}\nSession: {refPoint.SessionDoseLimit}";
         }
     }
 }

@@ -18,23 +18,23 @@ namespace PlanCheck.Checks
         {
             DisplayName = "Density Overrides";
             TestExplanation = "Lists all density overrides";
-            ResultDetails = "";
+            Result = "";
             DisplayColor = ResultColorChoices.Pass;
 
             foreach (var s in plan.StructureSet.Structures)
             {
                 if (s.GetAssignedHU(out double HU))
                 {
-                    ResultDetails += $"{s.Id}: {HU} HU\n";
+                    Result += $"{s.Id}: {Math.Round(HU,1)} HU\n";
                 }
             }
 
-            if (ResultDetails == "")
+            if (Result == "")
             {
-                ResultDetails = "No HU overrides";
+                Result = "No HU overrides";
             }
 
-            ResultDetails.TrimEnd('\n');
+            Result.TrimEnd('\n');
         }
     }
 }

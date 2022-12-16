@@ -20,7 +20,7 @@ namespace PlanCheck.Checks
             ResultDetails = "";
             TestExplanation = "Checks that the Series, 3D Image, and Structure Set follow the naming convention \"Site MMYY\"";
 
-            var regex = new Regex($@".* |_\d\d\d\d");
+            var regex = new Regex(@".* |_\d{4}");
 
             var names = new List<string>
             {
@@ -52,6 +52,7 @@ namespace PlanCheck.Checks
                 if (!(names[0] == names[1] && names[1] == names[2]))
                 {
                     Result = "Warning";
+                    DisplayColor = ResultColorChoices.Warn;
                     ResultDetails = $"Names do not all match\nStructure Set: {names[0]}\n3D Image: {names[1]}\nSeries: {names[2]}\n";
                 }
                 else

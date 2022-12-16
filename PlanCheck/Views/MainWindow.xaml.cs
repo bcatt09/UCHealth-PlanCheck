@@ -35,6 +35,9 @@ namespace PlanCheck
 
             TreatmentPrepGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.5;
             TreatmentPrepGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.5;
+
+            OldCheckGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.5;
+            OldCheckGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.5;
         }
 
 		// toggle the row details when clicking on the same row
@@ -49,6 +52,7 @@ namespace PlanCheck
                 CTImportGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
                 PreMDGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
                 TreatmentPrepGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
+                OldCheckGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
                 dg.SelectedIndex = -1;
 				prevSelectedRow = -1;
 			}
@@ -57,6 +61,7 @@ namespace PlanCheck
                 CTImportGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
                 PreMDGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
                 TreatmentPrepGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
+                OldCheckGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
                 prevSelectedRow = dg.SelectedIndex;
 			}
 		}

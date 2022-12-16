@@ -108,7 +108,8 @@ namespace PlanCheck
                 new CouchValueChecks(plan),
                 // setup notes (can't do)
                 new Shifts(plan),
-                new DRRChecks(plan)
+                new DRRChecks(plan),
+                new UnapprovedPlans(plan)
             };
 
             PlanChecks = new ObservableCollection<PlanCheckBase>
