@@ -39,6 +39,7 @@ namespace PlanCheck.Checks
                 DisplayColor = ResultColorChoices.Fail;
             }
 
+            Result = Result.TrimEnd('\n');
             ResultDetails = $"{refPoint.Id}\nTotal: {refPoint.TotalDoseLimit}\nDaily: {refPoint.DailyDoseLimit}\nSession: {refPoint.SessionDoseLimit}";
         }
     }

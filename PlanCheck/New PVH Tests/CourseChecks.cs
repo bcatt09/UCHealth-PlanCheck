@@ -38,10 +38,10 @@ namespace PlanCheck.Checks
                 DisplayColor = ResultColorChoices.Fail;
             }
 
+            ResultDetails = ResultDetails.TrimEnd('\n');
+
             if (ResultDetails == "")
                 ResultDetails = "Pass";
-
-            ResultDetails.TrimEnd('\n');
         }
     }
 }

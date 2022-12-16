@@ -16,7 +16,7 @@ namespace VMS.TPS
 		{
 			var window = new MainWindow();
 			window.KeyDown += (object sender, KeyEventArgs e) => { if (e.Key == Key.Escape) window.Close(); };
-
+			MessageBox.Show($"{context.PlanSetup}\n{context.PlanSetup?.Id == ""}");
 			if (context.PlanSetup == null && context.Image == null)
 			{
 				MessageBox.Show("Please open an image or a single plan (not a plan sum) before running this script", "Error", MessageBoxButton.OK, MessageBoxImage.Error);

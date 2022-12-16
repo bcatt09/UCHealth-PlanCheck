@@ -34,7 +34,7 @@ namespace PlanCheck.Checks
                 Result = "No HU overrides";
             }
 
-            Result.TrimEnd('\n');
+            Result = Result.TrimEnd('\n');
         }
     }
 }

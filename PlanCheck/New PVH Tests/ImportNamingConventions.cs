@@ -53,7 +53,7 @@ namespace PlanCheck.Checks
                 {
                     Result = "Warning";
                     DisplayColor = ResultColorChoices.Warn;
-                    ResultDetails = $"Names do not all match\nStructure Set: {names[0]}\n3D Image: {names[1]}\nSeries: {names[2]}\n";
+                    ResultDetails += $"Names do not all match\nStructure Set: {names[0]}\n3D Image: {names[1]}\nSeries: {names[2]}";
                 }
                 else
                 {
