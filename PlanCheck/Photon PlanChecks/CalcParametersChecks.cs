@@ -73,7 +73,7 @@ namespace PlanCheck.Checks
 				// Some warning checks
 				if (!photonOptions["HeterogeneityCorrection"].Contains("ON"))
                 {
-					Result = "Fail";
+					Result = "Failure";
 					ResultDetails = "! Heterogeneity Correctoin is NOT on, resolve before continuing\n";
 					DisplayColor = ResultColorChoices.Fail;
 				}

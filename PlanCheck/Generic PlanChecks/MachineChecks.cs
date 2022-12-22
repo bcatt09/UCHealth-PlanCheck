@@ -25,7 +25,7 @@ namespace PlanCheck.Checks
 			{
 				if (field.TreatmentUnit.Id != MachineID)
 				{
-					Result = "Fail";
+					Result = "Failure";
 					ResultDetails = $"Not all fields use the same machine";
 					DisplayColor = ResultColorChoices.Fail;
 				}

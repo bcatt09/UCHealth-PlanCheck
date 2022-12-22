@@ -153,7 +153,7 @@ namespace PlanCheck.Checks
         /// </summary>
         protected void TestCouldNotComplete(string message)
         {
-            logger.Error($"{DisplayName} - Could not complete");
+            //logger.Error($"{DisplayName} - Could not complete");
 
             ResultDetails = message;
             TestCouldNotComplete();
@@ -164,7 +164,7 @@ namespace PlanCheck.Checks
         /// </summary>
         protected void TestCouldNotComplete(Exception e)
         {
-            logger.Error(e, $"{DisplayName} - {e.GetType()}");
+            //logger.Error(e, $"{DisplayName} - {e.GetType()}");
 
             TestCouldNotComplete();
         }
@@ -174,7 +174,7 @@ namespace PlanCheck.Checks
         /// </summary>
         protected void TestCouldNotComplete(Exception e, string message)
         {
-            logger.Error(e, message);
+            //logger.Error(e, message);
 
             ResultDetails = message;
             TestCouldNotComplete();

@@ -23,7 +23,7 @@ namespace PlanCheck.Checks
 
             if (!refPoint.Id.ToUpper().Contains("DPV"))
             {
-                Result += $"DPV ID does not contail \"DPV\" ({refPoint.Id})";
+                Result += $"DPV ID does not contain \"DPV\" ({refPoint.Id})";
                 DisplayColor = ResultColorChoices.Warn;
             }
 

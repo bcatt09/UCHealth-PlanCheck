@@ -33,8 +33,17 @@ namespace PlanCheck
             PreMDGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.5;
             PreMDGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.5;
 
-            TreatmentPrepGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.5;
-            TreatmentPrepGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.5;
+            TreatmentPrepDosiGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.5;
+            TreatmentPrepDosiGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.5;
+
+            RxChecksGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.5;
+            RxChecksGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.5;
+
+            PhotonPlanGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.5;
+            PhotonPlanGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.5;
+
+            TreatmentPrepPhysicsGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.5;
+            TreatmentPrepPhysicsGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.5;
 
             OldCheckGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.5;
             OldCheckGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.5;
@@ -51,7 +60,10 @@ namespace PlanCheck
             {
                 CTImportGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
                 PreMDGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
-                TreatmentPrepGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
+                TreatmentPrepDosiGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
+                RxChecksGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
+                PhotonPlanGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
+                TreatmentPrepPhysicsGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
                 OldCheckGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
                 dg.SelectedIndex = -1;
 				prevSelectedRow = -1;
@@ -60,7 +72,10 @@ namespace PlanCheck
             {
                 CTImportGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
                 PreMDGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
-                TreatmentPrepGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
+                TreatmentPrepDosiGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
+                RxChecksGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
+                PhotonPlanGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
+                TreatmentPrepPhysicsGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
                 OldCheckGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
                 prevSelectedRow = dg.SelectedIndex;
 			}

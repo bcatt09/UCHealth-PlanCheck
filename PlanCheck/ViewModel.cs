@@ -20,22 +20,39 @@ namespace PlanCheck
     class ViewModel : INotifyPropertyChanged
     {
         private ScriptContext _context;                                             // ScriptContext from Aria
-        private ObservableCollection<PlanCheckBase> _planChecks;                    // List of plan checks and results to be displayed
-        private ObservableCollection<PlanCheckBase> _ctImportChecks;                // List of plan checks and results to be displayed
-        private ObservableCollection<PlanCheckBase> _preMdReviewChecks;             // List of plan checks and results to be displayed
-        private ObservableCollection<PlanCheckBase> _treatmentPrepChecks;           // List of plan checks and results to be displayed
-        private string _patientName;                                                // Patient name
-        private string _planID;                                                     // Plan id
-        private string _courseID;                                                   // Course id
-        private string _slices;                                                     // Number of CT slices
 
+        private ObservableCollection<PlanCheckBase> _planChecks;                    // List of plan checks and results to be displayed
         public ObservableCollection<PlanCheckBase> PlanChecks { get { return _planChecks; } set { _planChecks = value; OnPropertyChanged("PlanChecks"); } }
+
+        private ObservableCollection<PlanCheckBase> _ctImportChecks;                // Plan checks from CT Import Questionnaire
         public ObservableCollection<PlanCheckBase> CTImportChecks { get { return _ctImportChecks; } set { _ctImportChecks = value; OnPropertyChanged("PlanChecks"); } }
+
+        private ObservableCollection<PlanCheckBase> _preMdReviewChecks;             // Plan checks from Pre - MD Review Questionnaire
         public ObservableCollection<PlanCheckBase> PreMdReviewChecks { get { return _preMdReviewChecks; } set { _preMdReviewChecks = value; OnPropertyChanged("PreMdReviewChecks"); } }
-        public ObservableCollection<PlanCheckBase> TreatmentPrepChecks { get { return _treatmentPrepChecks; } set { _treatmentPrepChecks = value; OnPropertyChanged("TreatmentPrepChecks"); } }
+
+        private ObservableCollection<PlanCheckBase> _treatmentPrepDosiChecks;           // Plan checks from Treatment Prep Questionnaire
+        public ObservableCollection<PlanCheckBase> TreatmentPrepDosiChecks { get { return _treatmentPrepDosiChecks; } set { _treatmentPrepDosiChecks = value; OnPropertyChanged("TreatmentPrepDosiChecks"); } }
+
+        private ObservableCollection<PlanCheckBase> _rxChecks;           // Plan checks from Treatment Prep Questionnaire
+        public ObservableCollection<PlanCheckBase> RxChecks { get { return _rxChecks; } set { _rxChecks = value; OnPropertyChanged("RxChecks"); } }
+
+        private ObservableCollection<PlanCheckBase> _photonChecks;           // Plan checks from Photon Plan Questionnaire
+        public ObservableCollection<PlanCheckBase> PhotonChecks { get { return _photonChecks; } set { _photonChecks = value; OnPropertyChanged("PhotonChecks"); } }
+
+        private ObservableCollection<PlanCheckBase> _treatmentPrepPhysicsChecks;           // Plan checks from Photon Plan Questionnaire
+        public ObservableCollection<PlanCheckBase> TreatmentPrepPhysicsChecks { get { return _treatmentPrepPhysicsChecks; } set { _treatmentPrepPhysicsChecks = value; OnPropertyChanged("TreatmentPrepPhysicsChecks"); } }
+
+
+        private string _patientName;                                                // Patient name
         public string PatientName { get { return _patientName; } set { _patientName = value; OnPropertyChanged("PatientName"); } }
+
+        private string _planID;                                                     // Plan id
         public string PlanID { get { return _planID; } set { _planID = value; OnPropertyChanged("PlanID"); } }
+
+        private string _courseID;                                                   // Course id
         public string CourseID { get { return _courseID; } set { _courseID = value; OnPropertyChanged("CourseID"); } }
+
+        private string _slices;                                                     // Number of CT slices
         public string Slices { get { return _slices; } set { _slices = value; OnPropertyChanged("Slices"); } }
 
         private static readonly Logger logger = NLog.LogManager.GetCurrentClassLogger();
@@ -47,7 +64,10 @@ namespace PlanCheck
             PlanChecks = new ObservableCollection<PlanCheckBase>();
             CTImportChecks = new ObservableCollection<PlanCheckBase>();
             PreMdReviewChecks = new ObservableCollection<PlanCheckBase>();
-            TreatmentPrepChecks = new ObservableCollection<PlanCheckBase>();
+            TreatmentPrepDosiChecks = new ObservableCollection<PlanCheckBase>();
+            RxChecks = new ObservableCollection<PlanCheckBase>();
+            PhotonChecks = new ObservableCollection<PlanCheckBase>();
+            TreatmentPrepPhysicsChecks = new ObservableCollection<PlanCheckBase>();
 
             // Plan information
             PatientName = context.Patient.Name;
@@ -82,7 +102,7 @@ namespace PlanCheck
             PreMdReviewChecks = new ObservableCollection<PlanCheckBase>
             {
                 new CourseChecks(plan),
-                //normal contours complete (no empty contours?)
+                // normal contours complete (no empty contours?)
                 // rename/delete opti (don't think I can check)
                 new MachineChecks(plan),
                 new CouchStructuresChecks(plan),
@@ -100,7 +120,7 @@ namespace PlanCheck
                 new JawTrackingChecks(plan)
             };
 
-            TreatmentPrepChecks = new ObservableCollection<PlanCheckBase>
+            TreatmentPrepDosiChecks = new ObservableCollection<PlanCheckBase>
             {
                 new FieldNameChecks(plan),
                 new ToleranceTableChecks(plan),
@@ -110,6 +130,40 @@ namespace PlanCheck
                 new Shifts(plan),
                 new DRRChecks(plan),
                 new UnapprovedPlans(plan)
+            };
+
+            RxChecks = new ObservableCollection<PlanCheckBase>
+            {
+                new PrecriptionChecks(plan)
+            };
+
+            PhotonChecks = new ObservableCollection<PlanCheckBase>
+            {
+                new PhotonDoseTabChecks(plan),
+                new UserOrigin(plan),
+                new CouchStructuresChecks(plan),
+                // body contour?
+                new FieldNameChecks(plan),
+                new DensityOverrides(plan),
+                new DoseGrid(plan),
+                new PhotonCalcModelTabChecks(plan),
+                new PhotonFieldTabChecks(plan),
+                new HotspotChecks(plan)
+                // DVH/scorecard
+                // delta couch
+            };
+
+            TreatmentPrepPhysicsChecks = new ObservableCollection<PlanCheckBase>
+            {
+                new PlanSchedulingChecks(plan),
+                new CouchValueChecks(plan),
+                // tx time and multiplication factor
+                new ToleranceTableChecks(plan),
+                // set up notes (can't do)
+                new DRRChecks(plan),
+                new DPVChecks(plan),
+                new BolusChecks(plan),
+                new PlanApprovalChecks(plan)
             };
 
             PlanChecks = new ObservableCollection<PlanCheckBase>

@@ -20,7 +20,7 @@ namespace PlanCheck.Checks
             ResultDetails = "";
             TestExplanation = "Checks that the Series, 3D Image, and Structure Set follow the naming convention \"Site MMYY\"";
 
-            var regex = new Regex(@".* |_\d{4}");
+            var regex = new Regex(@".*( |_)\d{4}");
 
             var names = new List<string>
             {
@@ -62,7 +62,7 @@ namespace PlanCheck.Checks
                 }
             }
 
-            ResultDetails.TrimEnd('\n');
+            ResultDetails = ResultDetails.TrimEnd('\n');
         }
     }
 }

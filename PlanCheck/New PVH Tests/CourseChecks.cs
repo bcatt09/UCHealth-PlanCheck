@@ -20,7 +20,7 @@ namespace PlanCheck.Checks
             ResultDetails = "";
             TestExplanation = "Checks that the Course ID follows naming conventions (Site MMYY) and has an Intent and Diagnosis Code attached";
 
-            var regex = new Regex(@".* |_\d{4}");
+            var regex = new Regex(@".*( |_)\d{4}");
 
             if (plan.Course.Intent == "")
             {

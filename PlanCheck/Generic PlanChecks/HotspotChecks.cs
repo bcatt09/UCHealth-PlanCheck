@@ -22,7 +22,7 @@ namespace PlanCheck.Checks
             {
 				Result = "";
 				ResultDetails = $"No target structure selected";
-				DisplayColor = ResultColorChoices.Warn;
+				DisplayColor = ResultColorChoices.Fail;
 
 				return;
 			}
@@ -34,14 +34,14 @@ namespace PlanCheck.Checks
 				bool inTarget = target.IsPointInsideSegment(plan.Dose.DoseMax3DLocation);
 
 				Result = "";
-				ResultDetails = inTarget ? $"Hotspot is in plan target" : $"Hotspot is not in plan target ({target.Id})";
+				ResultDetails = inTarget ? $"{plan.Dose.DoseMax3D} hotspot is in plan target" : $"{plan.Dose.DoseMax3D} hotspot is not in plan target ({target.Id})";
 				DisplayColor = inTarget ? ResultColorChoices.Pass : ResultColorChoices.Warn;
 			}
 			else
 			{
 				Result = "";
 				ResultDetails = "Dose has not been calculated";
-				DisplayColor = ResultColorChoices.Warn;
+				DisplayColor = ResultColorChoices.Fail;
 			}
 		}
     }

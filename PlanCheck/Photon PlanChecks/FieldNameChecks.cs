@@ -35,7 +35,7 @@ namespace PlanCheck.Checks
                         if (!field.Name.Contains($"{Math.Round(field.ControlPoints.FirstOrDefault().GantryAngle)}-{Math.Round(field.ControlPoints.LastOrDefault().GantryAngle)}"))
                         {
                             Result = "Warning";
-                            ResultDetails += $"Field name mismatch  —  Field: {field.Id}\nGantry Start: {field.ControlPoints.FirstOrDefault().GantryAngle}\nGantry Stop: {field.ControlPoints.LastOrDefault().GantryAngle}\n";
+                            ResultDetails += $"Field name mismatch  —  Field: {field.Id} - {field.Name}\nGantry Start: {field.ControlPoints.FirstOrDefault().GantryAngle}\nGantry Stop: {field.ControlPoints.LastOrDefault().GantryAngle}\n";
                             DisplayColor = ResultColorChoices.Warn;
                         }
                     }
@@ -48,7 +48,7 @@ namespace PlanCheck.Checks
                         if (!Regex.IsMatch(field.Name, fieldNamePedestal))
                         {
                             Result = "Warning";
-                            ResultDetails += $"Field name mismatch  —  Field: {field.Id}\nPedestal Angle: {field.PatientSupportAngleToUser(field.ControlPoints.First().PatientSupportAngle)}\n";
+                            ResultDetails += $"Field name mismatch  —  Field: {field.Id} - {field.Name}\nPedestal Angle: {field.PatientSupportAngleToUser(field.ControlPoints.First().PatientSupportAngle)}\n";
                             DisplayColor = ResultColorChoices.Warn;
                         }
                     }
@@ -108,6 +108,7 @@ namespace PlanCheck.Checks
 			if (ResultDetails == "")
 			{
 				Result = "Pass";
+                ResultDetails = String.Join("\n", plan.Beams.Select(x => $"{x.Id} - {x.Name} - {x.Technique}"));
 				DisplayColor = ResultColorChoices.Pass;
 			}
 		}
