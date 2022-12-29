@@ -8,7 +8,7 @@ using VMS.TPS.Common.Model.Types;
 
 namespace PlanCheck.Checks
 {
-    class DoseRateChecks : PlanCheckBasePhoton
+    class DoseRateChecks : PlanCheckPhoton
 	{
         protected override List<string> MachineExemptions => new List<string> { };
 

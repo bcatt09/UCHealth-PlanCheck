@@ -9,13 +9,13 @@ using VMS.TPS.Common.Model.Types;
 
 namespace PlanCheck.Checks
 {
-    public class CouchStructuresChecks : PlanCheckBasePhoton
+    public class CouchStructuresChecks : PlanCheckStructureSet
 	{
         protected override List<string> MachineExemptions => new List<string> { };
 
-        public CouchStructuresChecks(PlanSetup plan) : base(plan) { }
+        public CouchStructuresChecks(StructureSet structureSet) : base(structureSet) { }
 
-        public override void RunTestPhoton(ExternalPlanSetup plan)
+        public override void RunTestStructureSet(StructureSet structureSet)
 		{
 			DisplayName = "Couch Structures";
 			TestExplanation = "Checks that the correct couch structure based on department standards";
@@ -27,9 +27,9 @@ namespace PlanCheck.Checks
 			bool lung = false;
 
 			// Find couch structure if it exists
-			if ((from s in plan.StructureSet.Structures where s.DicomType == "SUPPORT" select s).Count() > 0)
+			if ((from s in structureSet.Structures where s.DicomType == "SUPPORT" select s).Count() > 0)
 			{
-				couchStructures = (from s in plan.StructureSet.Structures where s.DicomType == "SUPPORT" select s);
+				couchStructures = (from s in structureSet.Structures where s.DicomType == "SUPPORT" select s);
 				couchStructure = true;
 				Structure firstCouch = couchStructures.FirstOrDefault();
 				if (firstCouch.Name != "")
@@ -41,7 +41,7 @@ namespace PlanCheck.Checks
 				couchStructure = false;
 
 			// Find brain and lung structures
-			foreach (Structure structure in plan.StructureSet.Structures)
+			foreach (Structure structure in structureSet.Structures)
 			{
 				if (structure.Id.ToLower().Contains("brain"))
 					brain = true;

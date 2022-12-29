@@ -7,18 +7,18 @@ using VMS.TPS.Common.Model.API;
 
 namespace PlanCheck.Checks
 {
-    public class StructureTemplateCheck : PlanCheckBase
+    public class StructureTemplateCheck : PlanCheckStructureSet
     {
         protected override List<string> MachineExemptions => new List<string> { };
 
-        public StructureTemplateCheck(PlanSetup plan) : base(plan) { }
+        public StructureTemplateCheck(StructureSet structureSet) : base(structureSet) { }
 
-        public override void RunTest(PlanSetup plan)
+        public override void RunTestStructureSet(StructureSet structureSet)
         {
             DisplayName = "Structure Template";
             TestExplanation = "Checks that structures have been added (does not check for any specific template)";
 
-            if (plan.StructureSet.Structures.Count() > 1)
+            if (structureSet.Structures.Count() > 1)
             {
                 ResultDetails = "Structures added";
                 DisplayColor = ResultColorChoices.Pass;

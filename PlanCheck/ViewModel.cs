@@ -89,14 +89,16 @@ namespace PlanCheck
         {
             var plan = _context.PlanSetup;
 
+            // MessageBox.Show($"Id: {plan.StructureSet.Image.Series.ImagingDeviceId}\nManufacturer: {plan.StructureSet.Image.Series.ImagingDeviceManufacturer}\nSerial Number: {plan.StructureSet.Image.Series.ImagingDeviceSerialNo}\nModel: {plan.StructureSet.Image.Series.ImagingDeviceModel}", plan.Id);
+
             // CT Import Checklist
             CTImportChecks = new ObservableCollection<PlanCheckBase>
             {
-                new BodyContour(plan),
-                new CouchStructuresChecks(plan),
-                new UserOrigin(plan),
-                new StructureTemplateCheck(plan),
-                new ImportNamingConventions(plan)
+                new BodyContour(plan.StructureSet),
+                new CouchStructuresChecks(plan.StructureSet),
+                new UserOrigin(plan.StructureSet),
+                new StructureTemplateCheck(plan.StructureSet),
+                new ImportNamingConventions(plan.StructureSet)
             };
 
             PreMdReviewChecks = new ObservableCollection<PlanCheckBase>
@@ -105,7 +107,7 @@ namespace PlanCheck
                 // normal contours complete (no empty contours?)
                 // rename/delete opti (don't think I can check)
                 new MachineChecks(plan),
-                new CouchStructuresChecks(plan),
+                new CouchStructuresChecks(plan.StructureSet),
                 // delta couch (can't seem to check)
                 new DensityOverrides(plan),
                 new DoseGrid(plan),
@@ -140,8 +142,8 @@ namespace PlanCheck
             PhotonChecks = new ObservableCollection<PlanCheckBase>
             {
                 new PhotonDoseTabChecks(plan),
-                new UserOrigin(plan),
-                new CouchStructuresChecks(plan),
+                new UserOrigin(plan.StructureSet),
+                new CouchStructuresChecks(plan.StructureSet),
                 // body contour?
                 new FieldNameChecks(plan),
                 new DensityOverrides(plan),
@@ -182,7 +184,7 @@ namespace PlanCheck
             PlanChecks.Add(new IsocenterChecks(_context.PlanSetup));
             PlanChecks.Add(new FieldNameChecks(_context.PlanSetup));
             PlanChecks.Add(new JawTrackingChecks(_context.PlanSetup));
-            PlanChecks.Add(new CouchStructuresChecks(_context.PlanSetup));
+            PlanChecks.Add(new CouchStructuresChecks(_context.PlanSetup.StructureSet));
             PlanChecks.Add(new CouchValueChecks(_context.PlanSetup));
             PlanChecks.Add(new Shifts(_context.PlanSetup));
             PlanChecks.Add(new ToleranceTableChecks(_context.PlanSetup));

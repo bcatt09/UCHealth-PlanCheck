@@ -9,7 +9,7 @@ using VMS.TPS.Common.Model.Types;
 
 namespace PlanCheck.Checks
 {
-    class FieldNameChecks : PlanCheckBasePhoton
+    class FieldNameChecks : PlanCheckPhoton
 	{
 		protected override List<string> MachineExemptions => new List<string> { };
 

@@ -7,7 +7,7 @@ using VMS.TPS.Common.Model.API;
 
 namespace PlanCheck.Checks
 {
-    public class CouchValueChecks : PlanCheckBasePhoton
+    public class CouchValueChecks : PlanCheckPhoton
 	{
 		protected override List<string> MachineExemptions => new List<string> { };
 

@@ -7,7 +7,7 @@ using VMS.TPS.Common.Model.API;
 
 namespace PlanCheck.Checks
 {
-    public class BolusChecks : PlanCheckBasePhoton
+    public class BolusChecks : PlanCheckPhoton
     {
         protected override List<string> MachineExemptions => new List<string> { };
 

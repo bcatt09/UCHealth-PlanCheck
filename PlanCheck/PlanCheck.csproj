@@ -129,6 +129,8 @@
     <Compile Include="New PVH Tests\StructureTemplateCheck.cs" />
     <Compile Include="New PVH Tests\UnapprovedPlans.cs" />
     <Compile Include="New PVH Tests\UserOrigin.cs" />
+    <Compile Include="PlanCheck Base Classes\PlanCheckGeneric.cs" />
+    <Compile Include="PlanCheck Base Classes\PlanCheckStructureSet.cs" />
     <Compile Include="Proton PlanChecks\PlanUncertaintyCalculationCheck.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Photon PlanChecks\BolusChecks.cs" />
@@ -154,8 +156,8 @@
     <Compile Include="Photon PlanChecks\TreatmentTimeCalculation.cs" />
     <Compile Include="Photon PlanChecks\UseGatedChecks.cs" />
     <Compile Include="Generic PlanChecks\PrescriptionChecks.cs" />
-    <Compile Include="PlanCheck Base Classes\PlanCheckBaseProton.cs" />
-    <Compile Include="PlanCheck Base Classes\PlanCheckBasePhoton.cs" />
+    <Compile Include="PlanCheck Base Classes\PlanCheckProton.cs" />
+    <Compile Include="PlanCheck Base Classes\PlanCheckPhoton.cs" />
     <Compile Include="Proton PlanChecks\ProtonCalculationModelChecks.cs" />
     <Compile Include="Proton PlanChecks\ProtonDRRNameEndChecks.cs" />
     <Compile Include="Proton PlanChecks\ProtonFiducialContourChecks.cs" />

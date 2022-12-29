@@ -7,9 +7,9 @@ using VMS.TPS.Common.Model.API;
 
 namespace PlanCheck.Checks
 {
-    public abstract class PlanCheckBaseProton : PlanCheckBase
+    public abstract class PlanCheckProton : PlanCheckBase
     {
-        public PlanCheckBaseProton(PlanSetup plan) : base(plan) { }
+        public PlanCheckProton(PlanSetup plan) : base(plan) { }
 
         public override void RunTest(PlanSetup plan)
         {

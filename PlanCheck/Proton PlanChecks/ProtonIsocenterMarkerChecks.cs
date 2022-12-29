@@ -7,7 +7,7 @@ using VMS.TPS.Common.Model.API;
 
 namespace PlanCheck.Checks
 {
-    class ProtonIsocenterMarkerChecks : PlanCheckBaseProton
+    class ProtonIsocenterMarkerChecks : PlanCheckProton
     {
         protected override List<string> MachineExemptions => new List<string> { };
 

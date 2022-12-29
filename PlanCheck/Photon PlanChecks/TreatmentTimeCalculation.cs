@@ -8,7 +8,7 @@ using VMS.TPS.Common.Model.Types;
 
 namespace PlanCheck.Checks
 {
-    class TreatmentTimeCalculation : PlanCheckBasePhoton
+    class TreatmentTimeCalculation : PlanCheckPhoton
     {
         protected override List<string> MachineExemptions => DepartmentInfo.LinearAccelerators;
 

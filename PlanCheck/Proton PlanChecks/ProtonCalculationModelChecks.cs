@@ -8,7 +8,7 @@ using VMS.TPS.Common.Model.Types;
 
 namespace PlanCheck.Checks
 {
-	public class ProtonCalculationModelChecks : PlanCheckBaseProton
+	public class ProtonCalculationModelChecks : PlanCheckProton
 	{
 		protected override List<string> MachineExemptions => new List<string> { };
 

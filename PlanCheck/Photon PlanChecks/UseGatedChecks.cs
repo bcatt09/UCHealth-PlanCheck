@@ -8,7 +8,7 @@ using VMS.TPS.Common.Model.API;
 
 namespace PlanCheck.Checks
 {
-    public class UseGatedChecks : PlanCheckBasePhoton
+    public class UseGatedChecks : PlanCheckPhoton
     {
         protected override List<string> MachineExemptions => DepartmentInfo.LinearAccelerators;
 

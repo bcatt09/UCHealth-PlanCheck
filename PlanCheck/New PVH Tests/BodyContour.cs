@@ -7,17 +7,17 @@ using VMS.TPS.Common.Model.API;
 
 namespace PlanCheck.Checks
 {
-    public class BodyContour : PlanCheckBase
+    public class BodyContour : PlanCheckStructureSet
     {
         protected override List<string> MachineExemptions => new List<string> { };
-        public BodyContour(PlanSetup plan) : base(plan) { }
+        public BodyContour(StructureSet structureSet) : base(structureSet) { }
 
-        public override void RunTest(PlanSetup plan)
+        public override void RunTestStructureSet(StructureSet structureSet)
         {
             DisplayName = "Body Contour";
             TestExplanation = "Checks that the Body structure exists";
 
-            if (plan.StructureSet.Structures.Count(s => s.DicomType.ToUpper() == "BODY" || s.DicomType.ToUpper() == "EXTERNAL") > 0)
+            if (structureSet.Structures.Count(s => s.DicomType.ToUpper() == "BODY" || s.DicomType.ToUpper() == "EXTERNAL") > 0)
             {
                 ResultDetails = "Exists";
                 DisplayColor = ResultColorChoices.Pass;

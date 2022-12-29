@@ -7,7 +7,7 @@ using VMS.TPS.Common.Model.API;
 
 namespace PlanCheck.Checks
 {
-	public class ProtonFiducialContourChecks : PlanCheckBaseProton
+	public class ProtonFiducialContourChecks : PlanCheckProton
 	{
 		protected override List<string> MachineExemptions => new List<string> { };
 

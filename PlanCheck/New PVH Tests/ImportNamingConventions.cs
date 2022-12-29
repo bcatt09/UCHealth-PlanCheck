@@ -8,13 +8,13 @@ using VMS.TPS.Common.Model.API;
 
 namespace PlanCheck.Checks
 {
-    internal class ImportNamingConventions : PlanCheckBase
+    internal class ImportNamingConventions : PlanCheckStructureSet
     {
         protected override List<string> MachineExemptions => new List<string> { };
 
-        public ImportNamingConventions(PlanSetup plan) : base(plan) { }
+        public ImportNamingConventions(StructureSet structureSet) : base(structureSet) { }
 
-        public override void RunTest(PlanSetup plan)
+        public override void RunTestStructureSet(StructureSet structureSet)
         {
             DisplayName = "SS/Image/Series Naming";
             ResultDetails = "";
@@ -24,9 +24,9 @@ namespace PlanCheck.Checks
 
             var names = new List<string>
             {
-                plan.StructureSet.Id,
-                plan.StructureSet.Image.Id,
-                plan.StructureSet.Image.Series.Id
+                structureSet.Id,
+                structureSet.Image.Id,
+                structureSet.Image.Series.Id
             };
 
             if (!regex.IsMatch(names[0]))

@@ -84,7 +84,7 @@ namespace PlanCheck.Checks
         protected Department Department { get; }
 
         /// <summary>
-        /// Check will not run on any machine with an ID in this list
+        /// Check was not run due to a machine exemption
         /// </summary>
         public bool MachineExempt { get; private set; }
 
@@ -105,17 +105,17 @@ namespace PlanCheck.Checks
             {
                 try
                 {
-                    if (this is PlanCheckBasePhoton)
+                    if (this is PlanCheckPhoton)
                     {
                         if (plan is ExternalPlanSetup)
-                             (this as PlanCheckBasePhoton).RunTestPhoton(plan as ExternalPlanSetup);
+                             (this as PlanCheckPhoton).RunTestPhoton(plan as ExternalPlanSetup);
                         else
                             MachineExempt = true;
                     }
-                    else if (this is PlanCheckBaseProton)
+                    else if (this is PlanCheckProton)
                     {
                         if (plan is IonPlanSetup)
-                             (this as PlanCheckBaseProton).RunTestProton(plan as IonPlanSetup);
+                             (this as PlanCheckProton).RunTestProton(plan as IonPlanSetup);
                         else
                             MachineExempt = true;
                     }
@@ -133,11 +133,34 @@ namespace PlanCheck.Checks
             }
         }
 
+        public PlanCheckBase(StructureSet structureSet)
+        {
+            Department = DepartmentInfo.GetDepartment(structureSet.Image);
+
+            try
+            {
+                RunTest(structureSet);
+            }
+            catch (Exception e)
+            {
+                TestCouldNotComplete(e);
+            }
+        }
+
         /// <summary>
         /// Executes test and stores all results
         /// </summary>
         /// <param name="plan">PlanSetup that the test will be run on</param>
         public abstract void RunTest(PlanSetup plan);
+
+        /// <summary>
+        /// Executes test and stores all results
+        /// </summary>
+        /// <param name="image">Image that the test will be run on</param>
+        public virtual void RunTest(StructureSet structureSet)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Log that check failed to run

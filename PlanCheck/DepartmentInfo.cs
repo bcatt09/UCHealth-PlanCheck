@@ -6,6 +6,7 @@ using System.ServiceModel.Configuration;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using VMS.TPS.Common.Model.API;
 
 namespace PlanCheck
 {
@@ -59,16 +60,36 @@ namespace PlanCheck
 
 				return Department.None;
 			}
-		}
+        }
 
-		/// <summary>
-		/// Access to all department specific IDs
-		/// </summary>
-		private static Dictionary<Department, DepartmentInfoStruct> Departments = new Dictionary<Department, DepartmentInfoStruct>()
+        /// <summary>
+        /// Gets the department that the machine is in.
+        /// Returns Department.None if the machine ID cannot be found
+        /// </summary>
+        /// <param name="machineID"></param>
+        /// <returns></returns>
+        public static Department GetDepartment(Image image)
+        {
+            try
+            {
+				return Departments.Where(x => x.Value.CTs.Contains(CTNames.Lookup[image.Series.ImagingDeviceSerialNo])).Select(x => x.Key).First();
+            }
+            catch
+            {
+                MessageBox.Show($"Could not find a corresponding department for CT S/N: {image.Series.ImagingDeviceSerialNo}\nPlease ensure that it has been added to the department list", "Unknown Machine", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                return Department.None;
+            }
+        }
+
+        /// <summary>
+        /// Access to all department specific IDs
+        /// </summary>
+        private static Dictionary<Department, DepartmentInfoStruct> Departments = new Dictionary<Department, DepartmentInfoStruct>()
 		{
 			{ Department.PVH,
 				new DepartmentInfoStruct {
-					Machines = new List<string> { MachineNames.PVH_1199, MachineNames.PVH_1424, MachineNames.PVH_4960 },
+					Machines = MachineNames.PVH,
 					CTs = new List<string> { CTNames.PVH },
 					RadOncUserNames = RadOncUserNames.PVH
 				}
@@ -83,6 +104,8 @@ namespace PlanCheck
 			public static readonly string PVH_1199 = "TrueBeamSTx1199";
 			public static readonly string PVH_1424 = "TrueBeam1424";
 			public static readonly string PVH_4960 = "TrueBeam4960";
+
+			public static readonly List<string> PVH = new List<string> { PVH_1199, PVH_1424, PVH_4960 };
 		}
 
 		public static List<string> LinearAccelerators = new List<string>
@@ -109,6 +132,15 @@ namespace PlanCheck
 		private static class CTNames
 		{
 			public static readonly string PVH = "PVH CT Sim";
+
+			/// <summary>
+			/// Key - CT Serial Number
+			/// Value - Imaging Device ID in Aria
+			/// </summary>
+			public static readonly Dictionary<string, string> Lookup = new Dictionary<string, string>()
+			{
+				{ "130126", PVH }
+			};
 		}
 
 		/// <summary>
