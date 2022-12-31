@@ -131,11 +131,22 @@ namespace PlanCheck
                 // setup notes (can't do)
                 new Shifts(plan),
                 new DRRChecks(plan),
+                new VerificationPlan(plan),
                 new UnapprovedPlans(plan)
             };
 
             RxChecks = new ObservableCollection<PlanCheckBase>
             {
+                new RxName(plan),
+                new RxSite(plan),
+                new RxDose(plan),
+                new RxPhase(plan),
+                new RxModality(plan),
+                new RxTechnique(plan),
+                new RxEnergy(plan),
+                // Frequency (can't do)
+                new RxComments(plan),
+                new RxApproval(plan),
                 new PrecriptionChecks(plan)
             };
 

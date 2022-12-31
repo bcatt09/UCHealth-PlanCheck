@@ -8,7 +8,7 @@
     <ProjectGuid>{FDF18849-FB31-4826-9CB6-9183D2BE1B1A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>PlanCheck</RootNamespace>
-    <AssemblyName>PVH-PlanCheck1.esapi</AssemblyName>
+    <AssemblyName>PVH-PlanCheck4.esapi</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -126,9 +126,19 @@
     <Compile Include="New PVH Tests\PhotonPlanContentWindowChecks.cs" />
     <Compile Include="New PVH Tests\PlanSchedulingChecks.cs" />
     <Compile Include="New PVH Tests\PrescriptionName.cs" />
+    <Compile Include="New PVH Tests\RxApproval.cs" />
+    <Compile Include="New PVH Tests\RxComments.cs" />
+    <Compile Include="New PVH Tests\RxDose.cs" />
+    <Compile Include="New PVH Tests\RxEnergy.cs" />
+    <Compile Include="New PVH Tests\RxModality.cs" />
+    <Compile Include="New PVH Tests\RxName.cs" />
+    <Compile Include="New PVH Tests\RxPhase.cs" />
+    <Compile Include="New PVH Tests\RxSite.cs" />
+    <Compile Include="New PVH Tests\RxTechnique.cs" />
     <Compile Include="New PVH Tests\StructureTemplateCheck.cs" />
     <Compile Include="New PVH Tests\UnapprovedPlans.cs" />
     <Compile Include="New PVH Tests\UserOrigin.cs" />
+    <Compile Include="New PVH Tests\VerificationPlan.cs" />
     <Compile Include="PlanCheck Base Classes\PlanCheckGeneric.cs" />
     <Compile Include="PlanCheck Base Classes\PlanCheckStructureSet.cs" />
     <Compile Include="Proton PlanChecks\PlanUncertaintyCalculationCheck.cs" />
