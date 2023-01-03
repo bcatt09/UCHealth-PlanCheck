@@ -20,7 +20,9 @@ namespace PlanCheck.Checks
 
             if (plan.RTPrescription.PhaseType == "Boost")
             {
-                if (!plan.Id.ToUpper().Contains("Boost") && !plan.Id.ToUpper().Contains("Bst"))
+                // Check plan name
+                if (!plan.Id.ToUpper().Contains("Boost") && 
+                    !plan.Id.ToUpper().Contains("Bst"))
                 {
                     ResultDetails = "Should the plan be named \"boost\"?";
                     DisplayColor = ResultColorChoices.Warn;

@@ -35,7 +35,10 @@ namespace PlanCheck.Checks
                     return;
 
                 var target = plan.StructureSet.Structures.Single(x => x.Id == plan.TargetVolumeID);
-                var body = plan.StructureSet.Structures.Where(x => x.DicomType.ToUpper() == "BODY" || x.DicomType.ToUpper() == "EXTERNAL").OrderByDescending(x => x.Volume).First();
+                var body = plan.StructureSet.Structures
+                                .Where(x => x.DicomType.ToUpper() == "BODY" || x.DicomType.ToUpper() == "EXTERNAL")
+                                .OrderByDescending(x => x.Volume)
+                                .First();
 
                 var offset = target.CenterPoint.x - body.CenterPoint.x;
 

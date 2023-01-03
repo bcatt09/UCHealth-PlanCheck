@@ -16,10 +16,27 @@ namespace PlanCheck.Checks
             DisplayName = "Dose";
             DisplayColor = ResultColorChoices.Pass;
             TestExplanation = "Checks the total dose and dose per fraction of the plan against the presciption";
+            ResultDetails = "";
 
             var rx = plan.RTPrescription;
+            var targRx = rx.Targets.OrderByDescending(x => x.DosePerFraction.Dose).First();
 
-            Result = $"{rx.Targets.First().DosePerFraction} x {rx.Targets.First().NumberOfFractions} = {rx.Targets.First().DosePerFraction * rx.Targets.First().NumberOfFractions}\nTo-do: the actual checking part";
+            // Number of fractions do not agree
+            if (targRx.NumberOfFractions != plan.NumberOfFractions)
+            {
+                Result = "Failure";
+                DisplayColor = ResultColorChoices.Fail;
+                ResultDetails += $"Number of fractions mismatch\nPlan: {plan.DosePerFraction}\nPrescription: {targRx.DosePerFraction}\n\n";
+            }
+            // Dose per fraction does not agree
+            if (targRx.DosePerFraction != plan.DosePerFraction)
+            {
+                Result = "Failure";
+                DisplayColor = ResultColorChoices.Fail;
+                ResultDetails += $"Dose per fraction mismatch\nPlan: {plan.DosePerFraction}\nPrescription: {targRx.DosePerFraction}\n\n";
+            }
+
+            ResultDetails += $"{targRx.DosePerFraction * targRx.NumberOfFractions} = {targRx.DosePerFraction} x {targRx.NumberOfFractions}";
         }
     }
 }

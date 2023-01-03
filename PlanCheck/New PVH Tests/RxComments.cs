@@ -14,13 +14,14 @@ namespace PlanCheck.Checks
         public override void RunTest(PlanSetup plan)
         {
             DisplayName = "Special Orders";
-            TestExplanation = "";
+            TestExplanation = "Displays prescription comment";
             DisplayColor = ResultColorChoices.Pass;
 
             var rx = plan.RTPrescription;
 
             Result = rx.Comment == "" ? "None" : rx.Comment;
 
+            // TODO
             // if bolus
             // check plan for bolus usage
         }

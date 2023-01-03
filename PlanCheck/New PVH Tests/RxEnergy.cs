@@ -14,10 +14,27 @@ namespace PlanCheck.Checks
         public override void RunTest(PlanSetup plan)
         {
             DisplayName = "Energy";
-            TestExplanation = "";
+            TestExplanation = "Checks prescribed energies against plan";
             DisplayColor = ResultColorChoices.Pass;
 
-            Result = String.Join(", ", plan.RTPrescription.Energies.OrderBy(x => x));
+            var rx = String.Join(", ", plan.RTPrescription.Energies.OrderBy(x => x));
+            var planned = String.Join(", ", plan.Beams
+                                                .Where(x => !x.IsSetupField)
+                                                .Select(x => x.EnergyModeDisplayName.Replace("X-FFF", "FFF")) // Format FFF energies to match Rx formatting
+                                                .Distinct()
+                                                .OrderBy(x => x));
+
+            // Energies do not match
+            if (rx != planned)
+            {
+                Result = "Failure";
+                DisplayColor = ResultColorChoices.Fail;
+                ResultDetails = $"Energy mismatch\nPlan: {planned}\nPrescription: {rx}";
+            }
+            else
+            {
+                Result = String.Join(", ", plan.RTPrescription.Energies.OrderBy(x => x));
+            }
         }
     }
 }

@@ -14,13 +14,38 @@ namespace PlanCheck.Checks
         public override void RunTest(PlanSetup plan)
         {
             DisplayName = "Approval";
-            TestExplanation = "";
+            TestExplanation = "Checks for Prescription approval by a physician";
             DisplayColor = ResultColorChoices.Pass;
 
             var rx = plan.RTPrescription;
+            var dep = DepartmentInfo.GetDepartment(plan.Beams.First().TreatmentUnit.Id);
 
-            Result = rx.Status;
-            ResultDetails = $"by {rx.HistoryUserDisplayName} at {rx.HistoryDateTime.ToString("MM/dd H:mm tt")}";
+            // Rx is approved
+            if (rx.Status == "Approved")
+            {
+                var user = rx.HistoryUserName;
+
+                // Not approved by a department physician
+                if (!DepartmentInfo.GetRadOncUserNames(dep).Contains(user))
+                {
+                    Result = "Failure";
+                    DisplayColor = ResultColorChoices.Fail;
+                    ResultDetails = $"Prescription approved by non-physician: {rx.HistoryUserDisplayName} ({user})";
+                }
+                // Is approved by a department physician
+                else
+                {
+                    Result = rx.Status;
+                    ResultDetails = $"by {rx.HistoryUserDisplayName} at {rx.HistoryDateTime.ToString("MM/dd H:mm tt")}";
+                }
+            }
+            // Rx not approved
+            else
+            {
+                Result = rx.Status;
+                DisplayColor = ResultColorChoices.Fail;
+            }
+
         }
     }
 }

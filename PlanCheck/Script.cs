@@ -17,10 +17,10 @@ namespace VMS.TPS
 			var window = new MainWindow();
 			window.KeyDown += (object sender, KeyEventArgs e) => { if (e.Key == Key.Escape) window.Close(); };
 
-			if (context.PlanSetup == null && context.Image == null)
+			if (context.StructureSet == null)
 			{
-				MessageBox.Show("Please open an image or a single plan (not a plan sum) before running this script", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-				throw new ApplicationException("Please open an image or a single plan (not a plan sum) before running this script", new NullReferenceException());
+				MessageBox.Show("Image must have a Structure Set before running this script", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				throw new ApplicationException("Image must have a Structure Set before running this script", new NullReferenceException());
 			}
 			window.SizeToContent = SizeToContent.WidthAndHeight;
 			window.MaxHeight = SystemParameters.WorkArea.Height * 0.95;

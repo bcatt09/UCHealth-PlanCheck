@@ -92,6 +92,9 @@ namespace PlanCheck.Checks
 
         public PlanCheckBase(PlanSetup plan)
         {
+            if (plan == null)
+                return;
+
             if (plan.Beams.Count() < 1)
             {
                 MessageBox.Show("Plan must contain at least one beam", "No Beams", MessageBoxButton.OK, MessageBoxImage.Error);
