@@ -30,13 +30,13 @@ namespace PlanCheck.Checks
             // Get prescribed modalities
             foreach (string mode in prescribedModalities)
             {
-                switch(mode)
+                switch(mode.ToUpper())
                 {
-                    case "Photon":
+                    case "PHOTON":
                         prescribedPhoton = true; break;
-                    case "Electron":
+                    case "ELECTRON":
                         prescribedElectron = true; break;
-                    case "Brachytherapy":
+                    case "BRACHYTHERAPY":
                         prescribedBrachy = true; break;
                 }
             }
@@ -44,10 +44,14 @@ namespace PlanCheck.Checks
             // Get planned modalities
             foreach (string mode in plannedModalities)
             {
-                if (mode.Contains("X"))
-                    prescribedPhoton = true;
-                if (mode.Contains("e"))
-                    prescribedElectron = true;
+                if (mode.ToUpper().Contains("X"))
+                {
+                    plannedPhoton = true;
+                }
+                if (mode.ToUpper().Contains("E"))
+                {
+                    plannedElectron = true;
+                }
             }
             if (plan is BrachyPlanSetup)
             {
@@ -56,7 +60,9 @@ namespace PlanCheck.Checks
             }
 
             // Check planned vs prescribed
-            if ((prescribedPhoton != plannedPhoton) || (prescribedElectron != plannedElectron) || (prescribedBrachy != plannedBrachy))
+            if (prescribedPhoton != plannedPhoton || 
+                prescribedElectron != plannedElectron || 
+                prescribedBrachy != plannedBrachy)
             {
                 Result = "Warning";
                 DisplayColor = ResultColorChoices.Warn;

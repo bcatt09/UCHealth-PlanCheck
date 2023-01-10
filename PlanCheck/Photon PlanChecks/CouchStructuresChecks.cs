@@ -32,7 +32,7 @@ namespace PlanCheck.Checks
 				couchStructures = (from s in structureSet.Structures where s.DicomType == "SUPPORT" select s);
 				couchStructure = true;
 				Structure firstCouch = couchStructures.FirstOrDefault();
-				if (firstCouch.Name != "")
+				if (firstCouch.Name != "" && firstCouch.Name != firstCouch.Id)
 					couchName = firstCouch.Name;
 				else
 					couchName = firstCouch.Comment;

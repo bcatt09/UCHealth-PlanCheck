@@ -17,12 +17,16 @@ namespace PlanCheck.Checks
             TestExplanation = "Checks prescribed energies against plan";
             DisplayColor = ResultColorChoices.Pass;
 
-            var rx = String.Join(", ", plan.RTPrescription.Energies.OrderBy(x => x));
+            var a = plan.RTPrescription.Energies.Last();
+            // check 3172755
+            // Adds a 0 in front of the energy if it doesn't start with a 1 or 2
+            Func<string, string> add0 = x => (x[0] > '2' && x[0] <= '9') ? "0" + x : x;
+            var rx = String.Join(", ", plan.RTPrescription.Energies.OrderBy(x => add0(x)));
             var planned = String.Join(", ", plan.Beams
                                                 .Where(x => !x.IsSetupField)
                                                 .Select(x => x.EnergyModeDisplayName.Replace("X-FFF", "FFF")) // Format FFF energies to match Rx formatting
                                                 .Distinct()
-                                                .OrderBy(x => x));
+                                                .OrderBy(x => add0(x)));
 
             // Energies do not match
             if (rx != planned)
@@ -33,7 +37,7 @@ namespace PlanCheck.Checks
             }
             else
             {
-                Result = String.Join(", ", plan.RTPrescription.Energies.OrderBy(x => x));
+                Result = rx;
             }
         }
     }

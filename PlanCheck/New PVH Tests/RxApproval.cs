@@ -23,14 +23,15 @@ namespace PlanCheck.Checks
             // Rx is approved
             if (rx.Status == "Approved")
             {
-                var user = rx.HistoryUserName;
+                var fullUser = rx.HistoryUserName;
+                var user = fullUser.Substring(fullUser.IndexOf('\\') + 1, fullUser.Length - fullUser.IndexOf('\\') - 1);
 
                 // Not approved by a department physician
                 if (!DepartmentInfo.GetRadOncUserNames(dep).Contains(user))
                 {
                     Result = "Failure";
                     DisplayColor = ResultColorChoices.Fail;
-                    ResultDetails = $"Prescription approved by non-physician: {rx.HistoryUserDisplayName} ({user})";
+                    ResultDetails = $"Prescription approved by non-physician: {rx.HistoryUserDisplayName} ({fullUser})";
                 }
                 // Is approved by a department physician
                 else

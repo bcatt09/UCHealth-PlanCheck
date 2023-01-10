@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Configuration;
 using System.Windows.Media.TextFormatting;
 using VMS.TPS.Common.Model.API;
+using VMS.TPS.Common.Model.Types;
 
 namespace PlanCheck.Checks
 {
@@ -15,13 +17,23 @@ namespace PlanCheck.Checks
         public override void RunTest(PlanSetup plan)
         {
             DisplayName = "Technique";
-            TestExplanation = "Displays the prescribed technique and makes sure the use of SRS technique beams matches";
+            TestExplanation = "Displays the prescribed technique and checks if the planned beams match\n" +
+                              "SRS - Looks for SRS technique\n" +
+                              "VMAT - Looks for VMAT MLC type\n" +
+                              "IMRT - Looks for DoseDynamic MLC type with > 25 control points\n" +
+                              "3D - Looks for Static MLC type or DoseDynamic MLC type with < 25 control points";
             DisplayColor = ResultColorChoices.Pass;
+
+            var srsSbrtTechniques = new List<string> { "SRS", "SBRT" };
+            var vmatTechniques = new List<string> { "VMAT" };
+            var imrtTechniques = new List<string> { "IMRT" };
+            var threeDTechniques = new List<string> { "2D", "3D", "AP/PA", "Laterals", "Obliques", "Tangents", "WedgedPair" };
 
             var tech = plan.RTPrescription.Technique;
 
+            #region SRS/SBRT
             // SRS/SBRT was prescribed
-            if (tech == "SRS" || tech == "SBRT")
+            if (srsSbrtTechniques.Contains(tech))
             {
                 var nonSrsBeams = plan.Beams
                                     .Where(x => !x.IsSetupField)
@@ -60,6 +72,136 @@ namespace PlanCheck.Checks
                     Result = tech;
                 }
             }
+            #endregion
+
+            #region VMAT
+            // VMAT was prescribed
+            if (vmatTechniques.Contains(tech))
+            {
+                var nonVmatBeams = plan.Beams
+                                    .Where(x => !x.IsSetupField)
+                                    .Where(x => x.MLCPlanType != MLCPlanType.VMAT)
+                                    .Select(x => $"{x.Id} ({x.Name}) - {x.MLCPlanType}");
+
+                // Non-VMAT beams used
+                if (nonVmatBeams.Any())
+                {
+                    Result = $"Prescibed technique is {tech}\nSome beams are not VMAT";
+                    DisplayColor = ResultColorChoices.Warn;
+                    ResultDetails = $"{String.Join("\n", nonVmatBeams)}";
+                }
+                else
+                {
+                    Result = tech;
+                }
+            }
+            // Non-VMAT was prescribed
+            else
+            {
+                var vmatBeams = plan.Beams
+                                .Where(x => !x.IsSetupField)
+                                .Where(x => x.MLCPlanType == MLCPlanType.VMAT)
+                                .Select(x => $"{x.Id} ({x.Name}) - {x.MLCPlanType}");
+
+                // VMAT beams used
+                if (vmatBeams.Any())
+                {
+                    Result = $"Prescibed technique is {tech}\nSome beams use SRS technique";
+                    DisplayColor = ResultColorChoices.Warn;
+                    ResultDetails = $"{String.Join("\n", vmatBeams)}";
+                }
+                else
+                {
+                    Result = tech;
+                }
+            }
+            #endregion
+
+            #region IMRT
+            // IMRT was prescribed
+            if (imrtTechniques.Contains(tech))
+            {
+                var nonImrtBeams = plan.Beams
+                                    .Where(x => !x.IsSetupField)
+                                    .Where(x => (x.MLCPlanType != MLCPlanType.DoseDynamic) || (x.MLCPlanType == MLCPlanType.DoseDynamic && x.ControlPoints.Count < 25))
+                                    .Select(x => $"{x.Id} ({x.Name}) - non-IMRT");
+
+                // Non-SRS beams used
+                if (nonImrtBeams.Any())
+                {
+                    Result = $"Prescibed technique is {tech}\nSome beams are not IMRT";
+                    DisplayColor = ResultColorChoices.Warn;
+                    ResultDetails = $"{String.Join("\n", nonImrtBeams)}";
+                }
+                else
+                {
+                    Result = tech;
+                }
+            }
+            // Non-IMRT was prescribed
+            else
+            {
+                var imrtBeams = plan.Beams
+                                    .Where(x => !x.IsSetupField)
+                                    .Where(x => x.MLCPlanType == MLCPlanType.DoseDynamic && x.ControlPoints.Count > 25)
+                                    .Select(x => $"{x.Id} ({x.Name}) - IMRT");
+
+                // IMRT beams used
+                if (imrtBeams.Any())
+                {
+                    Result = $"Prescibed technique is {tech}\nSome beams use IMRT technique";
+                    DisplayColor = ResultColorChoices.Warn;
+                    ResultDetails = $"{String.Join("\n", imrtBeams)}";
+                }
+                else
+                {
+                    Result = tech;
+                }
+            }
+            #endregion
+
+            #region Various 3D
+            // 3D was prescribed
+            if (threeDTechniques.Contains(tech))
+            {
+                var non3dBeams = plan.Beams
+                                    .Where(x => !x.IsSetupField)
+                                    .Where(x => (x.MLCPlanType != MLCPlanType.Static) || (x.MLCPlanType == MLCPlanType.DoseDynamic && x.ControlPoints.Count > 25))
+                                    .Select(x => $"{x.Id} ({x.Name}) - not 3D");
+
+                // Non-3D beams used
+                if (non3dBeams.Any())
+                {
+                    Result = $"Prescibed technique is {tech}\nSome beams are not 3D";
+                    DisplayColor = ResultColorChoices.Warn;
+                    ResultDetails = $"{String.Join("\n", non3dBeams)}";
+                }
+                else
+                {
+                    Result = tech;
+                }
+            }
+            // Non-3D was prescribed
+            else
+            {
+                var threeDBeams = plan.Beams
+                                    .Where(x => !x.IsSetupField)
+                                    .Where(x => (x.MLCPlanType == MLCPlanType.Static) || (x.MLCPlanType == MLCPlanType.DoseDynamic && x.ControlPoints.Count < 25))
+                                    .Select(x => $"{x.Id} ({x.Name}) - 3D");
+
+                // IMRT beams used
+                if (threeDBeams.Any())
+                {
+                    Result = $"Prescibed technique is {tech}\nSome beams use 3D technique";
+                    DisplayColor = ResultColorChoices.Warn;
+                    ResultDetails = $"{String.Join("\n", threeDBeams)}";
+                }
+                else
+                {
+                    Result = tech;
+                }
+            }
+            #endregion
         }
     }
 }
