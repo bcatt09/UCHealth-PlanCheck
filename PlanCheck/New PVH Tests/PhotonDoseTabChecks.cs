@@ -16,7 +16,7 @@ namespace PlanCheck.Checks
         public override void RunTest(PlanSetup plan)
         {
             DisplayName = "Dose Tab Checks";
-            TestExplanation = "Rx is associate with the plan\nDPV used as primmary reference point (and named appropriately)\nPlan normalization set to Plan Normalization Value";
+            TestExplanation = "Rx is associated with the plan\nDPV used as primmary reference point (and named appropriately)\nPlan normalization set to Plan Normalization Value";
             Result = "";
             ResultDetails = "";
 

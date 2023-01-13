@@ -20,7 +20,7 @@ namespace PlanCheck.Checks
 			Result = "Generated";
 			ResultDetails = "";
 			DisplayColor = ResultColorChoices.Pass;
-			TestExplanation = "Checks that DRRs are created and attached as a reference for all fields";
+			TestExplanation = "Checks that DRRs are created and attached as a reference image for all fields";
 
 			foreach (Beam field in plan.Beams)
 			{

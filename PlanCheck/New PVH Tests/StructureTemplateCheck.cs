@@ -16,7 +16,7 @@ namespace PlanCheck.Checks
         public override void RunTestStructureSet(StructureSet structureSet)
         {
             DisplayName = "Structure Template";
-            TestExplanation = "Checks that structures have been added (does not check for any specific template)";
+            TestExplanation = "Checks that more structures than just the Body have been added (does not check for any specific template)";
 
             if (structureSet.Structures.Count() > 1)
             {

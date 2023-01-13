@@ -90,8 +90,6 @@ namespace PlanCheck
             var plan = _context.PlanSetup;
             var ss = _context.StructureSet;
 
-            // MessageBox.Show($"Id: {plan.StructureSet.Image.Series.ImagingDeviceId}\nManufacturer: {plan.StructureSet.Image.Series.ImagingDeviceManufacturer}\nSerial Number: {plan.StructureSet.Image.Series.ImagingDeviceSerialNo}\nModel: {plan.StructureSet.Image.Series.ImagingDeviceModel}", plan.Id);
-
             // CT Import Checklist
             CTImportChecks = new ObservableCollection<PlanCheckBase>
             {

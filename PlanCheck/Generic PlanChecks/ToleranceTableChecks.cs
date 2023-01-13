@@ -18,7 +18,11 @@ namespace PlanCheck.Checks
 			DisplayName = "Tolerance Table";
 			Result = "";
 			ResultDetails = "";
-			TestExplanation = "Checks that all fields use the correct tolerance table based on department standards";
+			TestExplanation = "Checks that all fields use the correct tolerance table based on department standards\n" +
+							  "PVH SRS for anything with a couch kick\n" +
+							  "PVH Breast for all breast/chestwall plan IDs or anything with IMNs contoured\n" +
+							  "PHV Electrons for any plans using electrons\n" +
+							  "PVH IGRT for all others";
 
 			#region PVH
 			// PVH SRS for plans with 1mm slices
@@ -30,8 +34,8 @@ namespace PlanCheck.Checks
 				string tolTable;
 				string badFields = "";
 
-				// Plan has 1 mm slices (likely a brain SRS)
-				if (plan.StructureSet.Image.ZRes == 1)
+				// Plan has couch kicks (likely a brain SRS or wants to use that table)
+				if (plan.Beams.Where(x => x.ControlPoints.First().PatientSupportAngle != 0).Any())
 					tolTable = "PVH SRS";
 				// Breast plan
 				else if (plan.Id.ToLower().Contains("breast") 
@@ -42,7 +46,8 @@ namespace PlanCheck.Checks
                       || plan.Id.ToLower().Contains("chstwal")
                       || plan.Id.ToLower().Contains("scf")
                       || plan.Id.ToLower().Contains("scv")
-                      || plan.Id.ToLower().Contains("pab"))
+                      || plan.Id.ToLower().Contains("pab")
+					  || plan.StructureSet.Structures.Any(x => x.Id.ToUpper().Contains("IMN")))
 					tolTable = "PVH Breast";
 				// Electron plan
 				else if (plan.Beams.Where(x => !x.IsSetupField).Where(x => x.EnergyModeDisplayName.Contains("E", StringComparison.CurrentCultureIgnoreCase)).Count() > 0)

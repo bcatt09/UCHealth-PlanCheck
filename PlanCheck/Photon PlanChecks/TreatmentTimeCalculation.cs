@@ -10,7 +10,7 @@ namespace PlanCheck.Checks
 {
     class TreatmentTimeCalculation : PlanCheckPhoton
     {
-        protected override List<string> MachineExemptions => DepartmentInfo.LinearAccelerators;
+        protected override List<string> MachineExemptions => new List<string> { };
 
         public TreatmentTimeCalculation(PlanSetup plan) : base(plan) { }
 

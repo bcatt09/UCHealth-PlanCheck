@@ -19,7 +19,9 @@ namespace PlanCheck.Checks
 		{
 			DisplayName = "Field Names";
 			ResultDetails = "";
-			TestExplanation = "Checks that field names follow OneAria naming conventions";
+			TestExplanation = "Checks that field names follow department naming conventions\n" +
+                              "VMAT: StartAngle-StopAngle" +
+                              "3D: No checks yet";
 
 			foreach (Beam field in plan.Beams)
 			{
@@ -35,7 +37,9 @@ namespace PlanCheck.Checks
                         if (!field.Name.Contains($"{Math.Round(field.ControlPoints.FirstOrDefault().GantryAngle)}-{Math.Round(field.ControlPoints.LastOrDefault().GantryAngle)}"))
                         {
                             Result = "Warning";
-                            ResultDetails += $"Field name mismatch  —  Field: {field.Id} - {field.Name}\nGantry Start: {field.ControlPoints.FirstOrDefault().GantryAngle}\nGantry Stop: {field.ControlPoints.LastOrDefault().GantryAngle}\n";
+                            ResultDetails += $"Field name mismatch  —  Field: {field.Id} - {field.Name}\n" +
+                                             $"\tGantry Start: {field.ControlPoints.FirstOrDefault().GantryAngle}\n" +
+                                             $"\tGantry Stop: {field.ControlPoints.LastOrDefault().GantryAngle}\n";
                             DisplayColor = ResultColorChoices.Warn;
                         }
                     }
@@ -48,7 +52,8 @@ namespace PlanCheck.Checks
                         if (!Regex.IsMatch(field.Name, fieldNamePedestal))
                         {
                             Result = "Warning";
-                            ResultDetails += $"Field name mismatch  —  Field: {field.Id} - {field.Name}\nPedestal Angle: {field.PatientSupportAngleToUser(field.ControlPoints.First().PatientSupportAngle)}\n";
+                            ResultDetails += $"Field name mismatch  —  Field: {field.Id} - {field.Name}\n" +
+                                             $"\tPedestal Angle: {field.PatientSupportAngleToUser(field.ControlPoints.First().PatientSupportAngle)}\n";
                             DisplayColor = ResultColorChoices.Warn;
                         }
                     }

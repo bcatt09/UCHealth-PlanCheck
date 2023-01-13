@@ -18,7 +18,9 @@ namespace PlanCheck.Checks
         public override void RunTestStructureSet(StructureSet structureSet)
 		{
 			DisplayName = "Couch Structures";
-			TestExplanation = "Checks that the correct couch structure based on department standards";
+			TestExplanation = "Checks that the correct couch structure based on department standards\n" +
+                              "Couch should have \"Exact IGRT Couch, medium\" as the name or commment\n" +
+                              "It guesses at whether the couch should be inserted based on the existence of brain and lung structures";
 
 			IEnumerable<Structure> couchStructures = null;
 			string couchName = "";

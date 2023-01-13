@@ -17,7 +17,7 @@ namespace PlanCheck.Checks
         public override void RunTest(PlanSetup plan)
         {
             DisplayName = "No Unapproved Plans";
-            TestExplanation = "Checks that no plans have been left unapproved";
+            TestExplanation = "Checks that no plans have been left unapproved in the treatment course";
             
             var unapproved = plan.Course.PlanSetups.Where(x => x.ApprovalStatus == PlanSetupApprovalStatus.UnApproved);
 

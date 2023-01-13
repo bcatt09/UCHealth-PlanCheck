@@ -15,7 +15,7 @@ namespace PlanCheck.Checks
         {
             DisplayName = "Dose";
             DisplayColor = ResultColorChoices.Pass;
-            TestExplanation = "Checks the total dose and dose per fraction of the plan against the presciption";
+            TestExplanation = "Checks the total dose and dose per fraction of the plan against the prescription";
             ResultDetails = "";
 
             var rx = plan.RTPrescription;

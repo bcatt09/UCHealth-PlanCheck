@@ -18,7 +18,7 @@ namespace PlanCheck.Checks
         public override void RunTest(PlanSetup plan)
 		{
 			DisplayName = "Patient Shifts";
-			TestExplanation = "Displays shifts from Marker Structure or User Origin";
+			TestExplanation = "Displays shifts from User Origin or Marker Structure";
 			Result = "";
 			ResultDetails = "";
 			DisplayColor = ResultColorChoices.Pass;
@@ -60,44 +60,81 @@ namespace PlanCheck.Checks
 			{
 				// Set shift verbiage based on department
 				string pat, sup, inf, ant, post;
-				//if (Department == Department.NOR)
-				//{
-				//	pat = "Patient";
-    //                sup = "superior";
-    //                inf = "inferior";
-    //                ant = "anterior";
-    //                post = "posterior";
-				//}
-				//else
-				//{
-					pat = "Table";
-					sup = "out";
-					inf = "in";
-					ant = "down";
-					post = "up";
-				//}
 
-			// x-axis
-			if (shift.x > 0)
-					ResultDetails += $"{pat} left: {shift.x:0.0} cm\n";
-				else if (shift.x < 0)
-					ResultDetails += $"{pat} right: {-shift.x:0.0} cm\n";
+				// pat = "Patient";
+				// sup = "superior";
+				// inf = "inferior";
+				// ant = "anterior";
+				// post = "posterior";
 
-				// z-axis
-				if (shift.z > 0)
-					ResultDetails += $"{pat} {sup}: {shift.z:0.0} cm\n";
-				else if (shift.z < 0)
-					ResultDetails += $"{pat} {inf}: {-shift.z:0.0} cm\n";
+				pat = "Table";
+				sup = "out";
+				inf = "in";
+				ant = "down";
+				post = "up";
 
-				// y-axis
-				if (shift.y > 0)
-					ResultDetails += $"{pat} {post}: {shift.y:0.0} cm\n";
-				else if (shift.y < 0)
-					ResultDetails += $"{pat}  {ant}: {-shift.y:0.0} cm\n";
+				// X - Axis
+				if (plan.TreatmentOrientation == PatientOrientation.HeadFirstSupine ||
+					plan.TreatmentOrientation == PatientOrientation.FeetFirstProne)
+                {
+                    if (shift.x > 0)
+                        ResultDetails += $"{pat} left: {shift.x:0.0} cm\n";
+                    else if (shift.x < 0)
+                        ResultDetails += $"{pat} right: {-shift.x:0.0} cm\n";
+                }
+                else if (plan.TreatmentOrientation == PatientOrientation.FeetFirstSupine ||
+						 plan.TreatmentOrientation == PatientOrientation.HeadFirstProne)
+                {
+                    if (shift.x > 0)
+                        ResultDetails += $"{pat} right: {shift.x:0.0} cm\n";
+                    else if (shift.x < 0)
+                        ResultDetails += $"{pat} left: {-shift.x:0.0} cm\n";
+                }
+				else
+				{
+					ResultDetails = "That's a crazy patient orientation you've got there, you're on your own";
+					return;
+				}
+
+                // Y - Axis
+                if (plan.TreatmentOrientation == PatientOrientation.HeadFirstSupine ||
+                    plan.TreatmentOrientation == PatientOrientation.FeetFirstSupine)
+                {
+                    if (shift.y > 0)
+                        ResultDetails += $"{pat} {post}: {shift.y:0.0} cm\n";
+                    else if (shift.y < 0)
+                        ResultDetails += $"{pat}  {ant}: {-shift.y:0.0} cm\n";
+                }
+                else if (plan.TreatmentOrientation == PatientOrientation.HeadFirstProne ||
+                    plan.TreatmentOrientation == PatientOrientation.FeetFirstProne)
+                {
+                    if (shift.y > 0)
+                        ResultDetails += $"{pat} {ant}: {shift.y:0.0} cm\n";
+                    else if (shift.y < 0)
+                        ResultDetails += $"{pat}  {post}: {-shift.y:0.0} cm\n";
+                }
+
+                // Z - Axis
+                if (plan.TreatmentOrientation == PatientOrientation.HeadFirstSupine ||
+					plan.TreatmentOrientation == PatientOrientation.HeadFirstProne)
+				{
+					if (shift.z > 0)
+						ResultDetails += $"{pat} {sup}: {shift.z:0.0} cm\n";
+					else if (shift.z < 0)
+						ResultDetails += $"{pat} {inf}: {-shift.z:0.0} cm\n";
+                }
+                else if (plan.TreatmentOrientation == PatientOrientation.FeetFirstSupine ||
+                    plan.TreatmentOrientation == PatientOrientation.FeetFirstProne)
+                {
+                    if (shift.z > 0)
+                        ResultDetails += $"{pat} {inf}: {shift.z:0.0} cm\n";
+                    else if (shift.z < 0)
+                        ResultDetails += $"{pat} {sup}: {-shift.z:0.0} cm\n";
+                }
 
 
-				// Remove negatives
-				ResultDetails.Replace("-", string.Empty);
+                // Remove negatives
+                ResultDetails.Replace("-", string.Empty);
 
 				ResultDetails = $"Shifts from {shiftFrom}\n" + ResultDetails;
 			}

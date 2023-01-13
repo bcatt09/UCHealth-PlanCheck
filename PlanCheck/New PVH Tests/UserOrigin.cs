@@ -16,7 +16,8 @@ namespace PlanCheck.Checks
         public override void RunTestStructureSet(StructureSet structureSet)
         {
             DisplayName = "User Origin Set";
-            TestExplanation = "Checks that the User Origin has been moved (doesn't check that it's actually at BBs)";
+            TestExplanation = "Checks that the User Origin has been moved\n" +
+                              "It doesn't check that it's actually at BBs, just that it isn't at the DICOM origin coordinates";
 
             var userOrigin = structureSet.Image.UserOrigin;
             var dicomOrigin = structureSet.Image.Origin;

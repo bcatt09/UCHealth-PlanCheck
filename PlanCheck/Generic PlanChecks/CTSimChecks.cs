@@ -17,7 +17,8 @@ namespace PlanCheck.Checks
         {
 			DisplayName = "CT Sim";
 			ResultDetails = "";
-			TestExplanation = "Checks that the correct CT is chosen for the image series based on what treatment unit is used for planning\nWarning: This will not correctly account for patients simmed at one facility and treated at another";
+			TestExplanation = "Checks that the correct CT is chosen for the image series based on what treatment unit is used for planning\n" +
+							  "Warning: This will not correctly account for patients simmed at one facility and treated at another";
 
 			string ct = plan.StructureSet.Image.Series.ImagingDeviceId;
 

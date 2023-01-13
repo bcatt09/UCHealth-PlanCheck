@@ -17,7 +17,7 @@ namespace PlanCheck.Checks
         {
 			DisplayName = "Couch Values";
 			ResultDetails = "";
-			TestExplanation = "Checks that couch values are entered for each field based on department standards";
+			TestExplanation = "Checks that couch position values are entered for each field based on department standards";
 
             #region PVH
             // Vert = -20
@@ -28,18 +28,20 @@ namespace PlanCheck.Checks
 				// Check each field to see if couch values are NaN
 				foreach (Beam field in plan.Beams)
 				{
-					if (field.ControlPoints.FirstOrDefault().TableTopLateralPosition != 0 || field.ControlPoints.FirstOrDefault().TableTopLongitudinalPosition != 900 || field.ControlPoints.FirstOrDefault().TableTopVerticalPosition != -200)
+					if (field.ControlPoints.FirstOrDefault().TableTopLateralPosition != 0 || 
+						field.ControlPoints.FirstOrDefault().TableTopLongitudinalPosition != 900 || 
+						field.ControlPoints.FirstOrDefault().TableTopVerticalPosition != -200)
 					{
 						Result = "Warning";
 						ResultDetails += "Couch value incorrect for " + field.Id.ToString() + ": ";
 						DisplayColor = ResultColorChoices.Warn;
 
-						if (field.ControlPoints.First().TableTopLateralPosition != 0)
-							ResultDetails += "lat, ";
-						if (field.ControlPoints.First().TableTopLongitudinalPosition != 1000)
-							ResultDetails += "long, ";
-						if (field.ControlPoints.First().TableTopVerticalPosition != 0)
-							ResultDetails += "vert, ";
+                        if (field.ControlPoints.First().TableTopVerticalPosition != 0)
+                            ResultDetails += $"Vert ({plan.Beams.First().ControlPoints.First().TableTopVerticalPosition / 10.0:0.00} cm), ";
+                        if (field.ControlPoints.First().TableTopLongitudinalPosition != 1000)
+                            ResultDetails += $"Long ({plan.Beams.First().ControlPoints.First().TableTopLongitudinalPosition / 10.0:0.00} cm), ";
+                        if (field.ControlPoints.First().TableTopLateralPosition != 0)
+							ResultDetails += $"Lat ({plan.Beams.First().ControlPoints.First().TableTopLateralPosition / 10.0:0.00} cm), ";
 
 						ResultDetails = ResultDetails.TrimEnd(' ');
 						ResultDetails = ResultDetails.TrimEnd(',');
@@ -64,5 +66,7 @@ namespace PlanCheck.Checks
             else
                 TestNotImplemented();
 		}
+
+		private 
 	}
 }

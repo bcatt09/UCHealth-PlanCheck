@@ -17,11 +17,11 @@ namespace PlanCheck.Checks
         public override void RunTest(PlanSetup plan)
         {
             DisplayName = "Density Overrides";
-            TestExplanation = "Lists all density overrides";
+            TestExplanation = "Lists all non-couch density overrides";
             Result = "";
             DisplayColor = ResultColorChoices.Pass;
 
-            foreach (var s in plan.StructureSet.Structures)
+            foreach (var s in plan.StructureSet.Structures.Where(x => x.DicomType != "SUPPORT"))
             {
                 if (s.GetAssignedHU(out double HU))
                 {

@@ -22,7 +22,6 @@ namespace PlanCheck.Checks
             DisplayName = "Calculation Model Tab";
             Result = "";
             ResultDetails = "";
-            TestExplanation = "";
             DisplayColor = ResultColorChoices.Pass;
 
             bool IMRT = false;
@@ -103,6 +102,13 @@ namespace PlanCheck.Checks
                 TestExplanation += $"\n\nVMAT Optimization: {plan.GetCalculationModel(CalculationType.PhotonVMATOptimization)}\n";
                 TestExplanation += String.Join("\n", plan.GetCalculationOptions(plan.GetCalculationModel(CalculationType.PhotonVMATOptimization)).Select(x => $"{AddSpaces(x.Key)}: {x.Value}"));
             }
+
+
+            TestExplanation += "\n\nAlso checks that:\n" +
+                               "Field Normalization Type = 100% to isocenter\n" +
+                               "Heterogeneity Correctionsn = On\n" +
+                               "Calculation Model = AAA_15605\n" +
+                               "Optimization Model = PO_15605\n";
         }
     }
 }

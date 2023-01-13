@@ -16,7 +16,9 @@ namespace PlanCheck.Checks
         public override void RunTest(PlanSetup plan)
         {
             DisplayName = "DPV Checks";
-            TestExplanation = "Checks that the primary reference point ID contains \"DPV\"\nChecks total, daily, and session limits against the Rx\nChecks that the DPV volume is the same as the target volume";
+            TestExplanation = "Checks that the primary reference point ID contains \"DPV\"\n" +
+                              "Checks total, daily, and session limits against the Rx\n" +
+                              "Checks that the DPV volume is the same as the target volume";
             Result = "";
 
             var refPoint = plan.PrimaryReferencePoint;

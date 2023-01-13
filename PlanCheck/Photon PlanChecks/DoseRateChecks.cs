@@ -18,7 +18,7 @@ namespace PlanCheck.Checks
         {
 			DisplayName = "Dose Rate";
 			ResultDetails = "";
-			TestExplanation = "Checks that all dose rates are set to maximum allowed per department standards";
+			TestExplanation = "Checks that all dose rates are set to maximum";
 
 			// 4X        - 250
 			// Flattened - 600

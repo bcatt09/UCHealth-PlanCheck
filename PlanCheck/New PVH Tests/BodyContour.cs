@@ -15,7 +15,7 @@ namespace PlanCheck.Checks
         public override void RunTestStructureSet(StructureSet structureSet)
         {
             DisplayName = "Body Contour";
-            TestExplanation = "Checks that the Body structure exists";
+            TestExplanation = "Checks that the Body structure exists\nBody is a structure with DICOM type Body or External";
 
             if (structureSet.Structures.Count(s => s.DicomType.ToUpper() == "BODY" || s.DicomType.ToUpper() == "EXTERNAL") > 0)
             {

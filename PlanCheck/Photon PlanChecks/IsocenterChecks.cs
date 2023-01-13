@@ -18,7 +18,8 @@ namespace PlanCheck.Checks
         {
 			DisplayName = "Isocenter";
 			ResultDetails = "";
-			TestExplanation = "Checks that only a single isocenter exists in the plan\nAlso suggests using G180E if the isocenter is shifted >2cm to patient's right";
+			TestExplanation = "Checks that only a single isocenter exists in the plan\n" +
+							  "Also suggests using G180E if the isocenter is shifted >2cm to patient's right";
 
 			int isocenters = 1;
 

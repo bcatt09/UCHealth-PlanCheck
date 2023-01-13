@@ -19,7 +19,7 @@ namespace PlanCheck.Checks
         public override void RunTest(PlanSetup plan)
         {
             DisplayName = "Prescription";
-            TestExplanation = "Displays plan dose information from Eclipse and checks it versus the prescription in Aria";
+            TestExplanation = "Older format\n\nDisplays plan dose information from Eclipse and checks it versus the prescription in Aria";
 
             // Abort test quickly if there is no attached prescription
 

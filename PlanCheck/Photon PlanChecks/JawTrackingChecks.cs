@@ -20,7 +20,8 @@ namespace PlanCheck.Checks
 
 			DisplayName = "Jaw Tracking";
 			Result = "";
-			TestExplanation = "Checks to see if jaw tracking is enabled for IMRT/VMAT plans";
+			TestExplanation = "Checks to see if jaw tracking is enabled for IMRT/VMAT plans\n" +
+							  "Doesn't do any additional checks for jaw tracking during small SRS fields";
 
             // Use jaw tracking
             if (Department == Department.PVH)

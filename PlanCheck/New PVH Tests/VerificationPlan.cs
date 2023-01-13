@@ -22,8 +22,6 @@ namespace PlanCheck.Checks
             DisplayColor = ResultColorChoices.Pass;
             ResultDetails = "";
 
-            var startTime = DateTime.Now;
-
             var verificationPlans = plan.Course.Patient.Courses.SelectMany(x => x.PlanSetups).Where(x => x.VerifiedPlan == plan);
 
             // Check if one was made for VMAT/IMRT plans
@@ -49,10 +47,6 @@ namespace PlanCheck.Checks
             }
 
             ResultDetails = ResultDetails.TrimEnd('\n');
-
-            var endTime = DateTime.Now;
-
-            ResultDetails += $"\nTest took {Math.Round((endTime - startTime).TotalSeconds, 1)} seconds\n(I can delete this if it's too slow)";
         }
     }
 }

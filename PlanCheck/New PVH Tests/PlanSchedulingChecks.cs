@@ -16,7 +16,7 @@ namespace PlanCheck.Checks
         public override void RunTest(PlanSetup plan)
         {
             DisplayName = "Plan Scheduling Checks";
-            TestExplanation = "Correct number of fractions scheduled";
+            TestExplanation = "Checks that the planned number of fractions are scheduled ";
             Result = "";
             DisplayColor = ResultColorChoices.Pass;
 
