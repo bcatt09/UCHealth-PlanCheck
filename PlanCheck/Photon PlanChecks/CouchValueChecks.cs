@@ -66,7 +66,5 @@ namespace PlanCheck.Checks
             else
                 TestNotImplemented();
 		}
-
-		private 
 	}
 }

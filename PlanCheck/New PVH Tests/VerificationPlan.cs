@@ -34,10 +34,15 @@ namespace PlanCheck.Checks
                     DisplayColor = ResultColorChoices.Fail;
                 }
             }
-            else
+            else if (verificationPlans.Any())
             {
                 Result = "Was a verification plan necessary?";
+             
                 DisplayColor = ResultColorChoices.Warn;
+            }
+            else
+            {
+                Result = "N/A";
             }
 
             // Display the created verification plans
