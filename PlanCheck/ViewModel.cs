@@ -14,6 +14,7 @@ using NLog.Fluent;
 using System.Reflection;
 using System.IO;
 using System.ServiceModel.Configuration;
+using PVH_Log;
 
 namespace PlanCheck
 {
@@ -55,7 +56,7 @@ namespace PlanCheck
         private string _slices;                                                     // Number of CT slices
         public string Slices { get { return _slices; } set { _slices = value; OnPropertyChanged("Slices"); } }
 
-        private static readonly Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly PVH_Logger logger = PVH_Logger.Logger;
 
         public ViewModel(ScriptContext context)
         {
@@ -75,13 +76,11 @@ namespace PlanCheck
             PlanID = context.PlanSetup?.Id;
             Slices = context.Image.ZSize.ToString();
 
-            //Log.Initialize(context);
+            logger.Initialize("PVH-PlanCheck", context);
 
             RunPlanChecks();
 
-            //logger.Info("");
-
-            //LogManager.Shutdown();
+            logger.Log();
         }
 
         // Run all tests

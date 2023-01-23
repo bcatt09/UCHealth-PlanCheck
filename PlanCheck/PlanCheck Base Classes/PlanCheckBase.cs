@@ -1,4 +1,4 @@
-﻿using NLog;
+﻿using PVH_Log;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -88,7 +88,7 @@ namespace PlanCheck.Checks
         /// </summary>
         public bool MachineExempt { get; private set; }
 
-        protected static readonly Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        protected static readonly PVH_Logger logger = PVH_Logger.Logger;
 
         public PlanCheckBase(PlanSetup plan)
         {
@@ -179,7 +179,7 @@ namespace PlanCheck.Checks
         /// </summary>
         protected void TestCouldNotComplete(string message)
         {
-            //logger.Error($"{DisplayName} - Could not complete");
+            logger.Log($"{DisplayName} - Could not complete", Severity.Error);
 
             ResultDetails = message;
             TestCouldNotComplete();
@@ -190,7 +190,7 @@ namespace PlanCheck.Checks
         /// </summary>
         protected void TestCouldNotComplete(Exception e)
         {
-            //logger.Error(e, $"{DisplayName} - {e.GetType()}");
+            logger.LogError(e);
 
             TestCouldNotComplete();
         }
@@ -200,7 +200,7 @@ namespace PlanCheck.Checks
         /// </summary>
         protected void TestCouldNotComplete(Exception e, string message)
         {
-            //logger.Error(e, message);
+            logger.LogError(e);
 
             ResultDetails = message;
             TestCouldNotComplete();
