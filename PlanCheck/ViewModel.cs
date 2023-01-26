@@ -76,7 +76,7 @@ namespace PlanCheck
             PlanID = context.PlanSetup?.Id;
             Slices = context.Image.ZSize.ToString();
 
-            logger.Initialize("PVH-PlanCheck", context);
+            logger.Initialize("PVH_PlanCheck", context);
 
             RunPlanChecks();
 
@@ -111,13 +111,16 @@ namespace PlanCheck
                 new DoseGrid(plan),
                 new BolusChecks(plan),
                 new DPVChecks(plan),
+
+
                 new HotspotChecks(plan),
                 new DoseRateChecks(plan),
                 new CTSimChecks(plan),
                 new OrientationChecks(plan),
                 new IsocenterChecks(plan),
                 new MLCChecks(plan),
-                new JawTrackingChecks(plan)
+                new JawTrackingChecks(plan),
+                new TargetChecks(plan)
             };
 
             TreatmentPrepDosiChecks = new ObservableCollection<PlanCheckBase>
@@ -144,8 +147,7 @@ namespace PlanCheck
                 new RxEnergy(plan),
                 // Frequency (can't do)
                 new RxComments(plan),
-                new RxApproval(plan),
-                new PrecriptionChecks(plan)
+                new RxApproval(plan)
             };
 
             PhotonChecks = new ObservableCollection<PlanCheckBase>
@@ -179,32 +181,12 @@ namespace PlanCheck
 
             PlanChecks = new ObservableCollection<PlanCheckBase>
             {
-                // Run all plan checks
+                // Other misc checks (maybe add them in other tabs?)
+                new PrecriptionChecks(plan),
+                new UseGatedChecks(plan),
+                new TreatmentTimeCalculation(plan),
+                new CalcParametersChecks(plan)
             };
-
-            PlanChecks.Add(new MachineChecks(_context.PlanSetup));
-            PlanChecks.Add(new DoseRateChecks(_context.PlanSetup));
-            PlanChecks.Add(new CTSimChecks(_context.PlanSetup));
-            PlanChecks.Add(new OrientationChecks(_context.PlanSetup));
-            PlanChecks.Add(new PrecriptionChecks(_context.PlanSetup));
-            PlanChecks.Add(new TargetChecks(_context.PlanSetup));
-            PlanChecks.Add(new HotspotChecks(_context.PlanSetup));
-            PlanChecks.Add(new PlanApprovalChecks(_context.PlanSetup));
-            PlanChecks.Add(new IsocenterChecks(_context.PlanSetup));
-            PlanChecks.Add(new FieldNameChecks(_context.PlanSetup));
-            PlanChecks.Add(new JawTrackingChecks(_context.PlanSetup));
-            PlanChecks.Add(new CouchStructuresChecks(_context.StructureSet));
-            PlanChecks.Add(new CouchValueChecks(_context.PlanSetup));
-            PlanChecks.Add(new Shifts(_context.PlanSetup));
-            PlanChecks.Add(new ToleranceTableChecks(_context.PlanSetup));
-            PlanChecks.Add(new BolusChecks(_context.PlanSetup));
-            PlanChecks.Add(new DRRChecks(_context.PlanSetup));
-            PlanChecks.Add(new UseGatedChecks(_context.PlanSetup));
-            PlanChecks.Add(new MLCChecks(_context.PlanSetup));
-            PlanChecks.Add(new TreatmentTimeCalculation(_context.PlanSetup));
-            PlanChecks.Add(new NamingConventionChecks(_context.PlanSetup));
-            PlanChecks.Add(new CalcParametersChecks(_context.PlanSetup));
-
 
             // Remove any plan checks that were not run
             foreach (var p in PlanChecks.Where(x => x.MachineExempt).ToList())

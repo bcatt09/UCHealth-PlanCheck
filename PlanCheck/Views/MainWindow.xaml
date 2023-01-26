@@ -22,7 +22,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.FlatButton.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/UCHealthThemes;component/UCHealth.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/PVH_Themes;component/UCHealth.Light.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -561,7 +561,7 @@
                     </DataGrid.RowDetailsTemplate>
                 </DataGrid>
             </TabItem>
-            <TabItem Header="Old" mah:HeaderedControlHelper.HeaderFontSize="14">
+            <TabItem Header="Other Misc" mah:HeaderedControlHelper.HeaderFontSize="14">
                 <DataGrid Name="OldCheckGrid" 
                       ItemsSource="{Binding PlanChecks}" 
                       SelectedItem="{Binding SelectedRows}" 
