@@ -27,26 +27,26 @@ namespace PlanCheck
 		{
 			InitializeComponent();
 
-            CTImportGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.5;
-            CTImportGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.5;
+            CTImportGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.7;
+            CTImportGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.4;
 
-            PreMDGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.5;
-            PreMDGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.5;
+            PreMDGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.7;
+            PreMDGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.4;
 
-            TreatmentPrepDosiGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.5;
-            TreatmentPrepDosiGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.5;
+            TreatmentPrepDosiGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.7;
+            TreatmentPrepDosiGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.4;
 
-            RxChecksGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.5;
-            RxChecksGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.5;
+            RxChecksGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.7;
+            RxChecksGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.4;
 
-            PhotonPlanGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.5;
-            PhotonPlanGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.5;
+            PhotonPlanGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.7;
+            PhotonPlanGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.4;
 
-            TreatmentPrepPhysicsGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.5;
-            TreatmentPrepPhysicsGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.5;
+            TreatmentPrepPhysicsGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.7;
+            TreatmentPrepPhysicsGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.4;
 
-            OldCheckGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.5;
-            OldCheckGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.5;
+            OldCheckGrid.MaxHeight = SystemParameters.WorkArea.Height * 0.7;
+            OldCheckGrid.MaxWidth = SystemParameters.WorkArea.Width * 0.4;
         }
 
 		// toggle the row details when clicking on the same row

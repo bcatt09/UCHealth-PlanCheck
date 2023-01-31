@@ -1,0 +1,128 @@
+﻿<DataGrid x:Class="PlanCheck.PlanCheckDataGrid"
+          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+          xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+          xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+          xmlns:local="clr-namespace:PlanCheck"
+          mc:Ignorable="d" 
+          d:DesignHeight="450" d:DesignWidth="400"
+    
+          SelectedItem="{Binding SelectedRows}" 
+          VerticalScrollBarVisibility="Auto" 
+          ScrollViewer.CanContentScroll="False" 
+          AutoGenerateColumns="False" 
+          IsReadOnly="True" 
+          CanUserSortColumns="False" CanUserReorderColumns="False" 
+          HorizontalScrollBarVisibility="Disabled">
+
+    <DataGrid.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.FlatButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/PVH_Themes;component/UCHealth.Light.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Style 
+                TargetType="{x:Type DataGridColumnHeader}" 
+                BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}"
+                x:Key="PlanCheckDataGridColumnHeader">
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{StaticResource UCHealth.Primary.UCHealthRed}"/>
+                        <Setter Property="Foreground" Value="{StaticResource UCHealth.Secondary.SoftWhite}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style 
+                TargetType="{x:Type DataGridRow}" 
+                BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+                <Setter Property="Height" Value="auto"/>
+            </Style>
+        </ResourceDictionary>
+    </DataGrid.Resources>
+    
+    <DataGrid.Style>
+        <Style TargetType="{x:Type DataGrid}" 
+               BasedOn="{StaticResource MahApps.Styles.DataGrid}"/>
+    </DataGrid.Style>
+
+    <DataGrid.Columns>
+        <DataGridTemplateColumn Header="Test" Width="auto" MinWidth="150">
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding DisplayName}" TextAlignment="Center" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,5,5,5"/>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+            <DataGridTemplateColumn.HeaderStyle>
+                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource PlanCheckDataGridColumnHeader}">
+                    <Setter Property="HorizontalContentAlignment" Value="Right"/>
+                </Style>
+            </DataGridTemplateColumn.HeaderStyle>
+        </DataGridTemplateColumn>
+        <DataGridTemplateColumn Header="Result" Width="auto" MinWidth="350">
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <StackPanel Height="auto" Background="Transparent" VerticalAlignment="Center">
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type StackPanel}},Path=IsMouseOver}" Value="True">
+                                        <Setter Property="TextBlock.Foreground" Value="{StaticResource MahApps.Brushes.ThemeForeground}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                        <TextBlock Text="{Binding Result}" Background="Transparent" TextAlignment="Center" Height="auto" VerticalAlignment="Stretch" Margin="5,0,5,0">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource MahApps.Styles.TextBlock.DataGrid}">
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock Text="{Binding ResultDetails}" Background="Transparent" TextAlignment="Center" Height="auto" VerticalAlignment="Stretch" Margin="5,0,5,0">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource MahApps.Styles.TextBlock.DataGrid}">
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+            <DataGridTemplateColumn.CellStyle>
+                <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
+                    <Setter Property="Background" Value="{Binding ResultColor}"/>
+                    <Setter Property="Foreground" Value="{StaticResource UCHealth.Secondary.Graphite}"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource UCHealth.Secondary.Graphite}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource UCHealth.Secondary.Graphite}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGridTemplateColumn.CellStyle>
+            <DataGridTemplateColumn.HeaderStyle>
+                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource PlanCheckDataGridColumnHeader}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+            </DataGridTemplateColumn.HeaderStyle>
+        </DataGridTemplateColumn>
+    </DataGrid.Columns>
+    <DataGrid.RowDetailsTemplate>
+        <DataTemplate>
+            <TextBlock Text="{Binding TestExplanation}" TextAlignment="Center" MaxWidth="500" TextWrapping="Wrap"/>
+        </DataTemplate>
+    </DataGrid.RowDetailsTemplate>
+</DataGrid>

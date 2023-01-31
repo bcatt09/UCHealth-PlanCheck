@@ -179,9 +179,16 @@
     <Compile Include="Proton PlanChecks\ProtonFieldNameChecks.cs" />
     <Compile Include="Proton PlanChecks\ProtonSnoutChecks.cs" />
     <Compile Include="Proton PlanChecks\ProtonSpotPositionChecks.cs" />
+    <Compile Include="Resources\PlanCheckDataGrid.xaml.cs">
+      <DependentUpon>PlanCheckDataGrid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Script.cs" />
     <Compile Include="ViewModel.cs" />
+    <Page Include="Resources\PlanCheckDataGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

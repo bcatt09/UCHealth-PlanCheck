@@ -19,7 +19,7 @@ namespace PlanCheck.Checks
 			Result = "";
 			ResultDetails = "";
 			TestExplanation = "Checks that all fields use the correct tolerance table based on department standards\n" +
-							  "PVH SRS for anything with a couch kick\n" +
+							  "PVH SRS if the CT has 1mm slices\n" +
 							  "PVH Breast for all breast/chestwall plan IDs or anything with IMNs contoured\n" +
 							  "PHV Electrons for any plans using electrons\n" +
 							  "PVH IGRT for all others";
@@ -34,9 +34,9 @@ namespace PlanCheck.Checks
 				string tolTable;
 				string badFields = "";
 
-				// Plan has couch kicks (likely a brain SRS or wants to use that table)
-				if (plan.Beams.Where(x => x.ControlPoints.First().PatientSupportAngle != 0).Any())
-					tolTable = "PVH SRS";
+                // Plan has 1 mm slices (likely a brain SRS)
+                if (plan.StructureSet.Image.ZRes == 1)
+                    tolTable = "PVH SRS";
 				// Breast plan
 				else if (plan.Id.ToLower().Contains("breast") 
 					  || plan.Id.ToLower().Contains("brst") 
