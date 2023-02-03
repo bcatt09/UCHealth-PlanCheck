@@ -33,28 +33,10 @@ namespace PlanCheck.Checks
         /// Color of the result background used in xaml for display (must be a color from System.Drawing.Color)<br/>
         /// THIS IS USED IN XAML ONLY, YOU MUST SET DisplayColor TO CHANGE THIS<br/>
         /// Pass = LimeGreen<br/>
-        /// Warning = Gold<br/>
-        /// Fail = Tomato
+        /// Warning = Khaki<br/>
+        /// Fail = Salmon
         /// </summary>
-        public string ResultColor 
-        { 
-            get
-            {
-                switch (DisplayColor)
-                {
-                    case ResultColorChoices.Pass:
-                        return "LightGreen";
-                    case ResultColorChoices.Warn:
-                        return "Khaki";
-                    case ResultColorChoices.Fail:
-                        return "Salmon";
-                    case ResultColorChoices.TestNotRun:
-                        return "LightGray";
-                    default:
-                        return "LightGray";
-                }
-            }
-        }
+        public string ResultColor { get { return DisplayColors.ColorLookup[DisplayColor]; } }
         /// <summary>
         /// Explanation of the test that will show in the table when clicked
         /// </summary>
@@ -239,14 +221,6 @@ namespace PlanCheck.Checks
                 newText.Append(text[i]);
             }
             return newText.ToString();
-        }
-
-        protected enum ResultColorChoices
-        {
-            Pass,
-            Warn,
-            Fail,
-            TestNotRun
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

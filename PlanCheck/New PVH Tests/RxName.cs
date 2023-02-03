@@ -16,7 +16,7 @@ namespace PlanCheck.Checks
 
         public override void RunTest(PlanSetup plan)
         {
-            DisplayName = "Prescirption Name";
+            DisplayName = "Prescription Name";
             TestExplanation = "Displays the prescription name and tries to check laterality if possible";
             DisplayColor = ResultColorChoices.Pass;
 

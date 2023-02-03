@@ -22,26 +22,10 @@ namespace PlanCheck
     {
         private ScriptContext _context;                                             // ScriptContext from Aria
 
-        private ObservableCollection<PlanCheckBase> _planChecks;                    // List of plan checks and results to be displayed
-        public ObservableCollection<PlanCheckBase> PlanChecks { get { return _planChecks; } set { _planChecks = value; OnPropertyChanged("PlanChecks"); } }
+        private ObservableCollection<CategoryCheckList> _checkLists;
+        public ObservableCollection<CategoryCheckList> CheckLists { get { return _checkLists; } set { _checkLists = value; OnPropertyChanged("CheckLists"); } }
 
-        private ObservableCollection<PlanCheckBase> _ctImportChecks;                // Plan checks from CT Import Questionnaire
-        public ObservableCollection<PlanCheckBase> CTImportChecks { get { return _ctImportChecks; } set { _ctImportChecks = value; OnPropertyChanged("PlanChecks"); } }
 
-        private ObservableCollection<PlanCheckBase> _preMdReviewChecks;             // Plan checks from Pre - MD Review Questionnaire
-        public ObservableCollection<PlanCheckBase> PreMdReviewChecks { get { return _preMdReviewChecks; } set { _preMdReviewChecks = value; OnPropertyChanged("PreMdReviewChecks"); } }
-
-        private ObservableCollection<PlanCheckBase> _treatmentPrepDosiChecks;           // Plan checks from Treatment Prep Questionnaire
-        public ObservableCollection<PlanCheckBase> TreatmentPrepDosiChecks { get { return _treatmentPrepDosiChecks; } set { _treatmentPrepDosiChecks = value; OnPropertyChanged("TreatmentPrepDosiChecks"); } }
-
-        private ObservableCollection<PlanCheckBase> _rxChecks;           // Plan checks from Treatment Prep Questionnaire
-        public ObservableCollection<PlanCheckBase> RxChecks { get { return _rxChecks; } set { _rxChecks = value; OnPropertyChanged("RxChecks"); } }
-
-        private ObservableCollection<PlanCheckBase> _photonChecks;           // Plan checks from Photon Plan Questionnaire
-        public ObservableCollection<PlanCheckBase> PhotonChecks { get { return _photonChecks; } set { _photonChecks = value; OnPropertyChanged("PhotonChecks"); } }
-
-        private ObservableCollection<PlanCheckBase> _treatmentPrepPhysicsChecks;           // Plan checks from Photon Plan Questionnaire
-        public ObservableCollection<PlanCheckBase> TreatmentPrepPhysicsChecks { get { return _treatmentPrepPhysicsChecks; } set { _treatmentPrepPhysicsChecks = value; OnPropertyChanged("TreatmentPrepPhysicsChecks"); } }
 
 
         private string _patientName;                                                // Patient name
@@ -62,14 +46,6 @@ namespace PlanCheck
         {
             _context = context;
 
-            PlanChecks = new ObservableCollection<PlanCheckBase>();
-            CTImportChecks = new ObservableCollection<PlanCheckBase>();
-            PreMdReviewChecks = new ObservableCollection<PlanCheckBase>();
-            TreatmentPrepDosiChecks = new ObservableCollection<PlanCheckBase>();
-            RxChecks = new ObservableCollection<PlanCheckBase>();
-            PhotonChecks = new ObservableCollection<PlanCheckBase>();
-            TreatmentPrepPhysicsChecks = new ObservableCollection<PlanCheckBase>();
-
             // Plan information
             PatientName = context.Patient.Name;
             CourseID = context.Course?.Id;
@@ -89,108 +65,106 @@ namespace PlanCheck
             var plan = _context.PlanSetup;
             var ss = _context.StructureSet;
 
-            // CT Import Checklist
-            CTImportChecks = new ObservableCollection<PlanCheckBase>
+            CheckLists = new ObservableCollection<CategoryCheckList>
             {
-                new BodyContour(ss),
-                new CouchStructuresChecks(ss),
-                new UserOrigin(ss),
-                new StructureTemplateCheck(ss),
-                new ImportNamingConventions(ss)
+                new CategoryCheckList("CT Import", new ObservableCollection<PlanCheckBase>
+                {
+                    new BodyContour(ss),
+                    new CouchStructuresChecks(ss),
+                    new UserOrigin(ss),
+                    new StructureTemplateCheck(ss),
+                    new ImportNamingConventions(ss)
+                }),
+
+                new CategoryCheckList("Pre - MD Review", new ObservableCollection<PlanCheckBase>
+                {
+                    new CourseChecks(plan),
+                    // normal contours complete (no empty contours?)
+                    // rename/delete opti (don't think I can check)
+                    new MachineChecks(plan),
+                    new CouchStructuresChecks(ss),
+                    // delta couch (can't seem to check)
+                    new DensityOverrides(plan),
+                    new DoseGrid(plan),
+                    new BolusChecks(plan),
+                    new DPVChecks(plan),
+
+
+                    new HotspotChecks(plan),
+                    new DoseRateChecks(plan),
+                    new CTSimChecks(plan),
+                    new OrientationChecks(plan),
+                    new IsocenterChecks(plan),
+                    new MLCChecks(plan),
+                    new JawTrackingChecks(plan),
+                    new TargetChecks(plan)
+                }),
+
+                new CategoryCheckList("Tx Prep - Dosi", new ObservableCollection<PlanCheckBase>
+                {
+                    new FieldNameChecks(plan),
+                    new ToleranceTableChecks(plan),
+                    // treatment time calculation
+                    new CouchValueChecks(plan),
+                    // setup notes (can't do)
+                    new Shifts(plan),
+                    new DRRChecks(plan),
+                    new VerificationPlan(plan),
+                    new UnapprovedPlans(plan)
+                }),
+
+                new CategoryCheckList("Rx", new ObservableCollection<PlanCheckBase>
+                {
+                    new RxName(plan),
+                    new RxSite(plan),
+                    new RxDose(plan),
+                    new RxPhase(plan),
+                    new RxModality(plan),
+                    new RxTechnique(plan),
+                    new RxEnergy(plan),
+                    // Frequency (can't do)
+                    new RxComments(plan),
+                    new RxApproval(plan)
+                }),
+
+                new CategoryCheckList("Photon Plan", new ObservableCollection<PlanCheckBase>
+                {
+                    new PhotonDoseTabChecks(plan),
+                    new UserOrigin(ss),
+                    new CouchStructuresChecks(ss),
+                    // body contour?
+                    new FieldNameChecks(plan),
+                    new DensityOverrides(plan),
+                    new DoseGrid(plan),
+                    new PhotonCalcModelTabChecks(plan),
+                    new PhotonFieldTabChecks(plan),
+                    new HotspotChecks(plan)
+                    // DVH/scorecard
+                    // delta couch
+                }),
+
+                new CategoryCheckList("Tx Prep - Physics", new ObservableCollection<PlanCheckBase>
+                {
+                    new PlanSchedulingChecks(plan),
+                    new CouchValueChecks(plan),
+                    // tx time and multiplication factor
+                    new ToleranceTableChecks(plan),
+                    // set up notes (can't do)
+                    new DRRChecks(plan),
+                    new DPVChecks(plan),
+                    new BolusChecks(plan),
+                    new PlanApprovalChecks(plan)
+                }),
+
+                new CategoryCheckList("Other Misc", new ObservableCollection<PlanCheckBase>
+                {
+                    // Other misc checks (maybe add them in other tabs?)
+                    new PrecriptionChecks(plan),
+                    new UseGatedChecks(plan),
+                    new TreatmentTimeCalculation(plan),
+                    new CalcParametersChecks(plan)
+                })
             };
-
-            PreMdReviewChecks = new ObservableCollection<PlanCheckBase>
-            {
-                new CourseChecks(plan),
-                // normal contours complete (no empty contours?)
-                // rename/delete opti (don't think I can check)
-                new MachineChecks(plan),
-                new CouchStructuresChecks(ss),
-                // delta couch (can't seem to check)
-                new DensityOverrides(plan),
-                new DoseGrid(plan),
-                new BolusChecks(plan),
-                new DPVChecks(plan),
-
-
-                new HotspotChecks(plan),
-                new DoseRateChecks(plan),
-                new CTSimChecks(plan),
-                new OrientationChecks(plan),
-                new IsocenterChecks(plan),
-                new MLCChecks(plan),
-                new JawTrackingChecks(plan),
-                new TargetChecks(plan)
-            };
-
-            TreatmentPrepDosiChecks = new ObservableCollection<PlanCheckBase>
-            {
-                new FieldNameChecks(plan),
-                new ToleranceTableChecks(plan),
-                // treatment time calculation
-                new CouchValueChecks(plan),
-                // setup notes (can't do)
-                new Shifts(plan),
-                new DRRChecks(plan),
-                new VerificationPlan(plan),
-                new UnapprovedPlans(plan)
-            };
-
-            RxChecks = new ObservableCollection<PlanCheckBase>
-            {
-                new RxName(plan),
-                new RxSite(plan),
-                new RxDose(plan),
-                new RxPhase(plan),
-                new RxModality(plan),
-                new RxTechnique(plan),
-                new RxEnergy(plan),
-                // Frequency (can't do)
-                new RxComments(plan),
-                new RxApproval(plan)
-            };
-
-            PhotonChecks = new ObservableCollection<PlanCheckBase>
-            {
-                new PhotonDoseTabChecks(plan),
-                new UserOrigin(ss),
-                new CouchStructuresChecks(ss),
-                // body contour?
-                new FieldNameChecks(plan),
-                new DensityOverrides(plan),
-                new DoseGrid(plan),
-                new PhotonCalcModelTabChecks(plan),
-                new PhotonFieldTabChecks(plan),
-                new HotspotChecks(plan)
-                // DVH/scorecard
-                // delta couch
-            };
-
-            TreatmentPrepPhysicsChecks = new ObservableCollection<PlanCheckBase>
-            {
-                new PlanSchedulingChecks(plan),
-                new CouchValueChecks(plan),
-                // tx time and multiplication factor
-                new ToleranceTableChecks(plan),
-                // set up notes (can't do)
-                new DRRChecks(plan),
-                new DPVChecks(plan),
-                new BolusChecks(plan),
-                new PlanApprovalChecks(plan)
-            };
-
-            PlanChecks = new ObservableCollection<PlanCheckBase>
-            {
-                // Other misc checks (maybe add them in other tabs?)
-                new PrecriptionChecks(plan),
-                new UseGatedChecks(plan),
-                new TreatmentTimeCalculation(plan),
-                new CalcParametersChecks(plan)
-            };
-
-            // Remove any plan checks that were not run
-            foreach (var p in PlanChecks.Where(x => x.MachineExempt).ToList())
-                PlanChecks.Remove(p);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

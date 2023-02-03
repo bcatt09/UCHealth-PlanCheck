@@ -44,49 +44,26 @@
         <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Path=CourseID}" />
         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=PlanID}" />
         <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding Path=Slices}"/>
-        <TabControl Grid.Row="2" Grid.ColumnSpan="4">
-            <TabItem Header="CT Import" mah:HeaderedControlHelper.HeaderFontSize="14">
-                <local:PlanCheckDataGrid 
-                    x:Name="CTImportGrid"
-                    ItemsSource="{Binding CTImportChecks}"
+        <TabControl Grid.Row="2" Grid.ColumnSpan="4" ItemsSource="{Binding CheckLists}" SelectedIndex="0" Name="CategoriesTabControl">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <!--DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsSelected,RelativeSource={RelativeSource TemplatedParent}}" Value="True">
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="TabItemTextbox" Property="TextBlock.Foreground" Value="{StaticResource UCHealth.Secondary.SoftWhite}"/>
+                            <Setter Property="Background" Value="{Binding Test.TabColor}"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers-->
+                    <TextBlock Text="{Binding Header}" Background="{Binding TabColor}" FontSize="14" Margin="-5,0" Padding="7,2"/>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <local:PlanCheckDataGrid 
+                    ItemsSource="{Binding CheckList}"
                     MouseLeftButtonUp="dataGridMouseLeftButton" />
-            </TabItem>
-            <TabItem Header="Pre - MD Review" mah:HeaderedControlHelper.HeaderFontSize="14">
-                <local:PlanCheckDataGrid 
-                    x:Name="PreMDGrid"
-                    ItemsSource="{Binding PreMdReviewChecks}"
-                    MouseLeftButtonUp="dataGridMouseLeftButton" />
-            </TabItem>
-            <TabItem Header="Tx Prep - Dosi" mah:HeaderedControlHelper.HeaderFontSize="14">
-                <local:PlanCheckDataGrid 
-                    x:Name="TreatmentPrepDosiGrid"
-                    ItemsSource="{Binding TreatmentPrepDosiChecks}"
-                    MouseLeftButtonUp="dataGridMouseLeftButton" />
-            </TabItem>
-            <TabItem Header="Rx" mah:HeaderedControlHelper.HeaderFontSize="14">
-                <local:PlanCheckDataGrid 
-                    x:Name="RxChecksGrid"
-                    ItemsSource="{Binding RxChecks}"
-                    MouseLeftButtonUp="dataGridMouseLeftButton" />
-            </TabItem>
-            <TabItem Header="Photon Plan" mah:HeaderedControlHelper.HeaderFontSize="14">
-                <local:PlanCheckDataGrid 
-                    x:Name="PhotonPlanGrid"
-                    ItemsSource="{Binding PhotonChecks}"
-                    MouseLeftButtonUp="dataGridMouseLeftButton" />
-            </TabItem>
-            <TabItem Header="Tx Prep - Phys" mah:HeaderedControlHelper.HeaderFontSize="14">
-                <local:PlanCheckDataGrid 
-                    x:Name="TreatmentPrepPhysicsGrid"
-                    ItemsSource="{Binding TreatmentPrepPhysicsChecks}"
-                    MouseLeftButtonUp="dataGridMouseLeftButton" />
-            </TabItem>
-            <TabItem Header="Other Misc" mah:HeaderedControlHelper.HeaderFontSize="14">
-                <local:PlanCheckDataGrid 
-                    x:Name="OldCheckGrid"
-                    ItemsSource="{Binding PlanChecks}"
-                    MouseLeftButtonUp="dataGridMouseLeftButton" />
-            </TabItem>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
         </TabControl>
     </Grid>
 </mah:MetroWindow>

@@ -116,6 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DepartmentInfo.cs" />
+    <Compile Include="DisplayColors.cs" />
     <Compile Include="New PVH Tests\BodyContour.cs" />
     <Compile Include="New PVH Tests\CourseChecks.cs" />
     <Compile Include="New PVH Tests\CoursesComplete.cs" />
@@ -143,6 +144,7 @@
     <Compile Include="New PVH Tests\UserOrigin.cs" />
     <Compile Include="New PVH Tests\VerificationPlan.cs" />
     <Compile Include="PlanCheck Base Classes\PlanCheckGeneric.cs" />
+    <Compile Include="CategoryCheckList.cs" />
     <Compile Include="PlanCheck Base Classes\PlanCheckStructureSet.cs" />
     <Compile Include="Proton PlanChecks\PlanUncertaintyCalculationCheck.cs" />
     <Compile Include="Log.cs" />
