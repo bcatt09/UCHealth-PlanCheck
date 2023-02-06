@@ -7,12 +7,12 @@ using System.Windows;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("KCI Plan Check")]
+[assembly: AssemblyTitle("PVH Plan Check")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("McLaren")]
-[assembly: AssemblyProduct("KCI Plan Check")]
-[assembly: AssemblyCopyright("Copyright © McLaren 2020")]
+[assembly: AssemblyCompany("UCHealth")]
+[assembly: AssemblyProduct("Plan Check")]
+[assembly: AssemblyCopyright("Copyright © UCHealth 2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

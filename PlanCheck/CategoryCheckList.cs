@@ -24,6 +24,9 @@ namespace PlanCheck
             foreach (var check in CheckList.Where(x => x.MachineExempt).ToList())
                 CheckList.Remove(check);
 
+
+            // Set tab color based on highest degree of failure out of the tests run
+            TabColor = DisplayColors.ColorLookup[ResultColorChoices.Pass];
             foreach (var check in CheckList)
             {
                 if (TabColor == DisplayColors.ColorLookup[ResultColorChoices.Fail]) { }

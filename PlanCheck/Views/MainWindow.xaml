@@ -38,32 +38,17 @@
             <ColumnDefinition Width="75"/>
             <ColumnDefinition Width="25"/>
         </Grid.ColumnDefinitions>
+
         <TextBlock Grid.Row="0" Grid.Column="0" Text="Course: " Margin="0, 0, 0, 5" />
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Plan: " Margin="0, 0, 0, 5" />
-        <TextBlock Grid.Row="0" Grid.Column="2" Text="CT Slices: " Margin="0, 0, 10, 5" HorizontalAlignment="Right"/>
         <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Path=CourseID}" />
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Plan: " Margin="0, 0, 0, 5" />
         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=PlanID}" />
+        <TextBlock Grid.Row="0" Grid.Column="2" Text="CT Slices: " Margin="0, 0, 10, 5" HorizontalAlignment="Right"/>
         <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding Path=Slices}"/>
-        <TabControl Grid.Row="2" Grid.ColumnSpan="4" ItemsSource="{Binding CheckLists}" SelectedIndex="0" Name="CategoriesTabControl">
-            <TabControl.ItemTemplate>
-                <DataTemplate>
-                    <!--DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding Path=IsSelected,RelativeSource={RelativeSource TemplatedParent}}" Value="True">
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="TabItemTextbox" Property="TextBlock.Foreground" Value="{StaticResource UCHealth.Secondary.SoftWhite}"/>
-                            <Setter Property="Background" Value="{Binding Test.TabColor}"/>
-                        </DataTrigger>
-                    </DataTemplate.Triggers-->
-                    <TextBlock Text="{Binding Header}" Background="{Binding TabColor}" FontSize="14" Margin="-5,0" Padding="7,2"/>
-                </DataTemplate>
-            </TabControl.ItemTemplate>
-            <TabControl.ContentTemplate>
-                <DataTemplate>
-                    <local:PlanCheckDataGrid 
-                    ItemsSource="{Binding CheckList}"
-                    MouseLeftButtonUp="dataGridMouseLeftButton" />
-                </DataTemplate>
-            </TabControl.ContentTemplate>
-        </TabControl>
+
+        <local:PlanCheckTabControl Grid.Row="2" Grid.ColumnSpan="4"
+                                   ItemsSource="{Binding CheckLists}" 
+                                   SelectedIndex="0" 
+                                   x:Name="CategoriesTabControl"/>
     </Grid>
 </mah:MetroWindow>
