@@ -38,6 +38,14 @@ namespace PlanCheck.Checks
                 ResultDetails += $"{String.Join("\n", plan.Beams.Where(x => Double.IsNaN(x.SSD)).Select(x => $"No SSD calculated for {x.Id}"))}\n";
                 DisplayColor = ResultColorChoices.Fail;
             }
+            foreach(var beam in plan.Beams.Where(x => x.EnergyModeDisplayName.ToUpper().Contains('E')))
+            {
+                if (Math.Round(beam.SSD) != 1000)
+                {
+                    ResultDetails += $"{beam.Id}: SSD = {beam.SSD}";
+                    DisplayColor = ResultColorChoices.Warn;
+                }
+            }
 
             #region Get IMRT/VMAT usage
             bool IMRT = false;

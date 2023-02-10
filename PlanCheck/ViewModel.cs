@@ -127,6 +127,25 @@ namespace PlanCheck
                     new RxApproval(plan)
                 }),
 
+                plan.Beams.Where(x => x.EnergyModeDisplayName.ToUpper().Contains('E')).Any()
+                ?   // Electron plan
+                new CategoryCheckList("Electron Plan", new ObservableCollection<PlanCheckBase>
+                {
+                    new PhotonDoseTabChecks(plan),
+                    new UserOrigin(ss),
+                    new CouchStructuresChecks(ss),
+                    // body contour?
+                    new FieldNameChecks(plan),
+                    new DensityOverrides(plan),
+                    new DoseGrid(plan),
+                    new ElectronCalcModelTabChecks(plan),
+                    new ElectronBlockChecks(plan),
+                    new PhotonFieldTabChecks(plan),
+                    new HotspotChecks(plan)
+                    // DVH/scorecard
+                    // delta couch
+                })
+                :   // Photon plan
                 new CategoryCheckList("Photon Plan", new ObservableCollection<PlanCheckBase>
                 {
                     new PhotonDoseTabChecks(plan),

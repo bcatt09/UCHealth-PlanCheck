@@ -106,7 +106,7 @@ namespace PlanCheck.Checks
 
             TestExplanation += "\n\nAlso checks that:\n" +
                                "Field Normalization Type = 100% to isocenter\n" +
-                               "Heterogeneity Correctionsn = On\n" +
+                               "Heterogeneity Corrections = On\n" +
                                "Calculation Model = AAA_15605\n" +
                                "Optimization Model = PO_15605\n";
         }

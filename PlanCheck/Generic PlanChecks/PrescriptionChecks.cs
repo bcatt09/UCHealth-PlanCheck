@@ -110,10 +110,10 @@ namespace PlanCheck.Checks
                 {
                     planEnergies += b.EnergyModeDisplayName .ToString();
                 }
-                if (b.EnergyModeDisplayName.Contains('E'))
+                if (b.EnergyModeDisplayName.ToUpper().Contains('E'))
                     if (!planModalities.Contains("Electron")) planModalities += "Electron ";
                 
-                else if (b.EnergyModeDisplayName.Contains('X'))
+                else if (b.EnergyModeDisplayName.ToUpper().Contains('X'))
                     if (!planModalities.Contains("Photon")) planModalities += "Photon ";
 
                 if (b.MLCPlanType == MLCPlanType.DoseDynamic && b.ControlPoints.Count > 18)

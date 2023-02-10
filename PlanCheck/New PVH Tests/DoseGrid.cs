@@ -20,7 +20,7 @@ namespace PlanCheck.Checks
             TestExplanation = "Displays calculation algorithm and dose grid size\n" +
                               "Guesses at SRS/SBRT status based on number of fractions and dose per fraction (<= 5 fx and > 500 cGy / fx)\n" +
                               "Guesses at Prostate SIB status based on Plan/Course ID and prescribed dose / number of fractions";
-            Result = plan.PhotonCalculationModel;
+            Result =  plan.Beams.Any(x => x.EnergyModeDisplayName.ToUpper().Contains('E')) ? plan.ElectronCalculationModel : plan.PhotonCalculationModel;
             ResultDetails = $"{plan.Dose.XRes} mm";
 
             var gridSize = plan.Dose.XRes;
@@ -51,7 +51,7 @@ namespace PlanCheck.Checks
                 }
             }
             // Electron (should be 1 mm)
-            else if (plan.Beams.Any(b => b.EnergyModeDisplayName.Contains('e')))
+            else if (plan.Beams.Any(b => b.EnergyModeDisplayName.ToUpper().Contains('E')))
             {
                 if (gridSize > 1.0)
                     DisplayColor = ResultColorChoices.Fail;

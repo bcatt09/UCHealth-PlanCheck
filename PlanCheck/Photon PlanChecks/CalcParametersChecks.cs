@@ -49,9 +49,9 @@ namespace PlanCheck.Checks
 			// Loop through beams to see what needs to be displayed
 			foreach (Beam beam in plan.Beams.Where(x => !x.IsSetupField))
 			{
-				if (beam.EnergyModeDisplayName.Contains('E'))
+				if (beam.EnergyModeDisplayName.ToUpper().Contains('E'))
 					electron = true;
-				else if (beam.EnergyModeDisplayName.Contains('X'))
+				else if (beam.EnergyModeDisplayName.ToUpper().Contains('X'))
 					photon = true;
 
 				if (beam.MLCPlanType == MLCPlanType.DoseDynamic && beam.ControlPoints.Count > 18)
