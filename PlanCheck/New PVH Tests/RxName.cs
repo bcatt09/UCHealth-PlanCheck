@@ -22,6 +22,14 @@ namespace PlanCheck.Checks
 
             var rx = plan.RTPrescription;
 
+            if (rx == null)
+            {
+                Result = "No Prescription Attached";
+                DisplayColor = ResultColorChoices.Fail;
+
+                return;
+            }
+
             Result = rx.Name;
 
             var leftLateralityPattern = new Regex(@"(^(L(t)?|Left) .*)|(.*(_L)$)");

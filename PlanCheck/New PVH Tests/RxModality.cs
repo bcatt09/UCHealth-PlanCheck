@@ -24,7 +24,17 @@ namespace PlanCheck.Checks
             bool plannedElectron = false;
             bool plannedBrachy = false;
 
-            var prescribedModalities = plan.RTPrescription.EnergyModes;
+            var rx = plan.RTPrescription;
+
+            if (rx == null)
+            {
+                Result = "No Prescription Attached";
+                DisplayColor = ResultColorChoices.Fail;
+
+                return;
+            }
+
+            var prescribedModalities = rx.EnergyModes;
             var plannedModalities = plan.Beams.Where(x => !x.IsSetupField).Select(x => x.EnergyModeDisplayName);
 
             // Get prescribed modalities

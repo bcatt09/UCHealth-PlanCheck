@@ -19,7 +19,15 @@ namespace PlanCheck.Checks
             ResultDetails = "";
 
             var rx = plan.RTPrescription;
-            var targRx = rx.Targets.OrderByDescending(x => x.DosePerFraction.Dose).First();
+            var targRx = rx?.Targets.OrderByDescending(x => x.DosePerFraction.Dose).First();
+
+            if (rx == null)
+            {
+                Result = "No Prescription Attached";
+                DisplayColor = ResultColorChoices.Fail;
+
+                return;
+            }
 
             // Number of fractions do not agree
             if (targRx.NumberOfFractions != plan.NumberOfFractions)

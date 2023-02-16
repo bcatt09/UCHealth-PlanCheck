@@ -20,6 +20,14 @@ namespace PlanCheck.Checks
 
             var rx = plan.RTPrescription;
 
+            if (rx == null)
+            {
+                Result = "No Prescription Attached";
+                DisplayColor = ResultColorChoices.Fail;
+
+                return;
+            }
+
             Result = rx.Notes == "" ? "None" : rx.Notes;
 
             var bolusBeams = plan.Beams.Where(x => !x.IsSetupField).Where(x => x.Boluses.Any());

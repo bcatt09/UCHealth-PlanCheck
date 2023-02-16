@@ -25,12 +25,12 @@ namespace PlanCheck.Checks
 
             var gridSize = plan.Dose.XRes;
 
-            var rxTarg = plan.RTPrescription.Targets.First();
+            var rxTarg = plan.RTPrescription?.Targets?.FirstOrDefault();
 
             var prostSIB = plan.Id.ToUpper().Contains("SIB") ||
                            plan.Course.Id.ToUpper().Contains("SIB") ||
-                          (plan.Id.ToUpper().Contains("PROST") && (rxTarg.DosePerFraction * rxTarg.NumberOfFractions) > new DoseValue(8100, DoseValue.DoseUnit.cGy)) ||
-                          (plan.Id.ToUpper().Contains("PROST") && (rxTarg.NumberOfFractions < 39) && (rxTarg.DosePerFraction * rxTarg.NumberOfFractions) > new DoseValue(7250, DoseValue.DoseUnit.cGy));
+                          (plan.Id.ToUpper().Contains("PROST") && (rxTarg?.DosePerFraction * rxTarg?.NumberOfFractions) > new DoseValue(8100, DoseValue.DoseUnit.cGy)) ||
+                          (plan.Id.ToUpper().Contains("PROST") && (rxTarg?.NumberOfFractions < 39) && (rxTarg?.DosePerFraction * rxTarg?.NumberOfFractions) > new DoseValue(7250, DoseValue.DoseUnit.cGy));
 
             // Most likely SRS/SBRT (should be 1 mm)
             if (plan.NumberOfFractions <= 5 && plan.DosePerFraction > new DoseValue(500, DoseValue.DoseUnit.cGy))

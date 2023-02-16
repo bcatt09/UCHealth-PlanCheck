@@ -17,8 +17,14 @@ namespace PlanCheck.Checks
             TestExplanation = "Checks prescribed energies against plan";
             DisplayColor = ResultColorChoices.Pass;
 
-            var a = plan.RTPrescription.Energies.Last();
-            // check 3172755
+            if (plan.RTPrescription == null)
+            {
+                Result = "No Prescription Attached";
+                DisplayColor = ResultColorChoices.Fail;
+
+                return;
+            }
+
             // Adds a 0 in front of the energy if it doesn't start with a 1 or 2
             Func<string, string> add0 = x => (x[0] > '2' && x[0] <= '9') ? "0" + x : x;
             var rx = String.Join(", ", plan.RTPrescription.Energies.OrderBy(x => add0(x)));

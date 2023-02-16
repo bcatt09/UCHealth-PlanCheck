@@ -16,7 +16,18 @@ namespace PlanCheck.Checks
             DisplayName = "Site";
             DisplayColor = ResultColorChoices.Pass;
             TestExplanation = "Displays the Prescription Site";
-            Result = plan.RTPrescription.Site;
+
+            var rx = plan.RTPrescription;
+
+            if (rx == null)
+            {
+                Result = "No Prescription Attached";
+                DisplayColor = ResultColorChoices.Fail;
+
+                return;
+            }
+
+            Result = rx.Site;
         }
     }
 }

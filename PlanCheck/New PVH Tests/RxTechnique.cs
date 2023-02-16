@@ -24,6 +24,14 @@ namespace PlanCheck.Checks
                               "3D - Looks for Static MLC type or DoseDynamic MLC type with < 25 control points";
             DisplayColor = ResultColorChoices.Pass;
 
+            if (plan.RTPrescription == null)
+            {
+                Result = "No Prescription Attached";
+                DisplayColor = ResultColorChoices.Fail;
+
+                return;
+            }
+
             var srsSbrtTechniques = new List<string> { "SRS", "SBRT" };
             var vmatTechniques = new List<string> { "VMAT" };
             var imrtTechniques = new List<string> { "IMRT" };

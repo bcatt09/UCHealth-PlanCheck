@@ -16,7 +16,18 @@ namespace PlanCheck.Checks
             DisplayName = "Primary/Boost";
             TestExplanation = "Displays the prescribed phase and if it is \"Boost\" checks if the plan name contains \"Boost\" or \"Bst\" or \"Gy\"";
             DisplayColor = ResultColorChoices.Pass;
-            Result = plan.RTPrescription.PhaseType;
+
+            var rx = plan.RTPrescription;
+
+            if (rx == null)
+            {
+                Result = "No Prescription Attached";
+                DisplayColor = ResultColorChoices.Fail;
+
+                return;
+            }
+
+            Result = rx.PhaseType;
 
             if (plan.RTPrescription.PhaseType == "Boost")
             {

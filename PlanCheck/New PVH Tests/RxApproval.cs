@@ -20,6 +20,14 @@ namespace PlanCheck.Checks
             var rx = plan.RTPrescription;
             var dep = DepartmentInfo.GetDepartment(plan.Beams.First().TreatmentUnit.Id);
 
+            if(rx == null )
+            {
+                Result = "No Prescription Attached";
+                DisplayColor = ResultColorChoices.Fail;
+
+                return;
+            }
+
             // Rx is approved
             if (rx.Status == "Approved")
             {
