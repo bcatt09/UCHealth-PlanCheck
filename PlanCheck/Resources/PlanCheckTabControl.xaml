@@ -18,6 +18,7 @@
             
             <SolidColorBrush x:Key="TabHighlight" Color="{StaticResource MahApps.Colors.Accent}"/>
             <SolidColorBrush x:Key="TabHighlightFont" Color="{StaticResource MahApps.Colors.SoftWhite}"/>
+            <SolidColorBrush x:Key="TabUnfocused" Color="{StaticResource MahApps.Colors.Gray2}"/>
             
             <Style TargetType="{x:Type TabItem}">
                 <Setter Property="Template">
@@ -46,6 +47,27 @@
                                         <Setter TargetName="HeaderBorder" Property="BorderBrush" Value="{StaticResource TabHighlight}"/>
                                     </MultiTrigger.Setters>
                                 </MultiTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True"/>
+                                        <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="False"/>
+                                        <Condition Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=IsActive}" Value="False"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <MultiDataTrigger.Setters>
+                                        <Setter TargetName="HeaderText" Property="Foreground" Value="{StaticResource TabUnfocused}"/>
+                                        <Setter TargetName="HeaderBorder" Property="BorderBrush" Value="{StaticResource TabUnfocused}"/>
+                                    </MultiDataTrigger.Setters>
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="True"/>
+                                        <Condition Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=IsActive}" Value="False"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <MultiDataTrigger.Setters>
+                                        <Setter TargetName="HeaderText" Property="Background" Value="{StaticResource TabUnfocused}"/>
+                                        <Setter TargetName="HeaderBorder" Property="BorderBrush" Value="{StaticResource TabUnfocused}"/>
+                                    </MultiDataTrigger.Setters>
+                                </MultiDataTrigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>
