@@ -24,6 +24,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.FlatButton.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/PVH_Themes;component/UCHealth.Light.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <SolidColorBrush x:Key="FontColor" Color="{StaticResource MahApps.Colors.Graphite}"/>
             <Style 
                 TargetType="{x:Type DataGridColumnHeader}" 
                 BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}"
@@ -69,7 +70,7 @@
                             <Style TargetType="StackPanel">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type StackPanel}},Path=IsMouseOver}" Value="True">
-                                        <Setter Property="TextBlock.Foreground" Value="{StaticResource MahApps.Brushes.ThemeForeground}" />
+                                        <Setter Property="TextBlock.Foreground" Value="{StaticResource FontColor}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -102,13 +103,13 @@
             <DataGridTemplateColumn.CellStyle>
                 <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
                     <Setter Property="Background" Value="{Binding ResultColor}"/>
-                    <Setter Property="Foreground" Value="{StaticResource UCHealth.Secondary.Graphite}"/>
+                    <Setter Property="Foreground" Value="{StaticResource FontColor}"/>
                     <Style.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Foreground" Value="{StaticResource UCHealth.Secondary.Graphite}"/>
+                            <Setter Property="Foreground" Value="{StaticResource FontColor}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Foreground" Value="{StaticResource UCHealth.Secondary.Graphite}"/>
+                            <Setter Property="Foreground" Value="{StaticResource FontColor}"/>
                         </Trigger>
                     </Style.Triggers>
                 </Style>

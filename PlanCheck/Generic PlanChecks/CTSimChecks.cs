@@ -25,7 +25,7 @@ namespace PlanCheck.Checks
 			if (!DepartmentInfo.GetCTIDs(Department).Contains(ct))
 			{
 				Result = "Warning";
-				ResultDetails = $"Patient is being treated on {MachineID}, but the {String.Join(" or ", DepartmentInfo.GetCTIDs(Department))} was not chosen as the imaging device for the series, please check";
+				ResultDetails = $"Patient is being treated on {MachineID}, but the {String.Join(" or ", DepartmentInfo.GetCTIDs(Department))}\nwas not chosen as the imaging device for the series, please check";
 				ResultDetails += $"\nSelected CT: {ct}\n";
 				DisplayColor = ResultColorChoices.Warn;
 			}
