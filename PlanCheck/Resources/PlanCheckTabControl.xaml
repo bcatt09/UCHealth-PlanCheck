@@ -19,6 +19,7 @@
             <SolidColorBrush x:Key="TabHighlight" Color="{StaticResource MahApps.Colors.Accent}"/>
             <SolidColorBrush x:Key="TabHighlightFont" Color="{StaticResource MahApps.Colors.SoftWhite}"/>
             <SolidColorBrush x:Key="TabUnfocused" Color="{StaticResource MahApps.Colors.Gray2}"/>
+            <SolidColorBrush x:Key="TabUnselectedFont" Color="{StaticResource MahApps.Colors.Graphite}"/>
             
             <Style TargetType="{x:Type TabItem}">
                 <Setter Property="Template">
@@ -27,6 +28,7 @@
                             <Border Name="HeaderBorder" BorderThickness="0 0 0 4" BorderBrush="{Binding TabColor}" Margin="5,0">
                                 <TextBlock Name="HeaderText" 
                                                Text="{Binding Header}"  
+                                               Foreground="{StaticResource TabUnselectedFont}"
                                                FontSize="14" Padding="5,0" Margin="2,0"/>
                             </Border>
                             <ControlTemplate.Triggers>

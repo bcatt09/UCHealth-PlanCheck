@@ -42,7 +42,8 @@ namespace PlanCheck.Checks
                 if (CheckForNoTarget(plan) || CheckForBodyStructureTarget(plan))
                     return;
 
-                var target = plan.StructureSet.Structures.Single(x => x.Id == plan.TargetVolumeID);
+                var target = plan.StructureSet.Structures.FirstOrDefault(x => x.Id == plan.TargetVolumeID);
+
                 var body = plan.StructureSet.Structures
                                 .Where(x => x.DicomType.ToUpper() == "BODY" || x.DicomType.ToUpper() == "EXTERNAL")
                                 .OrderByDescending(x => x.Volume)
@@ -77,6 +78,17 @@ namespace PlanCheck.Checks
             {
                 ResultDetails = "Can't check laterality (no target volume)";
                 DisplayColor = ResultColorChoices.Warn;
+
+                return true;
+            }
+
+            var target = plan.StructureSet.Structures.FirstOrDefault(x => x.Id == plan.TargetVolumeID);
+
+            if (target == null)
+            {
+                Result = $"Can't check laterality of target structure\nStructure does not exist matching plan target ({plan.TargetVolumeID})";
+                DisplayColor = ResultColorChoices.Fail;
+
                 return true;
             }
 

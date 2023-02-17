@@ -23,7 +23,16 @@ namespace PlanCheck.Checks
 			{
 				// Select the target structure for the plan and get how many separate pieces it has
 				Structure target = (from s in plan.StructureSet.Structures where s.Id == plan.TargetVolumeID select s).FirstOrDefault();
-				int targetPieces = target.GetNumberOfSeparateParts();
+
+				if (target == null)
+                {
+                    Result = $"Structure does not exist matching plan target ({plan.TargetVolumeID})";
+                    DisplayColor = ResultColorChoices.Fail;
+
+                    return;
+                }
+
+                int targetPieces = target.GetNumberOfSeparateParts();
 
 				if (targetPieces > 1)
 				{

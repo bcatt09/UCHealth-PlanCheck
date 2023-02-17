@@ -27,7 +27,15 @@ namespace PlanCheck.Checks
 				return;
 			}
 
-			Structure target = plan.StructureSet.Structures.First(s => s.Id == plan.TargetVolumeID);
+			Structure target = plan.StructureSet.Structures.FirstOrDefault(s => s.Id == plan.TargetVolumeID);
+
+			if (target == null)
+			{
+				Result = $"Structure does not exist matching plan target ({plan.TargetVolumeID})";
+                DisplayColor = ResultColorChoices.Fail;
+
+				return;
+            }
 
 			if (plan.IsDoseValid)
 			{
