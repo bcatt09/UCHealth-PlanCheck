@@ -37,8 +37,11 @@ namespace PlanCheck.Checks
                 // Plan has 1 mm slices (likely a brain SRS)
                 if (plan.StructureSet.Image.ZRes == 1)
                     tolTable = "PVH SRS";
-				// Breast plan
-				else if (plan.Id.ToLower().Contains("breast") 
+                // Electron plan
+                else if (plan.Beams.Any(x => !x.IsSetupField && x.EnergyModeDisplayName.ToUpper().Contains("E")))
+                    tolTable = "PVH Electrons";
+                // Breast plan
+                else if (plan.Id.ToLower().Contains("breast") 
 					  || plan.Id.ToLower().Contains("brst") 
 					  || plan.Id.ToLower().Contains("brest")
 					  || plan.Id.ToLower().Contains("cw")
@@ -49,9 +52,6 @@ namespace PlanCheck.Checks
                       || plan.Id.ToLower().Contains("pab")
 					  || plan.StructureSet.Structures.Any(x => x.Id.ToUpper().Contains("IMN")))
 					tolTable = "PVH Breast";
-				// Electron plan
-				else if (plan.Beams.Where(x => !x.IsSetupField).Where(x => x.EnergyModeDisplayName.Contains("E", StringComparison.CurrentCultureIgnoreCase)).Count() > 0)
-					tolTable = "PVH Electrons";
 				// Other (IGRT)
 				else
 					tolTable = "PVH IGRT";
