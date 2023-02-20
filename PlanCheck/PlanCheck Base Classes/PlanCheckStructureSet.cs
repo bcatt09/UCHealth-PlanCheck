@@ -7,7 +7,11 @@ using VMS.TPS.Common.Model.API;
 
 namespace PlanCheck.Checks
 {
-    public abstract class PlanCheckStructureSet : PlanCheckBase
+    /// <summary>
+    /// Base class for all new plan checks that do not require a plan to be generated yet<br/>
+    /// Must add constructor: <br/> <code>public MyNewCheck(PlanSetup plan) : base(plan) { }</code>
+    /// </summary>
+    public abstract class PlanCheckStructureSet : BaseClass.PlanCheckBase
     {
         public PlanCheckStructureSet(StructureSet structureSet) : base(structureSet) { }
 

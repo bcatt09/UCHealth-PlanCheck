@@ -11,11 +11,11 @@ namespace PlanCheck
 {
     public class CategoryCheckList : INotifyPropertyChanged
     {
-        public ObservableCollection<PlanCheckBase> CheckList { get; protected set; }
+        public ObservableCollection<BaseClass.PlanCheckBase> CheckList { get; protected set; }
         public string Header { get; set; }
         public string TabColor { get; protected set; }
 
-        public CategoryCheckList(string header, ObservableCollection<PlanCheckBase> checkList)
+        public CategoryCheckList(string header, ObservableCollection<BaseClass.PlanCheckBase> checkList)
         {
             Header = header;
             CheckList = checkList;
@@ -32,15 +32,15 @@ namespace PlanCheck
                 if (TabColor == DisplayColors.ColorLookup[ResultColorChoices.Fail]) { }
                 else if (TabColor == DisplayColors.ColorLookup[ResultColorChoices.Warn])
                 {
-                    if (check.ResultColor == DisplayColors.ColorLookup[ResultColorChoices.Fail])
-                        TabColor = check.ResultColor;
+                    if (check.DisplayColor == DisplayColors.ColorLookup[ResultColorChoices.Fail])
+                        TabColor = check.DisplayColor;
                 }
                 else
                 {
-                    if (check.ResultColor == DisplayColors.ColorLookup[ResultColorChoices.Warn])
-                        TabColor = check.ResultColor;
-                    if (check.ResultColor == DisplayColors.ColorLookup[ResultColorChoices.Fail])
-                        TabColor = check.ResultColor;
+                    if (check.DisplayColor == DisplayColors.ColorLookup[ResultColorChoices.Warn])
+                        TabColor = check.DisplayColor;
+                    if (check.DisplayColor == DisplayColors.ColorLookup[ResultColorChoices.Fail])
+                        TabColor = check.DisplayColor;
                 }
             }
         }

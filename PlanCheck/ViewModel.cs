@@ -14,6 +14,7 @@ using NLog.Fluent;
 using System.Reflection;
 using System.IO;
 using System.ServiceModel.Configuration;
+using PlanCheck.BaseClass;
 using PVH_Log;
 
 namespace PlanCheck

@@ -7,7 +7,11 @@ using VMS.TPS.Common.Model.API;
 
 namespace PlanCheck.Checks
 {
-    public abstract class PlanCheckProton : PlanCheckBase
+    /// <summary>
+    /// Base class for all new plan checks that apply to proton plans<br/>
+    /// Must add constructor: <br/> <code>public MyNewCheck(PlanSetup plan) : base(plan) { }</code>
+    /// </summary>
+    public abstract class PlanCheckProton : BaseClass.PlanCheckBase
     {
         public PlanCheckProton(PlanSetup plan) : base(plan) { }
 

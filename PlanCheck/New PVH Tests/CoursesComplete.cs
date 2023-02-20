@@ -7,7 +7,7 @@ using VMS.TPS.Common.Model.API;
 
 namespace PlanCheck.Checks
 {
-    public class CoursesComplete : PlanCheckBase
+    public class CoursesComplete : PlanCheckGeneric
     {
         protected override List<string> MachineExemptions => new List<string> { };
 

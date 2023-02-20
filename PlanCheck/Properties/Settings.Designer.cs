@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PlanCheck.Properties {
+namespace PlanCheck.Checks.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

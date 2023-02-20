@@ -102,7 +102,7 @@
             </DataGridTemplateColumn.CellTemplate>
             <DataGridTemplateColumn.CellStyle>
                 <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell}">
-                    <Setter Property="Background" Value="{Binding ResultColor}"/>
+                    <Setter Property="Background" Value="{Binding DisplayColor}"/>
                     <Setter Property="Foreground" Value="{StaticResource FontColor}"/>
                     <Style.Triggers>
                         <Trigger Property="IsSelected" Value="True">

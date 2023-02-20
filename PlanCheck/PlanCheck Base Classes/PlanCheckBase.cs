@@ -7,8 +7,9 @@ using System.ServiceModel.Channels;
 using System.Text;
 using System.Windows;
 using VMS.TPS.Common.Model.API;
+using PlanCheck.Checks;
 
-namespace PlanCheck.Checks
+namespace PlanCheck.BaseClass
 {
     /// <summary>
     /// Base class for all new plan checks<br/>
@@ -36,7 +37,7 @@ namespace PlanCheck.Checks
         /// Warning = Khaki<br/>
         /// Fail = Salmon
         /// </summary>
-        public string ResultColor { get { return DisplayColors.ColorLookup[DisplayColor]; } }
+        public string DisplayColor { get { return DisplayColors.ColorLookup[ResultColor]; } }
         /// <summary>
         /// Explanation of the test that will show in the table when clicked
         /// </summary>
@@ -47,7 +48,7 @@ namespace PlanCheck.Checks
         /// Warn = Yellow<br/>
         /// Fail = Red
         /// </summary>
-        protected ResultColorChoices DisplayColor { get; set; }
+        protected ResultColorChoices ResultColor { get; set; }
         /// <summary>
         /// List of machine IDs that this test will not run for<br/>
         /// Example:
@@ -90,10 +91,10 @@ namespace PlanCheck.Checks
             {
                 try
                 {
-                    if (this is PlanCheckPhoton)
+                    if (this is PlanCheckLinac)
                     {
                         if (plan is ExternalPlanSetup)
-                             (this as PlanCheckPhoton).RunTestPhoton(plan as ExternalPlanSetup);
+                             (this as PlanCheckLinac).RunTestLinac(plan as ExternalPlanSetup);
                         else
                             MachineExempt = true;
                     }
@@ -153,7 +154,7 @@ namespace PlanCheck.Checks
         protected void TestCouldNotComplete()
         {
             Result = "Failure - Test could not be run";
-            DisplayColor = ResultColorChoices.Fail;
+            ResultColor = ResultColorChoices.Fail;
         }
 
         /// <summary>
@@ -195,7 +196,7 @@ namespace PlanCheck.Checks
         protected void TestNotImplemented()
         {
             Result = $"Test \"{DisplayName}\" has not been implemented yet for {MachineID}";
-            DisplayColor = ResultColorChoices.Fail;
+            ResultColor = ResultColorChoices.Fail;
             TestExplanation += "\n\nCriteria for test need to be specified";
         }
 
