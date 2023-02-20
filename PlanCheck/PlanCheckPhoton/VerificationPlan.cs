@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog.LayoutRenderers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel.Configuration;
@@ -22,7 +23,7 @@ namespace PlanCheck.Checks
             ResultColor = ResultColorChoices.Pass;
             ResultDetails = "";
 
-            var verificationPlans = plan.Course.Patient.Courses.SelectMany(x => x.PlanSetups).Where(x => x.VerifiedPlan == plan);
+            var verificationPlans = plan.Course.Patient.Courses.SelectMany(x => x.PlanSetups).Where(x => tryVerifiedPlan(x, plan));
 
             // Check if one was made for VMAT/IMRT plans
             var firstBeam = plan.Beams.First();
@@ -52,6 +53,18 @@ namespace PlanCheck.Checks
             }
 
             ResultDetails = ResultDetails.TrimEnd('\n');
+        }
+
+        private bool tryVerifiedPlan(PlanSetup testPlan, PlanSetup checkedPlan)
+        {
+            try
+            {
+                return testPlan.VerifiedPlan == checkedPlan;
+            }
+            catch 
+            {
+                return false;
+            }
         }
     }
 }

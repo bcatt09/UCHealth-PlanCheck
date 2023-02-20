@@ -29,15 +29,15 @@ namespace PlanCheck.Checks
 			bool lung = false;
 
 			// Find couch structure if it exists
-			if ((from s in structureSet.Structures where s.DicomType == "SUPPORT" select s).Count() > 0)
+			if (structureSet.Structures.Any(s => s.DicomType.ToUpper() == "SUPPORT"))
 			{
-				couchStructures = (from s in structureSet.Structures where s.DicomType == "SUPPORT" select s);
+				couchStructures = structureSet.Structures.Where(s => s.DicomType.ToUpper() == "SUPPORT");
 				couchStructure = true;
 				Structure firstCouch = couchStructures.FirstOrDefault();
-				if (firstCouch.Name != "" && firstCouch.Name != firstCouch.Id)
-					couchName = firstCouch.Name;
+				if (firstCouch?.Name != "" && firstCouch?.Name != firstCouch?.Id)
+					couchName = firstCouch?.Name;
 				else
-					couchName = firstCouch.Comment;
+					couchName = firstCouch?.Comment;
 			}
 			else
 				couchStructure = false;
@@ -112,7 +112,8 @@ namespace PlanCheck.Checks
                         ResultDetails = "Exact IGRT Couch, medium not inserted, please check that correct couch is inserted";
                         ResultColor = ResultColorChoices.Warn;
 
-                        AddCouchStructureInfo(couchName, couchStructures);
+                        if (couchStructure)
+                            AddCouchStructureInfo(couchName, couchStructures);
                     }
                 }
             }
