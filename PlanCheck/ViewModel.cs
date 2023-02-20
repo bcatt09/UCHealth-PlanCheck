@@ -52,7 +52,7 @@ namespace PlanCheck
             PlanID = context.PlanSetup?.Id;
             Slices = context.Image.ZSize.ToString();
 
-            logger.Initialize("PVH_PlanCheck", context);
+            logger.Initialize("PVH_PlanCheck", context, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
 
             RunPlanChecks();
 
