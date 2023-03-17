@@ -98,7 +98,8 @@ namespace PlanCheck
                     new IsocenterChecks(plan),
                     new MLCChecks(plan),
                     new JawTrackingChecks(plan),
-                    new TargetChecks(plan)
+                    new TargetChecks(plan),
+                    new FieldTechniqueChecks(plan)
                 }),
 
                 new CategoryCheckList("Tx Prep - Dosi", new ObservableCollection<PlanCheckBase>
