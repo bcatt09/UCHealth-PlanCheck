@@ -44,7 +44,12 @@ namespace PlanCheck.Checks
                 ResultDetails += $"Dose per fraction mismatch\nPlan: {plan.DosePerFraction}\nPrescription: {targRx.DosePerFraction}\n\n";
             }
 
-            ResultDetails += $"{targRx.DosePerFraction * targRx.NumberOfFractions} = {targRx.DosePerFraction} x {targRx.NumberOfFractions}";
+            if (rx.Targets.Count() > 1)
+                ResultDetails += String.Join("\n", rx.Targets.OrderByDescending(x => x.DosePerFraction.Dose).Select(x => $"{x.TargetId} - {x.DosePerFraction * x.NumberOfFractions} = {x.DosePerFraction} x {x.NumberOfFractions}"));
+            else
+                ResultDetails += $"{targRx.DosePerFraction * targRx.NumberOfFractions} = {targRx.DosePerFraction} x {targRx.NumberOfFractions}";
+
+            ResultDetails = ResultDetails.TrimEnd('\n');
         }
     }
 }
