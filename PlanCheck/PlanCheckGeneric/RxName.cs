@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Security;
 using VMS.TPS.Common.Model.API;
+using VMS.TPS.Common.Model.Types;
 
 namespace PlanCheck.Checks
 {
@@ -38,25 +39,35 @@ namespace PlanCheck.Checks
             // Prescription has laterality
             if (leftLateralityPattern.IsMatch(rx.Name) || rightLateralityPattern.IsMatch(rx.Name))
             {
-                // These are invalid plan targets to check for laterality
-                if (CheckForNoTarget(plan) || CheckForBodyStructureTarget(plan))
-                    return;
-
-                var target = plan.StructureSet.Structures.FirstOrDefault(x => x.Id == plan.TargetVolumeID);
+                VVector targetLoc;
+                String targetVerbiage;
 
                 var body = plan.StructureSet.Structures
                                 .Where(x => x.DicomType.ToUpper() == "BODY" || x.DicomType.ToUpper() == "EXTERNAL")
                                 .OrderByDescending(x => x.Volume)
                                 .First();
 
-                var offset = target.CenterPoint.x - body.CenterPoint.x;
+                // These are invalid plan targets to check for laterality
+                if (CheckForNoTarget(plan) || CheckForBodyStructureTarget(plan))
+                {
+                    targetLoc = plan.Beams.First(x => !x.IsSetupField).IsocenterPosition;
+                    targetVerbiage = "Isocenter Location";
+                }
+                else
+                {
+                    var target = plan.StructureSet.Structures.FirstOrDefault(x => x.Id == plan.TargetVolumeID);
+                    targetLoc = target.CenterPoint;
+                    targetVerbiage = target.Id;
+                }
+
+                var offset = targetLoc.x - body.CenterPoint.x;
 
                 if (leftLateralityPattern.IsMatch(rx.Name))
                 {
                     // Right sided target structure
                     if (offset < 0)
                     {
-                        ResultDetails = $"Laterality does not match\nPrescription: Left\n{target.Id}: Right";
+                        ResultDetails = $"Laterality does not match\nPrescription: Left\n{targetVerbiage}: Right";
                         ResultColor = ResultColorChoices.Warn;
                     }
                 }
@@ -65,7 +76,7 @@ namespace PlanCheck.Checks
                     // Left sided target structure
                     if (offset > 0)
                     {
-                        ResultDetails = $"Laterality does not match\nPrescription: Right\n{target.Id}: Left";
+                        ResultDetails = $"Laterality does not match\nPrescription: Right\n{targetVerbiage}: Left";
                         ResultColor = ResultColorChoices.Warn;
                     }
                 }
@@ -76,7 +87,7 @@ namespace PlanCheck.Checks
         {
             if (plan.TargetVolumeID == "")
             {
-                ResultDetails = "Can't check laterality (no target volume)";
+                ResultDetails = "No target volume for laterality check\nUsing isocenter location instead of target to check laterality";
                 ResultColor = ResultColorChoices.Warn;
 
                 return true;
@@ -86,7 +97,7 @@ namespace PlanCheck.Checks
 
             if (target == null)
             {
-                Result = $"Can't check laterality of target structure\nStructure does not exist matching plan target ({plan.TargetVolumeID})";
+                Result = $"Structure does not exist matching plan target ({plan.TargetVolumeID})\nUsing isocenter location instead of target to check laterality";
                 ResultColor = ResultColorChoices.Fail;
 
                 return true;
@@ -101,7 +112,7 @@ namespace PlanCheck.Checks
 
             if (target.DicomType.ToUpper() == "BODY" || target.DicomType.ToUpper() == "EXTERNAL")
             {
-                ResultDetails = $"Can't check laterality ({target.Id} is target)";
+                ResultDetails = $"{target.Id} is target\nUsing isocenter location instead of target to check laterality";
                 ResultColor = ResultColorChoices.Warn;
                 return true;
             }

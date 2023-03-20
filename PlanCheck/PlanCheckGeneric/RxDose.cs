@@ -44,8 +44,10 @@ namespace PlanCheck.Checks
                 ResultDetails += $"Dose per fraction mismatch\nPlan: {plan.DosePerFraction}\nPrescription: {targRx.DosePerFraction}\n\n";
             }
 
+            // If 1 target, just display the fractionation
             if (rx.Targets.Count() > 1)
                 ResultDetails += String.Join("\n", rx.Targets.OrderByDescending(x => x.DosePerFraction.Dose).Select(x => $"{x.TargetId} - {x.DosePerFraction * x.NumberOfFractions} = {x.DosePerFraction} x {x.NumberOfFractions}"));
+            // Otherwise display it per target (along with the name of the target)
             else
                 ResultDetails += $"{targRx.DosePerFraction * targRx.NumberOfFractions} = {targRx.DosePerFraction} x {targRx.NumberOfFractions}";
 
