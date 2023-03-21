@@ -26,7 +26,12 @@ namespace PlanCheck.Checks
 
             if (SBRT)
             {
-                foreach (var beam in plan.Beams.Where(x => !x.IsSetupField && !x.Technique.ToString().Contains("SRS")))
+                var nonSrsBeams = plan.Beams.Where(x => !x.IsSetupField && !x.Technique.ToString().Contains("SRS"));
+
+                if (!nonSrsBeams.Any())
+                    Result = "Pass";
+
+                foreach (var beam in nonSrsBeams)
                 {
                     Result = "The daily dose is > 500 cGy\nShould the following fields be SRS technique?";
                     ResultColor = ResultColorChoices.Warn;
@@ -35,6 +40,11 @@ namespace PlanCheck.Checks
             }
             else
             {
+                var srsBeams = plan.Beams.Where(x => !x.IsSetupField && x.Technique.ToString().Contains("SRS"));
+
+                if (!srsBeams.Any())
+                    Result = "Pass";
+
                 foreach (var beam in plan.Beams.Where(x => !x.IsSetupField && x.Technique.ToString().Contains("SRS")))
                 {
                     Result = "The following fields use an SRS technique when the daily dose is <= 500 cGy";
