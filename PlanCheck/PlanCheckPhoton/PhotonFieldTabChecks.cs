@@ -42,7 +42,7 @@ namespace PlanCheck.Checks
             {
                 if (Math.Round(beam.SSD) != 1000)
                 {
-                    ResultDetails += $"{beam.Id}: SSD = {beam.SSD}";
+                    ResultDetails += $"{beam.Id}: SSD = {Math.Round(beam.SSD / 10, 1)} cm";
                     ResultColor = ResultColorChoices.Warn;
                 }
             }
