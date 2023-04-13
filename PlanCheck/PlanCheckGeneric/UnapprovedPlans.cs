@@ -24,7 +24,7 @@ namespace PlanCheck.Checks
             if (unapproved.Count() > 0 )
             {
                 Result = String.Join("\n", unapproved.Select(x => $"{x.Id} is Unapproved"));
-                ResultColor = ResultColorChoices.Fail;
+                ResultColor = ResultColorChoices.Warn;
             }
             else
             {
