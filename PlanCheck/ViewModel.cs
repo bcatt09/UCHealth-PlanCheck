@@ -41,6 +41,10 @@ namespace PlanCheck
         private string _slices;                                                     // Number of CT slices
         public string Slices { get { return _slices; } set { _slices = value; OnPropertyChanged("Slices"); } }
 
+        private string _planDose;                                                   // Plan fractionation and total dose
+        public string PlanDose { get { return _planDose; } set { _planDose = value; OnPropertyChanged("PlanDose"); } }
+
+
         private static readonly PVH_Logger logger = PVH_Logger.Logger;
 
         public ViewModel(ScriptContext context)
@@ -52,6 +56,7 @@ namespace PlanCheck
             CourseID = context.Course?.Id;
             PlanID = context.PlanSetup?.Id;
             Slices = context.Image.ZSize.ToString();
+            PlanDose = context.PlanSetup == null ? "" : $"{context.PlanSetup?.DosePerFraction} x {context.PlanSetup?.NumberOfFractions} fx = {context.PlanSetup?.TotalDose}";
 
             logger.Initialize("PVH_PlanCheck", context, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
 
@@ -129,7 +134,7 @@ namespace PlanCheck
                     new RxApproval(plan)
                 }),
 
-                plan.Beams.Where(x => x.EnergyModeDisplayName.ToUpper().Contains('E')).Any()
+                plan?.Beams?.Where(x => x.EnergyModeDisplayName.ToUpper().Contains('E')).Any() ?? false
                 ?   // Electron plan
                 new CategoryCheckList("Electron Plan", new ObservableCollection<PlanCheckBase>
                 {

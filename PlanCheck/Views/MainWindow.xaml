@@ -35,7 +35,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="85"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="75"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="25"/>
         </Grid.ColumnDefinitions>
 
@@ -44,7 +44,8 @@
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Plan: " Margin="0, 0, 0, 5" />
         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=PlanID}" />
         <TextBlock Grid.Row="0" Grid.Column="2" Text="CT Slices: " Margin="0, 0, 10, 5" HorizontalAlignment="Right"/>
-        <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding Path=Slices}"/>
+        <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding Path=Slices}" HorizontalAlignment="Right"/>
+        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Path=PlanDose}" HorizontalAlignment="Right" Grid.ColumnSpan="2"/>
 
         <local:PlanCheckTabControl Grid.Row="2" Grid.ColumnSpan="4"
                                    ItemsSource="{Binding CheckLists}" 
