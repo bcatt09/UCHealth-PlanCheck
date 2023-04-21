@@ -49,7 +49,7 @@ namespace PlanCheck.Checks
                     ApprovalHistoryEntry planningApprovedHistoryEntry = plan.ApprovalHistory.Where(x => x.ApprovalStatus == PlanSetupApprovalStatus.PlanningApproved).Last();
                     string planningApprovedUserDisplayName = planningApprovedHistoryEntry.UserDisplayName;
                     string planningApprovedUserName = planningApprovedHistoryEntry.UserId;
-                    string planningApprovedDateTime = planningApprovedHistoryEntry.ApprovalDateTime.ToString("dddd, MMMM d, yyyy H:mm:ss tt");
+                    string planningApprovedDateTime = planningApprovedHistoryEntry.ApprovalDateTime.ToString("MM/dd H:mm tt");
                     string planningApprovedUserNameMinusDomain = planningApprovedUserName.Substring(planningApprovedUserName.IndexOf('\\') + 1);
 
 
@@ -79,7 +79,7 @@ namespace PlanCheck.Checks
                     // Get user who marked plan as "Treatment Approved" last
                     ApprovalHistoryEntry treatApprovedHistoryEntry = plan.ApprovalHistory.Where(x => x.ApprovalStatus == PlanSetupApprovalStatus.TreatmentApproved).Last();
                     string treatApprovedUserDisplayName = treatApprovedHistoryEntry.UserDisplayName;
-                    string treatApprovedDateTime = treatApprovedHistoryEntry.ApprovalDateTime.ToString("dddd, MMMM d, yyyy H:mm:ss tt");
+                    string treatApprovedDateTime = treatApprovedHistoryEntry.ApprovalDateTime.ToString("MM/dd H:mm tt");
 
                     ResultDetails += $"\nTreatment Approved by: {treatApprovedUserDisplayName} at {treatApprovedDateTime}";
                 }
