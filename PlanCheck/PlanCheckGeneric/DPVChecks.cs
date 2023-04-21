@@ -41,6 +41,12 @@ namespace PlanCheck.Checks
                 ResultColor = ResultColorChoices.Fail;
             }
 
+            if (refPoint.HasLocation(plan))
+            {
+                Result += "Primary reference point has a physical location\n";
+                ResultColor = ResultColorChoices.Fail;
+            }
+
             Result = Result.TrimEnd('\n');
             ResultDetails = $"{refPoint.Id}\nTotal: {refPoint.TotalDoseLimit}\nDaily: {refPoint.DailyDoseLimit}\nSession: {refPoint.SessionDoseLimit}";
         }

@@ -175,15 +175,6 @@ namespace PlanCheck
                     new DPVChecks(plan),
                     new BolusChecks(plan),
                     new PlanApprovalChecks(plan)
-                }),
-
-                new CategoryCheckList("Other Misc", new ObservableCollection<PlanCheckBase>
-                {
-                    // Other misc checks (maybe add them in other tabs?)
-                    new PrecriptionChecks(plan),
-                    new UseGatedChecks(plan),
-                    new TreatmentTimeCalculation(plan),
-                    new CalcParametersChecks(plan)
                 })
             };
         }
