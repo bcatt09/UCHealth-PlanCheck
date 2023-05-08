@@ -37,7 +37,7 @@ namespace PlanCheck.Checks
             var rightLateralityPattern = new Regex(@"(^(R(t)?|Right) .*)|(.*(_R)$)");
 
             // Prescription has laterality
-            if (leftLateralityPattern.IsMatch(rx.Name) || rightLateralityPattern.IsMatch(rx.Name))
+            if (leftLateralityPattern.IsMatch(rx.Name) || rightLateralityPattern.IsMatch(rx.Name) && !rx.Name.ToLower().Contains("spine"))
             {
                 VVector targetLoc;
                 String targetVerbiage;
