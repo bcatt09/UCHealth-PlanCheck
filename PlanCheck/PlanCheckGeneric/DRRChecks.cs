@@ -22,7 +22,7 @@ namespace PlanCheck.Checks
 			ResultColor = ResultColorChoices.Pass;
 			TestExplanation = "Checks that at least one setup field was created and\nDRRs are created and attached as a reference image for all fields";
 
-			if (!plan.Beams.Where(x => x.IsSetupField).Any())
+			if (!plan.Beams.Where(x => x.IsSetupField).Any() && plan.Beams.Where(x => !x.EnergyModeDisplayName.ToLower().Contains('e')).Any())
             {
                 Result = "Warning";
                 ResultDetails += "No setup fields created\n";

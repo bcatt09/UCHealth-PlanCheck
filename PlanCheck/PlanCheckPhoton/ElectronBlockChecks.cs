@@ -94,13 +94,25 @@ namespace PlanCheck.Checks
         private string PrintBlockResults(BlockResults results, string prefix)
         {
             if (results.Material != "e-cut")
+            {
                 ResultColor = ResultColorChoices.Fail;
+                Result = "Material is not e-cut";
+            }
             if (results.Type.ToLower() != "aperture")
+            {
                 ResultColor = ResultColorChoices.Fail;
+                Result = "Type is not Aperature";
+            }
             if (results.DivergingCut.ToLower() != "true")
+            {
                 ResultColor = ResultColorChoices.Fail;
-            if (results.Tray != "CustomFFDA" && results.Type != "CustomFFDA10")
+                Result = "Diverging cut is not checked";
+            }
+            if (!results.Tray.Contains("CustomFFDA"))
+            {
                 ResultColor = ResultColorChoices.Fail;
+                Result = "Tray is not CustomFFDA or CustomFFDA6";
+            }
 
             return results.BeamId + ":\n" +
                 $"{prefix}Material: {results.Material}\n" +
