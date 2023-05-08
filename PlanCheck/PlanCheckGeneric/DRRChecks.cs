@@ -20,14 +20,21 @@ namespace PlanCheck.Checks
 			Result = "Generated";
 			ResultDetails = "";
 			ResultColor = ResultColorChoices.Pass;
-			TestExplanation = "Checks that DRRs are created and attached as a reference image for all fields";
+			TestExplanation = "Checks that at least one setup field was created and\nDRRs are created and attached as a reference image for all fields";
+
+			if (!plan.Beams.Where(x => x.IsSetupField).Any())
+            {
+                Result = "Warning";
+                ResultDetails += "No setup fields created\n";
+				ResultColor = ResultColorChoices.Warn;
+			}
 
 			foreach (Beam field in plan.Beams)
 			{
 				if (field.ReferenceImage == null)
-				{
-					Result = "Warning";
-					ResultDetails += field.Id + " has no reference image\n";
+                {
+                    Result = "Warning";
+                    ResultDetails += field.Id + " has no reference image\n";
 					ResultColor = ResultColorChoices.Warn;
 				}
 			}
