@@ -16,7 +16,7 @@ namespace PlanCheck.Checks
 
         public override void RunTest(PlanSetup plan)
 		{
-			DisplayName = "DRRs";
+			DisplayName = "Setup Fields and DRRs";
 			Result = "Generated";
 			ResultDetails = "";
 			ResultColor = ResultColorChoices.Pass;

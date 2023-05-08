@@ -34,7 +34,7 @@ namespace PlanCheck.Checks
 
             // Check if one was made for VMAT/IMRT plans
             var firstBeam = plan.Beams.First();
-            if (firstBeam.MLCPlanType == MLCPlanType.ArcDynamic || firstBeam.MLCPlanType == MLCPlanType.VMAT || (firstBeam.MLCPlanType == MLCPlanType.DoseDynamic && firstBeam.ControlPoints.Count > 21))
+            if (firstBeam.MLCPlanType == MLCPlanType.VMAT || (firstBeam.MLCPlanType == MLCPlanType.DoseDynamic && firstBeam.ControlPoints.Count > 21))
             {
                 if (!verificationPlans.Any())
                 {

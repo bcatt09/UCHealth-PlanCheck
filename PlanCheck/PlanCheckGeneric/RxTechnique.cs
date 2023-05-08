@@ -21,7 +21,7 @@ namespace PlanCheck.Checks
                               "SRS - Looks for SRS technique\n" +
                               "VMAT - Looks for VMAT MLC type\n" +
                               "IMRT - Looks for DoseDynamic MLC type with > 25 control points\n" +
-                              "3D - Looks for Static MLC type or DoseDynamic MLC type with < 25 control points";
+                              "3D - Looks for Static or ArcDynamic MLC type or DoseDynamic MLC type with < 25 control points";
             ResultColor = ResultColorChoices.Pass;
 
             if (plan.RTPrescription == null)
@@ -180,7 +180,7 @@ namespace PlanCheck.Checks
             {
                 var non3dBeams = plan.Beams
                                     .Where(x => !x.IsSetupField)
-                                    .Where(x => (x.MLCPlanType != MLCPlanType.Static && x.MLCPlanType != MLCPlanType.DoseDynamic) || (x.MLCPlanType == MLCPlanType.DoseDynamic && x.ControlPoints.Count > 25))
+                                    .Where(x => (x.MLCPlanType != MLCPlanType.Static && x.MLCPlanType != MLCPlanType.ArcDynamic && x.MLCPlanType != MLCPlanType.DoseDynamic) || (x.MLCPlanType == MLCPlanType.DoseDynamic && x.ControlPoints.Count > 25))
                                     .Select(x => $"{x.Id} ({x.Name}) - not 3D ({x.MLCPlanType} - {x.ControlPoints.Count} control points)");
 
                 // Non-3D beams used

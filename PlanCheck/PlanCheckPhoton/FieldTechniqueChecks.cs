@@ -33,7 +33,7 @@ namespace PlanCheck.Checks
 
                 foreach (var beam in nonSrsBeams)
                 {
-                    Result = "The daily dose is > 500 cGy\nShould the following fields be SRS technique?";
+                    Result = "The daily dose is > 500 cGy\nShould the following fields be SRS technique for a signoff at the machine?";
                     ResultColor = ResultColorChoices.Warn;
                     ResultDetails += $"{beam.Id}\n";
                 }
