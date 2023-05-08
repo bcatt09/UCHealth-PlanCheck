@@ -25,6 +25,13 @@ namespace PlanCheck.Checks
 
             var verificationPlans = plan.Course.Patient.Courses.SelectMany(x => x.PlanSetups).Where(x => tryVerifiedPlan(x, plan));
 
+            // No couch kicks on verification plans
+            if (verificationPlans.SelectMany(x => x.Beams).Where(x => x.ControlPoints.FirstOrDefault().PatientSupportAngle != 0.0).Any())
+            {
+                Result = "Make sure there are no couch kicks for verification plans";
+                ResultColor = ResultColorChoices.Warn;
+            }
+
             // Check if one was made for VMAT/IMRT plans
             var firstBeam = plan.Beams.First();
             if (firstBeam.MLCPlanType == MLCPlanType.ArcDynamic || firstBeam.MLCPlanType == MLCPlanType.VMAT || (firstBeam.MLCPlanType == MLCPlanType.DoseDynamic && firstBeam.ControlPoints.Count > 21))
@@ -37,8 +44,7 @@ namespace PlanCheck.Checks
             }
             else if (verificationPlans.Any())
             {
-                Result = "Was a verification plan necessary?";
-             
+                Result = "Was a verification plan necessary?";             
                 ResultColor = ResultColorChoices.Warn;
             }
             else
