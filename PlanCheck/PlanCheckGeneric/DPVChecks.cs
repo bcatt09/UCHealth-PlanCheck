@@ -35,7 +35,7 @@ namespace PlanCheck.Checks
                 ResultColor = ResultColorChoices.Fail;
             }
 
-            if(refPoint.TotalDoseLimit != plan.TotalDose || refPoint.SessionDoseLimit != plan.DosePerFraction)
+            if(Math.Round(refPoint.TotalDoseLimit.Dose,1) != Math.Round(plan.TotalDose.Dose,1) || Math.Round(refPoint.SessionDoseLimit.Dose,1) != Math.Round(plan.DosePerFraction.Dose,1))
             {
                 Result += "Please check reference point limits\n";
                 ResultColor = ResultColorChoices.Fail;
