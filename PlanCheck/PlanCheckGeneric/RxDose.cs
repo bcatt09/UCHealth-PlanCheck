@@ -34,7 +34,7 @@ namespace PlanCheck.Checks
             {
                 Result = "Failure";
                 ResultColor = ResultColorChoices.Fail;
-                ResultDetails += $"Number of fractions mismatch\nPlan: {plan.DosePerFraction}\nPrescription: {targRx.DosePerFraction}\n\n";
+                ResultDetails += $"Number of fractions mismatch\nPlan: {plan.NumberOfFractions} fx\nPrescription: {targRx.NumberOfFractions} fx\n\n";
             }
             // Dose per fraction does not agree
             if (targRx.DosePerFraction != plan.DosePerFraction)
