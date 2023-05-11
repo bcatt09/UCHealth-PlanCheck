@@ -98,8 +98,8 @@ namespace PlanCheck.Checks
                     }
                 }
 
-                // Display if closed leaf pair was parked for > 15% of field MUs
-                if (closedPairTracking.Select(x => x.MaxMetersetInOnePosition).Max() > 0.15)
+                // Display if closed leaf pair was parked for > 50% of field MUs
+                if (closedPairTracking.Select(x => x.MaxMetersetInOnePosition).Max() > 0.5)
                 {
                     Result = "Warning";
                     ResultColor = ResultColorChoices.Warn;
