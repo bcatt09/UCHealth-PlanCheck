@@ -47,8 +47,11 @@ namespace PlanCheck.Checks
 					  || plan.Id.ToLower().Contains("cw")
                       || plan.Id.ToLower().Contains("chestwal")
                       || plan.Id.ToLower().Contains("chstwal")
+                      || plan.Id.ToLower().Contains("chest wal")
                       || plan.Id.ToLower().Contains("scf")
                       || plan.Id.ToLower().Contains("scv")
+                      || plan.Id.ToLower().Contains("sclv")
+                      || plan.Id.ToLower().Contains("sclav")
                       || plan.Id.ToLower().Contains("pab")
 					  || plan.StructureSet.Structures.Any(x => x.Id.ToUpper().Contains("IMN")))
 					tolTable = "PVH Breast";
