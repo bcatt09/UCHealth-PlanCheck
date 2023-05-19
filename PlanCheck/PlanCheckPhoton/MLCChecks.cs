@@ -39,6 +39,9 @@ namespace PlanCheck.Checks
                     HD = true;
                 else if (field.MLC.Model == "Millennium 120")
                     HD = false;
+
+                //System.Windows.MessageBox.Show()
+
                 else
                 {
                     Result = "Unknown MLC";
@@ -138,6 +141,16 @@ namespace PlanCheck.Checks
                 return leafOffset * 2.5f;
             else
                 return leafOffset * 5.0f;
+        }
+
+        private static float GetHalfOfLeafSize(float leafOffset, bool HD)
+        {
+            // Big leaf
+            if (Math.Abs(leafOffset) > 20)
+                return HD ? 10.0f / 2 : 5.0f / 2;
+            // Small leaf
+            else
+                return HD ? 5.0f / 2 : 2.5f / 2;
         }
 
         private class ClosedLeafPairInfo
