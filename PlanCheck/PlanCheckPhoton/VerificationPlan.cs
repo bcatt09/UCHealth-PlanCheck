@@ -55,7 +55,8 @@ namespace PlanCheck.Checks
             // Display the created verification plans
             foreach (var vPlan in verificationPlans)
             {
-                ResultDetails += $"{vPlan.Course.Id}/{vPlan.Id} ({vPlan.StructureSet.Id})\n";
+                var portal = "Portal Dosimetry";
+                ResultDetails += $"{vPlan.Course.Id}/{vPlan.Id} ({vPlan.StructureSet?.Id ?? portal})\n";
             }
 
             ResultDetails = ResultDetails.TrimEnd('\n');
