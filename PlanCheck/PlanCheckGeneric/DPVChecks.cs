@@ -29,9 +29,15 @@ namespace PlanCheck.Checks
                 ResultColor = ResultColorChoices.Warn;
             }
 
+            if (Math.Round(refPoint.DailyDoseLimit.Dose, 1) != Math.Round(plan.DosePerFraction.Dose, 1))
+            {
+                Result += "Please check daily reference point limits\n";
+                ResultColor = ResultColorChoices.Warn;
+            }
+
             if (refPoint.PatientVolumeId != plan.TargetVolumeID)
             {
-                Result += $"DPV Volume ({refPoint.PatientVolumeId}) does not\nmatch Target Volume ({plan.TargetVolumeID})\n";
+                Result += $"DPV Volume (which is {refPoint.PatientVolumeId}) does not\nmatch Target Volume (which is {plan.TargetVolumeID})\n";
                 ResultColor = ResultColorChoices.Fail;
             }
 
