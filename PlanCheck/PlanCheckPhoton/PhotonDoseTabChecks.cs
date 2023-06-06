@@ -16,7 +16,7 @@ namespace PlanCheck.Checks
         public override void RunTestLinac(ExternalPlanSetup plan)
         {
             DisplayName = "Dose Tab Checks";
-            TestExplanation = "Rx is associated with the plan\nDPV used as primmary reference point (and named appropriately)\nPlan normalization set to Plan Normalization Value";
+            TestExplanation = "Rx is associated with the plan\nDPV used as primmary reference point (and named appropriately)\nPlan normalization set to Plan Normalization Value or No plan normalization";
             Result = "";
             ResultDetails = "";
 
@@ -35,7 +35,7 @@ namespace PlanCheck.Checks
                 ResultDetails += "Primary Reference Point not set to \"DPV\" (or there is a typo)\n";
             }
             // Plan normalization
-            if (!plan.PlanNormalizationMethod.Contains("Plan Normalization Value"))
+            if (!(plan.PlanNormalizationMethod.Contains("Plan Normalization Value") || plan.PlanNormalizationMethod == "No plan normalization"))
             {
                 Result = "Failure";
                 ResultColor = ResultColorChoices.Fail;
