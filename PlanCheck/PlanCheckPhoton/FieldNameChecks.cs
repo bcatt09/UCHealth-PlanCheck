@@ -34,8 +34,8 @@ namespace PlanCheck.Checks
 					}
                     else if (field.Technique.ToString().ToUpper().Contains("ARC"))
 					{
-                        // Field name matching pattern: 0-179 with a non-digit character afterwards (so 0-17 would not match)
-                        string fieldNameArc = $@"{Math.Round(field.ControlPoints.FirstOrDefault().GantryAngle)}-{Math.Round(field.ControlPoints.LastOrDefault().GantryAngle)}\D";
+                        // Field name matching pattern: 0-179
+                        string fieldNameArc = $@"{Math.Round(field.ControlPoints.FirstOrDefault().GantryAngle)}-{Math.Round(field.ControlPoints.LastOrDefault().GantryAngle)}";
 
                         if (!Regex.IsMatch(field.Name, fieldNameArc))
                         {

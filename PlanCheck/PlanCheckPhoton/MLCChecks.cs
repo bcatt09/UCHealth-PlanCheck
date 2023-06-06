@@ -40,14 +40,13 @@ namespace PlanCheck.Checks
                 else if (field.MLC.Model == "Millennium 120")
                     HD = false;
 
-                //System.Windows.MessageBox.Show()
-
                 else
                 {
                     Result = "Unknown MLC";
                     ResultColor = ResultColorChoices.Fail;
                     return;
                 }
+
                 //double[,] closedPairsInField = new double[60,3];
                 List<ClosedLeafPairInfo> closedPairTracking = new List<ClosedLeafPairInfo>(60);
 
@@ -117,25 +116,25 @@ namespace PlanCheck.Checks
 
         private static float GetLeafOffset(float leafOffset, bool HD)
         {
-            return GetBigLeafOffset(leafOffset, HD) + GetSmallLeafOffset(leafOffset, HD);
+            return GetBigLeafOffset(leafOffset, HD) + GetSmallLeafOffset(leafOffset, HD) + GetHalfOfLeafSize(leafOffset, HD);
         }
 
         private static float GetBigLeafOffset(float leafOffset, bool HD)
         {
             // It is a small leaf
-            if (Math.Abs(leafOffset) < 20)
+            if (Math.Abs(leafOffset) < (HD ? 16 : 20))
                 return 0.0f;
 
             var leafWidth = HD ? 5.0f : 10.0f;
 
-            return (leafOffset - 20 * Math.Sign(leafOffset)) * leafWidth;
+            return (leafOffset - (HD ? 16 : 20) * Math.Sign(leafOffset)) * leafWidth;
         }
 
         private static float GetSmallLeafOffset(float leafOffset, bool HD)
         {
             // If it's a big leaf, only count the small ones
-            if (Math.Abs(leafOffset) > 20)
-                leafOffset = 20 * Math.Sign(leafOffset);
+            if (Math.Abs(leafOffset) > (HD ? 16 : 20))
+                leafOffset = (HD ? 16 : 20) * Math.Sign(leafOffset);
 
             if (HD)
                 return leafOffset * 2.5f;
@@ -145,12 +144,14 @@ namespace PlanCheck.Checks
 
         private static float GetHalfOfLeafSize(float leafOffset, bool HD)
         {
+            var scalingValue = leafOffset == 0 ? 1.0f : Math.Sign(leafOffset);
+
             // Big leaf
-            if (Math.Abs(leafOffset) > 20)
-                return HD ? 10.0f / 2 : 5.0f / 2;
+            if (Math.Abs(leafOffset) > (HD ? 16 : 20))
+                return (HD ? 5.0f / 2 : 10.0f / 2) * scalingValue;
             // Small leaf
             else
-                return HD ? 5.0f / 2 : 2.5f / 2;
+                return (HD ? 2.5f / 2 : 5.0f / 2) * scalingValue;
         }
 
         private class ClosedLeafPairInfo
