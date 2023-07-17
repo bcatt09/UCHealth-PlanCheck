@@ -117,6 +117,7 @@
   <ItemGroup>
     <Compile Include="DepartmentInfo.cs" />
     <Compile Include="DisplayColors.cs" />
+    <Compile Include="PlanCheckGeneric\IllegalCharactersCheck.cs" />
     <Compile Include="PlanCheckPhoton\FieldTechniqueChecks.cs" />
     <Compile Include="PlanCheckStructureSet\BodyContour.cs" />
     <Compile Include="PlanCheckGeneric\CourseChecks.cs" />
