@@ -60,7 +60,7 @@ namespace PlanCheck.Checks
                         {
                             Result = "Warning";
                             ResultColor = ResultColorChoices.Warn;
-                            ResultDetails += $"\nPlanning Approved by {planningApprovedUserDisplayName} at {planningApprovedDateTime}\nPlan Reviewer not on Physician List for Center";
+                            ResultDetails += $"\nPlanning Approved by {planningApprovedUserDisplayName} at {planningApprovedDateTime}\nPlan Approver not on Physician List for Center";
                             //System.Windows.MessageBox.Show($"runmd: {reviewedUserNameMinusDomain}, dept: {Department}");
                         }
                         else
