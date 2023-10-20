@@ -104,7 +104,7 @@ namespace PlanCheck
 			public static readonly string PVH_1199 = "TrueBeamSTx1199";
 			public static readonly string PVH_1424 = "TrueBeam1424";
 			public static readonly string PVH_4960 = "TrueBeam4960";
-			public static readonly string PVH_6147 = "TrueBeam6147"
+			public static readonly string PVH_6147 = "TrueBeam6147";
 
 			public static readonly List<string> PVH = new List<string> { PVH_1199, PVH_1424, PVH_4960, PVH_6147 };
 		}
