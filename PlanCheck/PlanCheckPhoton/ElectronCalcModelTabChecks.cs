@@ -90,11 +90,25 @@ namespace PlanCheck.Checks
 
             // Normalization Method
             var norm = calcOptions["NormalizationMethod"];
-            if (norm != "Central axis Dmax")
+            // Global Dmax for gynecomastia
+            if (plan.Course.Diagnoses.Any(x => x.ClinicalDescription.Contains("Hypertrophy of breast")))
             {
-                Result = "Failure";
-                ResultColor = ResultColorChoices.Fail;
-                ResultDetails = $"Normalization Method not set to \"Central axis Dmax\" - ({calcOptions["NormalizationMethod"]})\n";
+                if (norm != "Global Dmax")
+                {
+                    Result = "Failure";
+                    ResultColor = ResultColorChoices.Fail;
+                    ResultDetails = $"Normalization Method should be set to \"Global Dmax\" for gynecomastia - ({calcOptions["NormalizationMethod"]})\n";
+                }
+            }
+            // Central axid Dmax otherwise
+            else
+            {
+                if (norm != "Central axis Dmax")
+                {
+                    Result = "Failure";
+                    ResultColor = ResultColorChoices.Fail;
+                    ResultDetails = $"Normalization Method not set to \"Central axis Dmax\" - ({calcOptions["NormalizationMethod"]})\n";
+                }
             }
 
             // Final result
@@ -120,7 +134,7 @@ namespace PlanCheck.Checks
                                "Dose Threshold For Uncertainty = 50\n" +
                                "Smoothing Method = 3-D_Gaussian\n" +
                                "Smoothing Level = Low\n" +
-                               "Normalization Method = Central axis Dmax\n";
+                               "Normalization Method = Central axis Dmax (Global Dmax for gynecomastia)\n";
         }
     }
 }
