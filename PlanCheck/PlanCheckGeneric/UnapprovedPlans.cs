@@ -21,9 +21,9 @@ namespace PlanCheck.Checks
             
             var unapproved = plan.Course.PlanSetups.Where(x => x.ApprovalStatus == PlanSetupApprovalStatus.UnApproved);
 
-            if (unapproved.Count() > 0 )
+            if (unapproved.Count(x => x.RTPrescription == null) > 0)
             {
-                Result = String.Join("\n", unapproved.Select(x => $"{x.Id} is Unapproved"));
+                Result = String.Join("\n", unapproved.Where(x => x.RTPrescription == null).Select(x => $"{x.Id} is Unapproved"));
                 ResultColor = ResultColorChoices.Warn;
             }
             else
