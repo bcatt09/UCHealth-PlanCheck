@@ -9,7 +9,7 @@ namespace PlanCheck.Checks
 {
     public class IllegalCharactersCheck : PlanCheckGeneric
     {
-        List<char> illegalChars = new List<char> { '(', ')', ',', '.', '<', '>', '{', '}', '[', ']', '\\', '\t', '!', '$', '^', '&', '*', '-', '=', '%', '"', ';', '?', '@', '+' };
+        List<char> illegalChars = new List<char> { '(', ')', ',', '<', '>', '{', '}', '[', ']', '\\', '\t', '!', '$', '^', '&', '*', '=', '%', '"', ';', '?', '@' };
 
         protected override List<string> MachineExemptions => new List<string> { };
 
