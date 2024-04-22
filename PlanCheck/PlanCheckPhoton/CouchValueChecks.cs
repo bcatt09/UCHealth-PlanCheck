@@ -9,7 +9,7 @@ namespace PlanCheck.Checks
 {
     public class CouchValueChecks : PlanCheckLinac
 	{
-		protected override List<string> MachineExemptions => new List<string> { };
+		protected override List<string> MachineExemptions => new List<string> { DepartmentInfo.MachineNames.PVH_6147 };
 
 		public CouchValueChecks(PlanSetup plan) : base(plan) { }
 
