@@ -64,7 +64,7 @@ namespace PlanCheck.Checks
             // Gantry and collimator angles
             var coll0 = plan.Beams.Where(x => !x.IsSetupField && x.ControlPoints.First().CollimatorAngle == 0);
 
-            if (IMRT || VMAT && coll0.Count() > 0)
+            if ((IMRT || VMAT) && coll0.Any())
             {
                 Result = "Failure";
                 ResultDetails += String.Join("\n", coll0.Select(x => $"{x.Id} uses collimator 0")) + "\n";
