@@ -36,8 +36,15 @@ namespace PlanCheck.Checks
                 ResultColor = ResultColorChoices.Fail;
                 ResultDetails += $"Number of fractions mismatch\nPlan: {plan.NumberOfFractions} fx\nPrescription: {targRx.NumberOfFractions} fx\n\n";
             }
+            // Dose per fraction does agree with a target but not the highest dose one
+            if (rx?.Targets.Any(x => x.DosePerFraction == plan.DosePerFraction) == true)
+            {
+                Result = "Warning";
+                ResultColor = ResultColorChoices.Warn;
+                ResultDetails += $"Plan dose does not match the highest dose target volume\nPlan: {plan.DosePerFraction}\nPrescription: {targRx.DosePerFraction}\n\n";
+            }
             // Dose per fraction does not agree
-            if (targRx.DosePerFraction != plan.DosePerFraction)
+            else if (targRx.DosePerFraction != plan.DosePerFraction)
             {
                 Result = "Failure";
                 ResultColor = ResultColorChoices.Fail;
