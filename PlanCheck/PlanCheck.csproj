@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>PlanCheck.Checks</RootNamespace>
     <AssemblyName>PVH_PlanCheck.esapi</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -83,10 +83,10 @@
       <HintPath>..\packages\NLog.5.0.4\lib\net46\NLog.dll</HintPath>
     </Reference>
     <Reference Include="PVH_Log">
-      <HintPath>..\..\..\UCHealth Libraries\PVH_Log.dll</HintPath>
+      <HintPath>\\homedirs.uch.ad.pvt\cattbe\Coding\source\UCHealth Libraries\PVH_Log.dll</HintPath>
     </Reference>
     <Reference Include="PVH_Themes">
-      <HintPath>..\..\..\UCHealth Libraries\PVH_Themes.dll</HintPath>
+      <HintPath>\\homedirs.uch.ad.pvt\cattbe\Coding\source\UCHealth Libraries\PVH_Themes.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -108,10 +108,10 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="VMS.TPS.Common.Model.API">
-      <HintPath>..\..\..\Varian Libraries 15.6\VMS.TPS.Common.Model.API.dll</HintPath>
+      <HintPath>\\homedirs.uch.ad.pvt\cattbe\Coding\source\Varian Libraries 18.1\VMS.TPS.Common.Model.API.dll</HintPath>
     </Reference>
     <Reference Include="VMS.TPS.Common.Model.Types">
-      <HintPath>..\..\..\Varian Libraries 15.6\VMS.TPS.Common.Model.Types.dll</HintPath>
+      <HintPath>\\homedirs.uch.ad.pvt\cattbe\Coding\source\Varian Libraries 18.1\VMS.TPS.Common.Model.Types.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />

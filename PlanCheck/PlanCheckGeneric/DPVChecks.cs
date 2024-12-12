@@ -35,13 +35,7 @@ namespace PlanCheck.Checks
                 ResultColor = ResultColorChoices.Warn;
             }
 
-            if (refPoint.PatientVolumeId != plan.TargetVolumeID)
-            {
-                Result += $"DPV Volume (which is {refPoint.PatientVolumeId}) does not\nmatch Target Volume (which is {plan.TargetVolumeID})\n";
-                ResultColor = ResultColorChoices.Fail;
-            }
-
-            if(Math.Round(refPoint.TotalDoseLimit.Dose,1) != Math.Round(plan.TotalDose.Dose,1) || Math.Round(refPoint.SessionDoseLimit.Dose,1) != Math.Round(plan.DosePerFraction.Dose,1))
+            if (Math.Round(refPoint.TotalDoseLimit.Dose,1) != Math.Round(plan.TotalDose.Dose,1) || Math.Round(refPoint.SessionDoseLimit.Dose,1) != Math.Round(plan.DosePerFraction.Dose,1))
             {
                 Result += "Please check reference point limits\n";
                 ResultColor = ResultColorChoices.Fail;
@@ -49,7 +43,7 @@ namespace PlanCheck.Checks
 
             if (refPoint.HasLocation(plan))
             {
-                Result += "Primary reference point has a physical location\n";
+                Result += "Primary reference point has a physical location (I thought that wasn't possible anymore)\n";
                 ResultColor = ResultColorChoices.Fail;
             }
 
