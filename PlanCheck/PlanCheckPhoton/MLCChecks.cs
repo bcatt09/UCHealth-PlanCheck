@@ -29,17 +29,18 @@ namespace PlanCheck.Checks
             // + = Open (pulled back away from CAX)
             // - = Closed (pushed forward beyond CAX)
 
-            foreach (var field in plan.Beams.Where(x => !x.IsSetupField && x.MLC != null))
+            foreach (var field in plan.Beams.Where(x => !x.IsSetupField))
             {
+                totalMUs += field.Meterset.Value;
+
                 // Is it an HD MLC or not (or unknown)
                 // "Millennium 120" or "Varian High Definition 120"
                 bool HD;
 
-                if (field.MLC.Model == "Varian High Definition 120")
+                if (field?.MLC?.Model == "Varian High Definition 120")
                     HD = true;
-                else if (field.MLC.Model == "Millennium 120")
+                else if (field?.MLC?.Model == "Millennium 120")
                     HD = false;
-
                 else
                 {
                     Result = "Unknown MLC";
@@ -107,8 +108,6 @@ namespace PlanCheck.Checks
                     ResultColor = ResultColorChoices.Warn;
                     ResultDetails += $"{field.Id} - Closed leaf pair in field for {Math.Round(closedPairTracking.Select(x => x.MaxMetersetInOnePosition).Max() * 100)}% of MUs\n";
                 }
-
-                totalMUs += field.Meterset.Value;
             }
 
             ResultDetails += $"MU Factor: {Math.Round(totalMUs / plan.DosePerFraction.Dose, 1)} MU / cGy";
