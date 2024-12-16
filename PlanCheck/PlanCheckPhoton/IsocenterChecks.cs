@@ -39,7 +39,7 @@ namespace PlanCheck.Checks
 				}
 
 				// Check if 180E might be necessary if it isn't being used already
-				if (!field.IsSetupField && field.ControlPoints.First().GantryAngle == 180)// (v16) && !field.IsGantryExtended)
+				if (!field.IsSetupField && !field.IsGantryExtended && field.ControlPoints.First().GantryAngle == 180)
 				{
 					try
 					{
