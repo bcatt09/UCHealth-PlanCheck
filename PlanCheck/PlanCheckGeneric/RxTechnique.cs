@@ -180,7 +180,7 @@ namespace PlanCheck.Checks
             {
                 var non3dBeams = plan.Beams
                                     .Where(x => !x.IsSetupField)
-                                    .Where(x => (x.MLCPlanType != MLCPlanType.Static && x.MLCPlanType != MLCPlanType.ArcDynamic && x.MLCPlanType != MLCPlanType.DoseDynamic) || (x.MLCPlanType == MLCPlanType.DoseDynamic && x.ControlPoints.Count > 25))
+                                    .Where(x => (x.MLCPlanType != MLCPlanType.NotDefined && x.MLCPlanType != MLCPlanType.Static && x.MLCPlanType != MLCPlanType.ArcDynamic && x.MLCPlanType != MLCPlanType.DoseDynamic) || (x.MLCPlanType == MLCPlanType.DoseDynamic && x.ControlPoints.Count > 25))
                                     .Select(x => $"{x.Id} ({x.Name}) - not 3D ({x.MLCPlanType} - {x.ControlPoints.Count} control points)");
 
                 // Non-3D beams used
