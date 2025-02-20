@@ -29,22 +29,22 @@ namespace PlanCheck.Checks
             // + = Open (pulled back away from CAX)
             // - = Closed (pushed forward beyond CAX)
 
-            foreach (var field in plan.Beams.Where(x => !x.IsSetupField && x.MLC != null))
+            foreach (var field in plan.Beams.Where(x => !x.IsSetupField))
             {
                 // Is it an HD MLC or not (or unknown)
                 // "Millennium 120" or "Varian High Definition 120"
                 bool HD;
 
-                if (field.MLC.Model == "Varian High Definition 120")
-                    HD = true;
-                else if (field.MLC.Model == "Millennium 120")
-                    HD = false;
-                else if (field.MLCPlanType == VMS.TPS.Common.Model.Types.MLCPlanType.NotDefined)
+                if (field.MLC == null)
                 {
                     Result = "No MLC";
                     ResultColor = ResultColorChoices.Pass;
                     return;
                 }
+                else if (field.MLC.Model == "Varian High Definition 120")
+                    HD = true;
+                else if (field.MLC.Model == "Millennium 120")
+                    HD = false;
                 else
                 {
                     Result = "Unknown MLC";
