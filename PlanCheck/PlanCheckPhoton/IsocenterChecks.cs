@@ -46,16 +46,16 @@ namespace PlanCheck.Checks
 						Structure body = (from s in plan.StructureSet.Structures where (s.DicomType == "BODY" || s.DicomType == "EXTERNAL") select s).First();
 
 						// Looks for the isocenter position to be 20 mm to the left when facing the linac. Positions are in mm
-						if (field.IsocenterPosition.x - body.CenterPoint.x < -20 && (plan.TreatmentOrientation == PatientOrientation.HeadFirstSupine || plan.TreatmentOrientation == PatientOrientation.FeetFirstProne))
+						if (!field.IsGantryExtended && field.IsocenterPosition.x - body.CenterPoint.x < -20 && (plan.TreatmentOrientation == PatientOrientation.HeadFirstSupine || plan.TreatmentOrientation == PatientOrientation.FeetFirstProne))
 						{
 							Result = "Warning";
 							ResultDetails += $"Isocenter is shifted to patients right, do you want to use {field.GantryAngleToUser(180)}E?\n";
 							ResultColor = ResultColorChoices.Warn;
 						}
-						if (field.IsocenterPosition.x - body.CenterPoint.x > 20 && (plan.TreatmentOrientation == PatientOrientation.HeadFirstProne || plan.TreatmentOrientation == PatientOrientation.FeetFirstSupine))
+						if (field.IsGantryExtended && field.IsocenterPosition.x - body.CenterPoint.x > 20 && (plan.TreatmentOrientation == PatientOrientation.HeadFirstProne || plan.TreatmentOrientation == PatientOrientation.FeetFirstSupine))
 						{
 							Result = "Warning";
-							ResultDetails += $"Isocenter is shifted to patients left, do you want to use {field.GantryAngleToUser(180)}E?\n";
+							ResultDetails += $"Isocenter is shifted to patients left, are you sure you want to use {field.GantryAngleToUser(180)}E?\n";
 							ResultColor = ResultColorChoices.Warn;
 						}
 					}
