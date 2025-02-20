@@ -39,7 +39,12 @@ namespace PlanCheck.Checks
                     HD = true;
                 else if (field.MLC.Model == "Millennium 120")
                     HD = false;
-
+                else if (field.MLCPlanType == VMS.TPS.Common.Model.Types.MLCPlanType.NotDefined)
+                {
+                    Result = "No MLC";
+                    ResultColor = ResultColorChoices.Pass;
+                    return;
+                }
                 else
                 {
                     Result = "Unknown MLC";
