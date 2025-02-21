@@ -24,7 +24,9 @@ namespace PlanCheck.Checks
 
             var SBRT = plan.DosePerFraction > new DoseValue(500, DoseValue.DoseUnit.cGy);
 
-            if (SBRT)
+            var breastAPBI = Helpers.TreatmentClassifier.IsBreastAPBI(plan);
+
+            if (SBRT && !breastAPBI)
             {
                 var nonSrsBeams = plan.Beams.Where(x => !x.IsSetupField && !x.Technique.ToString().Contains("SRS"));
 

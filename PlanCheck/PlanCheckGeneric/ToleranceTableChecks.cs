@@ -34,6 +34,8 @@ namespace PlanCheck.Checks
 				string tolTable;
 				string badFields = "";
 
+				var breastAPBI = Helpers.TreatmentClassifier.IsBreastAPBI(plan);
+
                 // Plan has 1 mm slices (likely a brain SRS)
                 if (plan.StructureSet.Image.ZRes == 1)
                     tolTable = "PVH SRS";
@@ -41,7 +43,8 @@ namespace PlanCheck.Checks
                 else if (plan.Beams.Any(x => !x.IsSetupField && x.EnergyModeDisplayName.ToUpper().Contains("E")))
                     tolTable = "PVH Electrons";
                 // Breast plan
-                else if (plan.Id.ToLower().Contains("breast") 
+                else if (!breastAPBI && plan.RTPrescription?.Site == "Breast" &&
+						 (plan.Id.ToLower().Contains("breast") 
 					  || plan.Id.ToLower().Contains("brst") 
 					  || plan.Id.ToLower().Contains("brest")
 					  || plan.Id.ToLower().Contains("cw")
@@ -53,7 +56,7 @@ namespace PlanCheck.Checks
                       || plan.Id.ToLower().Contains("sclv")
                       || plan.Id.ToLower().Contains("sclav")
                       || plan.Id.ToLower().Contains("pab")
-					  || plan.StructureSet.Structures.Any(x => x.Id.ToUpper().Contains("IMN")))
+					  || plan.StructureSet.Structures.Any(x => x.Id.ToUpper().Contains("IMN"))))
 					tolTable = "PVH Breast";
 				// Other (IGRT)
 				else
@@ -86,9 +89,9 @@ namespace PlanCheck.Checks
 					ResultColor = ResultColorChoices.Pass;
 				}
 			}
-			#endregion
+            #endregion
 
-			else
+            else
 				TestNotImplemented();
 		}
     }
