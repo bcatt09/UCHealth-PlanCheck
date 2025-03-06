@@ -20,7 +20,8 @@ namespace PlanCheck.Checks
             TestExplanation = "Displays calculation algorithm and dose grid size\n" +
                               "Guesses at SRS/SBRT status based on number of fractions and dose per fraction (<= 5 fx and > 500 cGy / fx)\n" +
                               "Guesses at Prostate SIB status based on Plan/Course ID and prescribed dose / number of fractions\n" +
-                              "Guesses at Breast APBI status based on Rx Site and prescribed dose of > 2500 cGy in <= 5 fx";
+                              "Guesses at Breast APBI status based on Rx Site and prescribed dose of > 2500 cGy in <= 5 fx\n" +
+                              "If maximum jaw opening of a field is < 5 cm it fails and tells the user to use 1 mm calc grid";
             Result =  plan.Beams.Any(x => x.EnergyModeDisplayName.ToUpper().Contains('E')) ? plan.ElectronCalculationModel : plan.PhotonCalculationModel;
             ResultDetails = $"{plan.Dose.XRes} mm";
 
@@ -58,6 +59,24 @@ namespace PlanCheck.Checks
             {
                 if (gridSize > 1.0)
                     ResultColor = ResultColorChoices.Fail;
+            }
+            // Jaw opening < 5 cm in X or Y (should be 1 mm)
+            else if (plan.Beams.Where(b => !b.IsSetupField).Min(b => Math.Min(b.ControlPoints.Max(c => c.JawPositions.X2) - b.ControlPoints.Min(c => c.JawPositions.X1), b.ControlPoints.Max(c => c.JawPositions.Y2) - b.ControlPoints.Min(c => c.JawPositions.Y1))) < 50.0)
+            {
+                if (gridSize > 1.0)
+                {
+                    ResultColor = ResultColorChoices.Fail;
+                    var list = plan.Beams.Where(b => !b.IsSetupField).Select(b =>
+                                new
+                                {
+                                    b.Id,
+                                    Opening = Math.Min(b.ControlPoints.Max(c => c.JawPositions.X2) - b.ControlPoints.Min(c => c.JawPositions.X1), b.ControlPoints.Max(c => c.JawPositions.Y2) - b.ControlPoints.Min(c => c.JawPositions.Y1))
+                                });
+
+                    var smallBeam = list.OrderBy(x => x.Opening).First();
+
+                    ResultDetails += $"\n{smallBeam.Id} - Max jaw positions: {Math.Round(smallBeam.Opening / 10.0, 1)} cm\nPlease use 1 mm calc grid";
+                }
             }
             // Regular photon plan
             else
