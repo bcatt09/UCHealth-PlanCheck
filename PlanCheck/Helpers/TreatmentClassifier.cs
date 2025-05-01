@@ -12,7 +12,7 @@ namespace PlanCheck.Helpers
     {
         public static bool IsBreastAPBI (PlanSetup plan)
         {
-            var rxTarg = plan.RTPrescription?.Targets?.FirstOrDefault();
+            var rxTarg = plan.RTPrescription?.Targets?.OrderByDescending(x => x.DosePerFraction).FirstOrDefault();
 
             return (plan.RTPrescription?.Site == "Breast") && 
                    (rxTarg?.NumberOfFractions <= 5) &&
@@ -21,7 +21,7 @@ namespace PlanCheck.Helpers
 
         public static bool IsProstSIB (PlanSetup plan)
         {
-            var rxTarg = plan.RTPrescription?.Targets?.FirstOrDefault();
+            var rxTarg = plan.RTPrescription?.Targets?.OrderByDescending(x => x.DosePerFraction).FirstOrDefault();
 
             return plan.Id.ToUpper().Contains("SIB") ||
                    plan.Course.Id.ToUpper().Contains("SIB") ||
