@@ -18,6 +18,7 @@ namespace PlanCheck.Checks
         {
             string PhotonModel = "AAA_15605";
             string POModel = "PO_15605";
+            string POModelTemp = "PO_18.0.1";
 
             DisplayName = "Calculation Model Tab";
             Result = "";
@@ -60,6 +61,7 @@ namespace PlanCheck.Checks
 
             // Calc model
             var volModel = plan.PhotonCalculationModel;
+            // Remove PO15.6 when adding AXB18
             if (volModel != PhotonModel)
             {
                 Result = "Failure";
@@ -69,7 +71,7 @@ namespace PlanCheck.Checks
 
             // PO model
             var poModel = plan.GetCalculationModel(CalculationType.PhotonIMRTOptimization);
-            if (poModel != POModel)
+            if (poModel != POModel && poModel != POModelTemp)
             {
                 Result = "Failure";
                 ResultColor = ResultColorChoices.Fail;
