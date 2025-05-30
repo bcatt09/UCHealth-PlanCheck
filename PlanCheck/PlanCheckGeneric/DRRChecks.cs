@@ -20,9 +20,11 @@ namespace PlanCheck.Checks
 			Result = "Generated";
 			ResultDetails = "";
 			ResultColor = ResultColorChoices.Pass;
-			TestExplanation = "Checks that at least one setup field was created and\nDRRs are created and attached as a reference image for all fields";
+			TestExplanation = "Checks that at least one setup field was created (unless the plan is parallel opposed)\nand that DRRs are created and attached as a reference image for all fields";
 
-			if (!plan.Beams.Where(x => x.IsSetupField).Any() && plan.Beams.Where(x => !x.EnergyModeDisplayName.ToLower().Contains('e')).Any())
+			var parallelOpposed = Helpers.ParallelOpposedClassifier.AreAnglesParallelOrOpposed(plan.Beams.Select(x => x.ControlPoints.First().GantryAngle));
+
+			if (!plan.Beams.Where(x => x.IsSetupField).Any() && plan.Beams.Where(x => !x.EnergyModeDisplayName.ToLower().Contains('e')).Any() && !parallelOpposed)
             {
                 Result = "Warning";
                 ResultDetails += "No setup fields created\n";
