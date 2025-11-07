@@ -27,8 +27,8 @@ namespace PlanCheck.Checks
 
             var gridSize = plan.Dose.XRes;
 
-            var prostSIB = Helpers.TreatmentClassifier.IsProstSIB(plan);
-            var breastAPBI = Helpers.TreatmentClassifier.IsBreastAPBI(plan);
+            var prostSIB = PlanCheck.Helpers.TreatmentClassifier.IsProstSIB(plan);
+            var breastAPBI = PlanCheck.Helpers.TreatmentClassifier.IsBreastAPBI(plan);
 
             if (breastAPBI)
             {

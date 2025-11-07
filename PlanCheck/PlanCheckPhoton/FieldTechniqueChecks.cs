@@ -24,7 +24,7 @@ namespace PlanCheck.Checks
 
             var SBRT = plan.DosePerFraction > new DoseValue(500, DoseValue.DoseUnit.cGy);
 
-            var breastAPBI = Helpers.TreatmentClassifier.IsBreastAPBI(plan);
+            var breastAPBI = PlanCheck.Helpers.TreatmentClassifier.IsBreastAPBI(plan);
 
             if (SBRT && !breastAPBI)
             {

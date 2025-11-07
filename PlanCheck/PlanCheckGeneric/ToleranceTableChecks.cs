@@ -34,7 +34,7 @@ namespace PlanCheck.Checks
 				string tolTable;
 				string badFields = "";
 
-				var breastAPBI = Helpers.TreatmentClassifier.IsBreastAPBI(plan);
+				var breastAPBI = PlanCheck.Helpers.TreatmentClassifier.IsBreastAPBI(plan);
 
                 // Plan has 1 mm slices (likely a brain SRS)
                 if (plan.StructureSet.Image.ZRes == 1)
