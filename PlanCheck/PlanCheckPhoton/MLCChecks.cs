@@ -21,7 +21,7 @@ namespace PlanCheck.Checks
             Result = "";
             ResultDetails = "";
             ResultColor = ResultColorChoices.Pass;
-            TestExplanation = "Checks that there are no closed leaf pairs parked inside the jaws and calculates MU factor (MUs / cGy per fx)";
+            TestExplanation = "Checks that there are no closed leaf pairs parked inside the jaws and warns if MU factor > 5 (MUs / cGy per fx)";
 
             var totalMUs = 0.0;
 
@@ -116,7 +116,14 @@ namespace PlanCheck.Checks
                 totalMUs += field.Meterset.Value;
             }
 
-            ResultDetails += $"MU Factor: {Math.Round(totalMUs / plan.DosePerFraction.Dose, 1)} MU / cGy";
+            var muFactor = Math.Round(totalMUs / plan.DosePerFraction.Dose, 1);
+            ResultDetails += $"MU Factor: {muFactor} MU / cGy";
+
+            if (muFactor > 5)
+            {
+                Result = "Warning";
+                ResultColor = ResultColorChoices.Warn;
+            }
         }
 
         private static float GetLeafOffset(float leafOffset, bool HD)
