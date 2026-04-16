@@ -16,17 +16,16 @@ namespace PlanCheck.Checks
 
         public override void RunTestStructureSet(StructureSet structureSet)
         {
-            DisplayName = "SS/Image/Series Naming";
+            DisplayName = "SS/Image Naming";
             ResultDetails = "";
-            TestExplanation = "Checks that the Series, 3D Image, and Structure Set follow the naming convention \"Site MMYY\"";
+            TestExplanation = "Checks that the 3D Image and Structure Set follow the naming convention \"Site MMYY\"";
 
             var regex = new Regex(@".*( |_)\d{4}");
 
             var names = new List<string>
             {
                 structureSet.Id,
-                structureSet.Image.Id,
-                structureSet.Image.Series.Id
+                structureSet.Image.Id
             };
 
             if (!regex.IsMatch(names[0]))
@@ -37,10 +36,6 @@ namespace PlanCheck.Checks
             {
                 ResultDetails += $"3D Image is not named appropriately ({names[1]})\n";
             }
-            if (!regex.IsMatch(names[2]))
-            {
-                ResultDetails += $"Series is not named appropriately ({names[2]})\n";
-            }
 
             if (ResultDetails != "")
             {
@@ -49,11 +44,11 @@ namespace PlanCheck.Checks
             }
             else
             {
-                if (!(names[0] == names[1] && names[1] == names[2]))
+                if (names[0] != names[1])
                 {
                     Result = "Warning";
                     ResultColor = ResultColorChoices.Warn;
-                    ResultDetails += $"Names do not all match\nStructure Set: {names[0]}\n3D Image: {names[1]}\nSeries: {names[2]}";
+                    ResultDetails += $"Names do not all match\nStructure Set: {names[0]}\n3D Image: {names[1]}";
                 }
                 else
                 {
