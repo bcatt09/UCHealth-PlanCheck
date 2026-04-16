@@ -38,9 +38,9 @@ namespace PlanCheck.Checks
 					}
 				}
 
-				// Check if 180E might be necessary if it isn't being used already
-				if (!field.IsSetupField && field.ControlPoints.First().GantryAngle == 180)// (v16) && !field.IsGantryExtended)
-				{
+                // Check if 180E might be necessary if it isn't being used already
+                if (!field.IsSetupField && !field.IsGantryExtended && field.ControlPoints.First().GantryAngle == 180)
+                {
 					try
 					{
 						Structure body = (from s in plan.StructureSet.Structures where (s.DicomType == "BODY" || s.DicomType == "EXTERNAL") select s).First();
