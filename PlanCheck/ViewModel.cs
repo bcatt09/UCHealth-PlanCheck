@@ -58,7 +58,7 @@ namespace PlanCheck
             Slices = context.Image.ZSize.ToString();
             PlanDose = context.PlanSetup == null ? "" : $"{context.PlanSetup?.DosePerFraction} x {context.PlanSetup?.NumberOfFractions} fx = {context.PlanSetup?.TotalDose}";
 
-            logger.Initialize("PVH_PlanCheck", context, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+            logger.Initialize("NoCO_PlanCheck", context, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
 
             RunPlanChecks();
 

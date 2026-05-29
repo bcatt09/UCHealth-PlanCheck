@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PlanCheck.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,7 @@ namespace PlanCheck.Checks
 			DisplayName = "Couch Structures";
 			TestExplanation = "Checks that the correct couch structure based on department standards\n" +
                               "Couch should have \"Exact IGRT Couch, medium\" as the name or commment\n" +
-                              "It guesses at whether the couch should be inserted based on the existence of brain and lung structures";
+                              "It guesses at whether the couch should be inserted based on the existence of brain and lung structures and if the plan looks to be a clinical plan";
 
 			IEnumerable<Structure> couchStructures = null;
 			string couchName = "";
@@ -57,7 +58,7 @@ namespace PlanCheck.Checks
             // Otherwise a couch should exist
             if (Department == Department.PVH)
             {
-                if (brain)
+                if (brain || TreatmentClassifier.IsClinicalPlan(structureSet))
                 {
                     // No couch
                     if (!lung)

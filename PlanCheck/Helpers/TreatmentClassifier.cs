@@ -28,5 +28,20 @@ namespace PlanCheck.Helpers
                    (plan.Id.ToUpper().Contains("PROST") && (rxTarg?.DosePerFraction * rxTarg?.NumberOfFractions) > new DoseValue(8100, DoseValue.DoseUnit.cGy)) ||
                    (plan.Id.ToUpper().Contains("PROST") && (rxTarg?.NumberOfFractions < 39) && (rxTarg?.DosePerFraction * rxTarg?.NumberOfFractions) > new DoseValue(7250, DoseValue.DoseUnit.cGy));
         }
+
+        public static bool IsClinicalPlan (StructureSet ss)
+        {
+            return ss.Image.Series.Study.Id == "Phantom";
+        }
+
+        public static bool IsClinicalPhoton (PlanSetup plan)
+        {
+            return IsClinicalPlan(plan.StructureSet) && plan.Beams.Count(x => x.EnergyModeDisplayName.Contains('e')) == 0;
+        }
+
+        public static bool IsClinicalElectron(PlanSetup plan)
+        {
+            return IsClinicalPlan(plan.StructureSet) && plan.Beams.Count(x => x.EnergyModeDisplayName.Contains('e')) != 0;
+        }
     }
 }

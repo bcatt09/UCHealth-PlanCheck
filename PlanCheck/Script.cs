@@ -59,7 +59,7 @@ namespace VMS.TPS
             window.SizeToContent = SizeToContent.WidthAndHeight;
             window.MaxHeight = SystemParameters.WorkArea.Height * 0.95;
             window.MaxWidth = SystemParameters.WorkArea.Width * 0.95;
-            window.Title = $"PVH - Plan Check";
+            window.Title = $"NoCO - Plan Check";
 
             ViewModel viewModel = new ViewModel(context);
             window.DataContext = viewModel;

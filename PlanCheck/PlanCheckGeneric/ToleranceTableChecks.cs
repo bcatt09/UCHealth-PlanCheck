@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PlanCheck.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,9 @@ namespace PlanCheck.Checks
 			TestExplanation = "Checks that all fields use the correct tolerance table based on department standards\n" +
 							  "PVH SRS if the CT has 1mm slices\n" +
 							  "PVH Breast for all breast/chestwall plan IDs or anything with IMNs contoured\n" +
-							  "PHV Electrons for any plans using electrons\n" +
+							  "PVh Electrons for any non-clinical plans using electrons\n" +
+							  "PVH Clin Photon for all clinical photons\n" +
+                              "PVH Clinical e- for all clinical electrons\n" +
 							  "PVH IGRT for all others";
 
 			#region PVH
@@ -34,28 +37,34 @@ namespace PlanCheck.Checks
 				string tolTable;
 				string badFields = "";
 
-				var breastAPBI = PlanCheck.Helpers.TreatmentClassifier.IsBreastAPBI(plan);
+				var breastAPBI = TreatmentClassifier.IsBreastAPBI(plan);
 
-                // Plan has 1 mm slices (likely a brain SRS)
-                if (plan.StructureSet.Image.ZRes == 1)
-                    tolTable = "PVH SRS";
+				// Plan has 1 mm slices (likely a brain SRS)
+				if (plan.StructureSet.Image.ZRes == 1)
+					tolTable = "PVH SRS";
+                // Clinical photon
+                else if (TreatmentClassifier.IsClinicalPhoton(plan))
+                    tolTable = "PVH Clin Photon";
+                // Clinical electron
+                else if (TreatmentClassifier.IsClinicalElectron(plan))
+                    tolTable = "PVH Clinical e-";
                 // Electron plan
                 else if (plan.Beams.Any(x => !x.IsSetupField && x.EnergyModeDisplayName.ToUpper().Contains("E")))
-                    tolTable = "PVH Electrons";
-                // Breast plan
-                else if (!breastAPBI && plan.RTPrescription?.Site == "Breast" &&
-						 (plan.Id.ToLower().Contains("breast") 
-					  || plan.Id.ToLower().Contains("brst") 
+					tolTable = "PVH Electrons";
+				// Breast plan
+				else if (!breastAPBI && plan.RTPrescription?.Site == "Breast" &&
+						 (plan.Id.ToLower().Contains("breast")
+					  || plan.Id.ToLower().Contains("brst")
 					  || plan.Id.ToLower().Contains("brest")
 					  || plan.Id.ToLower().Contains("cw")
-                      || plan.Id.ToLower().Contains("chestwal")
-                      || plan.Id.ToLower().Contains("chstwal")
-                      || plan.Id.ToLower().Contains("chest wal")
-                      || plan.Id.ToLower().Contains("scf")
-                      || plan.Id.ToLower().Contains("scv")
-                      || plan.Id.ToLower().Contains("sclv")
-                      || plan.Id.ToLower().Contains("sclav")
-                      || plan.Id.ToLower().Contains("pab")
+					  || plan.Id.ToLower().Contains("chestwal")
+					  || plan.Id.ToLower().Contains("chstwal")
+					  || plan.Id.ToLower().Contains("chest wal")
+					  || plan.Id.ToLower().Contains("scf")
+					  || plan.Id.ToLower().Contains("scv")
+					  || plan.Id.ToLower().Contains("sclv")
+					  || plan.Id.ToLower().Contains("sclav")
+					  || plan.Id.ToLower().Contains("pab")
 					  || plan.StructureSet.Structures.Any(x => x.Id.ToUpper().Contains("IMN"))))
 					tolTable = "PVH Breast";
 				// Other (IGRT)
