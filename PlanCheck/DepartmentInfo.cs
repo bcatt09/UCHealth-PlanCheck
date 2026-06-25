@@ -105,8 +105,10 @@ namespace PlanCheck
 			public static readonly string PVH_1424 = "TrueBeam1424";
 			public static readonly string PVH_4960 = "TrueBeam4960";
 			public static readonly string PVH_6147 = "TrueBeam6147";
+			public static readonly string MCR_7611 = "TrueBeam7611";
+			public static readonly string MCR_7700 = "TrueBeam7700";
 
-			public static readonly List<string> PVH = new List<string> { PVH_1199, PVH_1424, PVH_4960, PVH_6147 };
+            public static readonly List<string> PVH = new List<string> { PVH_1199, PVH_1424, PVH_4960, PVH_6147, MCR_7611, MCR_7700 };
 		}
 
 		public static List<string> LinearAccelerators = new List<string>
@@ -114,7 +116,9 @@ namespace PlanCheck
             MachineNames.PVH_1199,
             MachineNames.PVH_1424,
             MachineNames.PVH_4960,
-			MachineNames.PVH_6147
+			MachineNames.PVH_6147,
+			MachineNames.MCR_7611,
+			MachineNames.MCR_7700
         };
 
 		public static List<string> TrueBeams = new List<string>
@@ -122,7 +126,9 @@ namespace PlanCheck
 			MachineNames.PVH_1199,
 			MachineNames.PVH_1424,
 			MachineNames.PVH_4960,
-			MachineNames.PVH_6147
+			MachineNames.PVH_6147,
+			MachineNames.MCR_7611,
+			MachineNames.MCR_7700
 		};
 
 		public static List<string> Clinacs = new List<string> { };
@@ -150,9 +156,11 @@ namespace PlanCheck
 		/// Dictionary of allowable rad onc user names for plan approval
 		/// </summary>
 		private static class RadOncUserNames
-		{
-			public static readonly List<string> PVH = new List<string> { "petijo", "liuarthu", "lise", "jackmatt" };
-		}
+        {
+            public static readonly List<string> PVH = new List<string> { "petijo", "liuarthu", "lise", "jackmatt", "laurochr" };
+
+            public static readonly List<string> MCR = new List<string> { "petijo", "liuarthu", "lise", "jackmatt", "laurochr" };
+        }
 
 		/// <summary>
 		/// Dictionary of department names in Aria
@@ -160,7 +168,8 @@ namespace PlanCheck
 		private static class DepartmentNames
 		{
 			public static readonly string PVH = "Poudre Valley Hospital";
-		}
+			public static readonly string MCR = "Medical Center of the Rockies";
+        }
 
 		/// <summary>
 		/// Department specific info (machine IDs, CT IDs, Rad onc user names)
@@ -179,6 +188,7 @@ namespace PlanCheck
 	public enum Department
 	{
 		PVH,
+		MCR,
 		None
 	}
 }
