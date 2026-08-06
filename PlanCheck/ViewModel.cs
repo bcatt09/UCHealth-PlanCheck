@@ -93,7 +93,7 @@ namespace PlanCheck
                     new DensityOverrides(plan),
                     new DoseGrid(plan),
                     new BolusChecks(plan),
-                    new DPVChecks(plan),
+                    new ReferencePointChecks(plan),
 
 
                     new HotspotChecks(plan),
@@ -178,7 +178,7 @@ namespace PlanCheck
                     new ToleranceTableChecks(plan),
                     // set up notes (can't do)
                     new DRRChecks(plan),
-                    new DPVChecks(plan),
+                    new ReferencePointChecks(plan),
                     new BolusChecks(plan),
                     new PlanApprovalChecks(plan)
                 })

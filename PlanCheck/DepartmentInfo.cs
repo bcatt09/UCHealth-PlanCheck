@@ -90,9 +90,16 @@ namespace PlanCheck
 			{ Department.PVH,
 				new DepartmentInfoStruct {
 					Machines = MachineNames.PVH,
-					CTs = new List<string> { CTNames.PVH },
+					CTs = new List<string> { CTNames.PVH, CTNames.MCR },
 					RadOncUserNames = RadOncUserNames.PVH
 				}
+			},
+			{ Department.MCR,
+                new DepartmentInfoStruct {
+                    Machines = MachineNames.MCR,
+                    CTs = new List<string> { CTNames.MCR, CTNames.PVH },
+                    RadOncUserNames = RadOncUserNames.MCR
+                }
 			}
 		};
 
@@ -108,7 +115,8 @@ namespace PlanCheck
 			public static readonly string MCR_7611 = "TrueBeam7611";
 			public static readonly string MCR_7700 = "TrueBeam7700";
 
-            public static readonly List<string> PVH = new List<string> { PVH_1199, PVH_1424, PVH_4960, PVH_6147, MCR_7611, MCR_7700 };
+			public static readonly List<string> PVH = new List<string> { PVH_1199, PVH_1424, PVH_4960, PVH_6147 };
+			public static readonly List<string> MCR = new List<string> { MCR_7611, MCR_7700 };
 		}
 
 		public static List<string> LinearAccelerators = new List<string>
@@ -141,14 +149,16 @@ namespace PlanCheck
 		private static class CTNames
 		{
 			public static readonly string PVH = "PVH CT Sim";
+			public static readonly string MCR = "MCR CTSIM 130353";
 
-			/// <summary>
-			/// Key - CT Serial Number
-			/// Value - Imaging Device ID in Aria
-			/// </summary>
-			public static readonly Dictionary<string, string> Lookup = new Dictionary<string, string>()
+            /// <summary>
+            /// Key - CT Serial Number
+            /// Value - Imaging Device ID in Aria
+            /// </summary>
+            public static readonly Dictionary<string, string> Lookup = new Dictionary<string, string>()
 			{
-				{ "130126", PVH }
+				{ "130126", PVH },
+				{ "130353", MCR }
 			};
 		}
 

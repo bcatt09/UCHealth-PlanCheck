@@ -134,7 +134,7 @@
     <Compile Include="PlanCheckPhoton\PhotonFieldTabChecks.cs" />
     <Compile Include="PlanCheckPhoton\PhotonCalcModelTabChecks.cs" />
     <Compile Include="PlanCheckPhoton\PhotonDoseTabChecks.cs" />
-    <Compile Include="PlanCheckGeneric\DPVChecks.cs" />
+    <Compile Include="PlanCheckGeneric\ReferencePointChecks.cs" />
     <Compile Include="PlanCheckStructureSet\ImportNamingConventions.cs" />
     <Compile Include="PlanCheckPhoton\PhotonPlanContentWindowChecks.cs" />
     <Compile Include="PlanCheckGeneric\PlanSchedulingChecks.cs" />

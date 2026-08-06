@@ -56,72 +56,66 @@ namespace PlanCheck.Checks
             // If a brain structure exists without a lung -> no couch
             // If a brain structure exists with a lung -> ??? highlight and display status
             // Otherwise a couch should exist
-            if (Department == Department.PVH)
+            if (brain || TreatmentClassifier.IsClinicalPlan(structureSet))
             {
-                if (brain || TreatmentClassifier.IsClinicalPlan(structureSet))
+                // No couch
+                if (!lung)
                 {
-                    // No couch
-                    if (!lung)
-                    {
 
-                        if (couchStructure)
-                        {
-                            Result = "Warning";
-                            ResultDetails = "Couch structures should not be included for cranial plans";
-                            ResultColor = ResultColorChoices.Warn;
-
-                            AddCouchStructureInfo(couchName, couchStructures);
-                        }
-                        else
-                        {
-                            Result = "";
-                            ResultDetails = "No couch structures";
-                            ResultColor = ResultColorChoices.Pass;
-                        }
-                    }
-                    // Highlight and display couch status
-                    else
+                    if (couchStructure)
                     {
-                        if (couchStructure)
-                        {
-                            Result = "Check couch structure appropriateness";
-                            ResultColor = ResultColorChoices.Warn;
-
-                            AddCouchStructureInfo(couchName, couchStructures);
-                        }
-                        else
-                        {
-                            Result = "Check couch structure appropriateness";
-                            ResultDetails = "No couch structures included";
-                            ResultColor = ResultColorChoices.Warn;
-                        }
-                    }
-                }
-                // Should have a couch (IGRT Medium)
-                else
-                {
-                    if (couchName.Contains("IGRT") && couchName.Contains("medium"))
-                    {
-                        Result = "";
-                        ResultColor = ResultColorChoices.Pass;
+                        Result = "Warning";
+                        ResultDetails = "Couch structures should not be included for cranial plans";
+                        ResultColor = ResultColorChoices.Warn;
 
                         AddCouchStructureInfo(couchName, couchStructures);
                     }
                     else
                     {
-                        Result = "Warning";
-                        ResultDetails = "Exact IGRT Couch, medium not inserted, please check that correct couch is inserted";
+                        Result = "";
+                        ResultDetails = "No couch structures";
+                        ResultColor = ResultColorChoices.Pass;
+                    }
+                }
+                // Highlight and display couch status
+                else
+                {
+                    if (couchStructure)
+                    {
+                        Result = "Check couch structure appropriateness";
                         ResultColor = ResultColorChoices.Warn;
 
-                        if (couchStructure)
-                            AddCouchStructureInfo(couchName, couchStructures);
+                        AddCouchStructureInfo(couchName, couchStructures);
+                    }
+                    else
+                    {
+                        Result = "Check couch structure appropriateness";
+                        ResultDetails = "No couch structures included";
+                        ResultColor = ResultColorChoices.Warn;
                     }
                 }
             }
-            #endregion
-
+            // Should have a couch (IGRT Medium)
             else
-                TestNotImplemented();
+            {
+                if (couchName.Contains("IGRT") && couchName.Contains("medium"))
+                {
+                    Result = "";
+                    ResultColor = ResultColorChoices.Pass;
+
+                    AddCouchStructureInfo(couchName, couchStructures);
+                }
+                else
+                {
+                    Result = "Warning";
+                    ResultDetails = "Exact IGRT Couch, medium not inserted, please check that correct couch is inserted";
+                    ResultColor = ResultColorChoices.Warn;
+
+                    if (couchStructure)
+                        AddCouchStructureInfo(couchName, couchStructures);
+                }
+            }
+            #endregion
 		}
 
 		/// <summary>

@@ -32,76 +32,70 @@ namespace PlanCheck.Checks
 			// PVH Breast for breast plans
 			// PVH Electron for electron plans
 			// PVH IGRT for all other plans
-			if (Department == Department.PVH)
+			string tolTable;
+			string badFields = "";
+
+			var breastAPBI = TreatmentClassifier.IsBreastAPBI(plan);
+
+			// Plan has 1 mm slices (likely a brain SRS)
+			if (plan.StructureSet.Image.ZRes == 1)
+				tolTable = "PVH SRS";
+            // Clinical photon
+            else if (TreatmentClassifier.IsClinicalPhoton(plan))
+                tolTable = "PVH Clin Photon";
+            // Clinical electron
+            else if (TreatmentClassifier.IsClinicalElectron(plan))
+                tolTable = "PVH Clinical e-";
+            // Electron plan
+            else if (plan.Beams.Any(x => !x.IsSetupField && x.EnergyModeDisplayName.ToUpper().Contains("E")))
+				tolTable = "PVH Electrons";
+			// Breast plan
+			else if (!breastAPBI && plan.RTPrescription?.Site == "Breast" &&
+						(plan.Id.ToLower().Contains("breast")
+					|| plan.Id.ToLower().Contains("brst")
+					|| plan.Id.ToLower().Contains("brest")
+					|| plan.Id.ToLower().Contains("cw")
+					|| plan.Id.ToLower().Contains("chestwal")
+					|| plan.Id.ToLower().Contains("chstwal")
+					|| plan.Id.ToLower().Contains("chest wal")
+					|| plan.Id.ToLower().Contains("scf")
+					|| plan.Id.ToLower().Contains("scv")
+					|| plan.Id.ToLower().Contains("sclv")
+					|| plan.Id.ToLower().Contains("sclav")
+					|| plan.Id.ToLower().Contains("pab")
+					|| plan.StructureSet.Structures.Any(x => x.Id.ToUpper().Contains("IMN"))))
+				tolTable = "PVH Breast";
+			// Other (IGRT)
+			else
+				tolTable = "PVH IGRT";
+
+			// Check each field to make sure they're the same
+			foreach (Beam field in plan.Beams)
 			{
-				string tolTable;
-				string badFields = "";
+				if (ResultDetails == "")
+					ResultDetails = field.ToleranceTableLabel;
 
-				var breastAPBI = TreatmentClassifier.IsBreastAPBI(plan);
-
-				// Plan has 1 mm slices (likely a brain SRS)
-				if (plan.StructureSet.Image.ZRes == 1)
-					tolTable = "PVH SRS";
-                // Clinical photon
-                else if (TreatmentClassifier.IsClinicalPhoton(plan))
-                    tolTable = "PVH Clin Photon";
-                // Clinical electron
-                else if (TreatmentClassifier.IsClinicalElectron(plan))
-                    tolTable = "PVH Clinical e-";
-                // Electron plan
-                else if (plan.Beams.Any(x => !x.IsSetupField && x.EnergyModeDisplayName.ToUpper().Contains("E")))
-					tolTable = "PVH Electrons";
-				// Breast plan
-				else if (!breastAPBI && plan.RTPrescription?.Site == "Breast" &&
-						 (plan.Id.ToLower().Contains("breast")
-					  || plan.Id.ToLower().Contains("brst")
-					  || plan.Id.ToLower().Contains("brest")
-					  || plan.Id.ToLower().Contains("cw")
-					  || plan.Id.ToLower().Contains("chestwal")
-					  || plan.Id.ToLower().Contains("chstwal")
-					  || plan.Id.ToLower().Contains("chest wal")
-					  || plan.Id.ToLower().Contains("scf")
-					  || plan.Id.ToLower().Contains("scv")
-					  || plan.Id.ToLower().Contains("sclv")
-					  || plan.Id.ToLower().Contains("sclav")
-					  || plan.Id.ToLower().Contains("pab")
-					  || plan.StructureSet.Structures.Any(x => x.Id.ToUpper().Contains("IMN"))))
-					tolTable = "PVH Breast";
-				// Other (IGRT)
-				else
-					tolTable = "PVH IGRT";
-
-				// Check each field to make sure they're the same
-				foreach (Beam field in plan.Beams)
+				// Wrong tolerance table
+				if (field.ToleranceTableLabel != tolTable)
 				{
-					if (ResultDetails == "")
-						ResultDetails = field.ToleranceTableLabel;
-
-					// Wrong tolerance table
-					if (field.ToleranceTableLabel != tolTable)
-					{
-						Result = "Warning";
-						ResultDetails = $"Not all fields use the {tolTable} tolerance table: ";
-						badFields += field.Id + ", ";
-						ResultColor = ResultColorChoices.Warn;
-					}
-				}
-
-				ResultDetails += badFields;
-				ResultDetails = ResultDetails.TrimEnd(' ');
-				ResultDetails = ResultDetails.TrimEnd(',');
-
-				// No issues found
-				if (Result == "")
-				{
-					Result = "";
-					ResultColor = ResultColorChoices.Pass;
+					Result = "Warning";
+					ResultDetails = $"Not all fields use the {tolTable} tolerance table: ";
+					badFields += field.Id + ", ";
+					ResultColor = ResultColorChoices.Warn;
 				}
 			}
-            #endregion
 
-            else
-				TestNotImplemented();
+			ResultDetails += badFields;
+			ResultDetails = ResultDetails.TrimEnd(' ');
+			ResultDetails = ResultDetails.TrimEnd(',');
+
+			// No issues found
+			if (Result == "")
+			{
+				Result = "";
+				ResultColor = ResultColorChoices.Pass;
+			}
+            #endregion
 		}
     }
 }

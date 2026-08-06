@@ -7,26 +7,36 @@ using VMS.TPS.Common.Model.API;
 
 namespace PlanCheck.Checks
 {
-    public class DPVChecks : PlanCheckGeneric
+    public class ReferencePointChecks : PlanCheckGeneric
     {
         protected override List<string> MachineExemptions => new List<string> { };
 
-        public DPVChecks(PlanSetup plan) : base(plan) { }
+        public ReferencePointChecks(PlanSetup plan) : base(plan) { }
 
         public override void RunTest(PlanSetup plan)
         {
-            DisplayName = "DPV Checks";
-            TestExplanation = "Checks that the primary reference point ID contains \"DPV\"\n" +
-                              "Checks total, daily, and session limits against the Rx\n" +
-                              "Checks that the DPV volume is the same as the target volume";
+            DisplayName = "Reference Point Checks";
+            TestExplanation = "Checks that the primary reference point ID is PlanID_MMYY if possible\n" +
+                              "Checks total, daily, and session limits against the Rx";
             Result = "";
 
             var refPoint = plan.PrimaryReferencePoint;
 
-            if (!refPoint.Id.ToUpper().Contains("DPV"))
+            if (plan.Id.Length <= 11)
             {
-                Result += $"DPV ID does not contain \"DPV\" ({refPoint.Id})";
-                ResultColor = ResultColorChoices.Warn;
+                if(refPoint.Id.ToUpper() != plan.Id.ToUpper()+'_'+refPoint.HistoryDateTime.ToString("MMyy"))
+                {
+                    Result += $"Primary reference point should be called {plan.Id + '_' + refPoint.HistoryDateTime.ToString("MMyy")}";
+                    ResultColor = ResultColorChoices.Warn;
+                }
+            }
+            else
+            {
+                if(!refPoint.Id.Contains('_'+refPoint.HistoryDateTime.ToString("MMyy")))
+                {
+                    Result += $"Primary reference point should be include _{refPoint.HistoryDateTime.ToString("MMyy")}";
+                    ResultColor = ResultColorChoices.Warn;
+                }
             }
 
             if (Math.Round(refPoint.DailyDoseLimit.Dose, 1) != Math.Round(plan.DosePerFraction.Dose, 1))
@@ -37,25 +47,13 @@ namespace PlanCheck.Checks
 
             if (refPoint.HasLocation(plan))
             {
-                Result += $"Primary DPV has a volume (I thought that wasn't possible anymore)\n";
+                Result += $"Primary reference point has a volume (I thought that wasn't possible anymore)\n";
                 ResultColor = ResultColorChoices.Warn;
             }
-            // v15 and earlier
-            //if (refPoint.PatientVolumeId != plan.TargetVolumeID)
-            //{
-            //    Result += $"DPV Volume (which is {refPoint.PatientVolumeId}) does not\nmatch Target Volume (which is {plan.TargetVolumeID})\n";
-            //    ResultColor = ResultColorChoices.Fail;
-            //}
 
             if (Math.Round(refPoint.TotalDoseLimit.Dose,1) != Math.Round(plan.TotalDose.Dose,1) || Math.Round(refPoint.SessionDoseLimit.Dose,1) != Math.Round(plan.DosePerFraction.Dose,1))
             {
                 Result += "Please check reference point limits\n";
-                ResultColor = ResultColorChoices.Fail;
-            }
-
-            if (refPoint.HasLocation(plan))
-            {
-                Result += "Primary reference point has a physical location\n";
                 ResultColor = ResultColorChoices.Fail;
             }
 
