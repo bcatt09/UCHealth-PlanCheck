@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PlanCheck.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,12 @@ namespace PlanCheck.Checks
             DisplayName = "Structure Template";
             TestExplanation = "Checks that more structures than just the Body have been added (does not check for any specific template)";
 
-            if (structureSet.Structures.Count() > 1)
+            if (TreatmentClassifier.IsClinicalPlan(structureSet))
+            {
+                ResultDetails = "2D plan";
+                ResultColor = ResultColorChoices.Pass;
+            }
+            else if (structureSet.Structures.Count() > 1)
             {
                 ResultDetails = "Structures added";
                 ResultColor = ResultColorChoices.Pass;
