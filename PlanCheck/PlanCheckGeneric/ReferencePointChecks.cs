@@ -24,17 +24,17 @@ namespace PlanCheck.Checks
 
             if (plan.Id.Length <= 11)
             {
-                if(refPoint.Id.ToUpper() != plan.Id.ToUpper()+'_'+refPoint.HistoryDateTime.ToString("MMyy"))
+                if(refPoint.Id.ToUpper() != plan.Id.ToUpper()+'_'+plan.StructureSet.Image.CreationDateTime?.ToString("MMyy"))
                 {
-                    Result += $"Primary reference point should be called {plan.Id + '_' + refPoint.HistoryDateTime.ToString("MMyy")}";
+                    Result += $"Primary reference point should be called {plan.Id + '_' + plan.StructureSet.Image.CreationDateTime?.ToString("MMyy")}";
                     ResultColor = ResultColorChoices.Warn;
                 }
             }
             else
             {
-                if(!refPoint.Id.Contains('_'+refPoint.HistoryDateTime.ToString("MMyy")))
+                if(!refPoint.Id.Contains('_'+ plan.StructureSet.Image.CreationDateTime?.ToString("MMyy")))
                 {
-                    Result += $"Primary reference point should be include _{refPoint.HistoryDateTime.ToString("MMyy")}";
+                    Result += $"Primary reference point should be include _{plan.StructureSet.Image.CreationDateTime?.ToString("MMyy")}";
                     ResultColor = ResultColorChoices.Warn;
                 }
             }
