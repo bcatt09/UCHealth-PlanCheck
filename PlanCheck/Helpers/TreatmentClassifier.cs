@@ -31,7 +31,7 @@ namespace PlanCheck.Helpers
 
         public static bool IsClinicalPlan (StructureSet ss)
         {
-            return ss.Image.Series.Study.Id == "Phantom";
+            return ss.Image.Series.Study.Id.ToUpper().StartsWith("PHANTOM");
         }
 
         public static bool IsClinicalPhoton (PlanSetup plan)
